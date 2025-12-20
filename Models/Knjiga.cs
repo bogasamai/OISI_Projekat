@@ -8,5 +8,6 @@ namespace SajamKnjiga.Models
 {
     internal class Knjiga
     {
+        public string Naziv { get; set; }
     }
 }
