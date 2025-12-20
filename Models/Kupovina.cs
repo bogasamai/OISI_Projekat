@@ -8,7 +8,6 @@ namespace SajamKnjiga.Models
 {
     internal class Kupovina
     {
-        // Reference ka objektima (koristimo ? jer u Domaćem 1 veze ne moraju biti pune)
         public Posetilac Posetilac { get; set; }
         public Knjiga Knjiga { get; set; }
 

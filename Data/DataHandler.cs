@@ -54,6 +54,55 @@ namespace SajamKnjiga.Data
             }
             return rezultat;
         }
+        private static string putanjaIzdavaci = "podaci" + Path.DirectorySeparatorChar + "izdavaci.txt";
+
+        public static void SacuvajIzdavace(List<Izdavac> izdavaci)
+        {
+            using (StreamWriter sw = new StreamWriter(putanjaIzdavaci))
+            {
+                foreach (var i in izdavaci)
+                {
+
+                    sw.WriteLine($"{i.Sifra}|{i.Naziv}|{i.SefIzdavaca?.Ime}|{i.SefIzdavaca?.Prezime}|{i.SefIzdavaca?.GodineIskustva}");
+                }
+            }
+        }
+
+        public static List<Izdavac> UcitajIzdavace()
+        {
+            List<Izdavac> rezultat = new List<Izdavac>();
+            if (!File.Exists(putanjaIzdavaci)) return rezultat;
+
+            using (StreamReader sr = new StreamReader(putanjaIzdavaci))
+            {
+                string linija;
+                while ((linija = sr.ReadLine()) != null)
+                {
+                    string[] delovi = linija.Split('|');
+                    Izdavac i = new Izdavac
+                    {
+                        Sifra = delovi[0],
+                        Naziv = delovi[1],
+                        SefIzdavaca = new Autor { Ime = delovi[2], Prezime = delovi[3], GodineIskustva = int.Parse(delovi[4]) }
+                    };
+                    rezultat.Add(i);
+                }
+            }
+            return rezultat;
+        }
+
+        private static string putanjaKupovine = "podaci" + Path.DirectorySeparatorChar + "kupovine.txt";
+
+        public static void SacuvajKupovine(List<Kupovina> kupovine)
+        {
+            using (StreamWriter sw = new StreamWriter(putanjaKupovine))
+            {
+                foreach (var k in kupovine)
+                {
+                    sw.WriteLine($"{k.Posetilac?.Ime}|{k.Knjiga?.Naziv}|{k.DatumKupovine}|{k.Ocena}");
+                }
+            }
+        }
 
 
     }

@@ -13,7 +13,6 @@ namespace SajamKnjiga.Models
         public string Sifra { get; set; }
         public string Naziv { get; set; }
 
-        // Šef mora biti Autor (Student 2 pravi klasu Autor)
         public Autor SefIzdavaca { get; set; }
 
         public List<Autor> SpisakAutora { get; set; } = new List<Autor>();
