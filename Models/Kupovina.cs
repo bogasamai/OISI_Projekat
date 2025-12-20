@@ -12,7 +12,7 @@ namespace SajamKnjiga.Models
         public Knjiga Knjiga { get; set; }
 
         public DateTime DatumKupovine { get; set; }
-        public int Ocena { get; set; } // 1-5
+        public int Ocena { get; set; } 
         public string Komentar { get; set; }
 
         public Kupovina() { }
