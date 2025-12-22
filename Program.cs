@@ -40,7 +40,6 @@ namespace SajamKnjiga
                         Console.Write("Email: "); string email = Console.ReadLine();
                         Console.Write("Broj članske karte: "); string bck = Console.ReadLine(); 
                         Console.Write("Telefon: "); string tel = Console.ReadLine();
-                        Console.Write("Adresa: "); string adresa = Console.ReadLine();
 
                         sviPosetioci.Add(new Posetilac
                         {
@@ -49,7 +48,6 @@ namespace SajamKnjiga
                             Email = email,
                             BrojClanskeKarte = bck,
                             Telefon = tel,
-                            Adresa = adresa,
                             Status = StatusPosetioca.R, 
                             GodinaClanstva = DateTime.Now.Year 
                         });

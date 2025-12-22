@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataHandler.cs" />
+    <Compile Include="Models\Adresa.cs" />
     <Compile Include="Models\Autor.cs" />
     <Compile Include="Models\Izdavac.cs" />
     <Compile Include="Models\Knjiga.cs" />

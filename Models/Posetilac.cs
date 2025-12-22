@@ -15,12 +15,12 @@ namespace SajamKnjiga.Models
         V  
     }
 
-    internal class Posetilac
+   public class Posetilac
     {
         public string Ime { get; set; }
         public string Prezime { get; set; }
         public DateTime DatumRodjenja { get; set; }
-        public string Adresa { get; set; }
+        public Adresa Adresa { get; set; }
         public string Telefon { get; set; }
         public string Email { get; set; }
         public string BrojClanskeKarte { get; set; }

@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SajamKnjiga.Models
 {
-    internal class Kupovina
+    public class Kupovina
     {
         public Posetilac Posetilac { get; set; }
         public Knjiga Knjiga { get; set; }
