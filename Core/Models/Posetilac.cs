@@ -38,5 +38,11 @@ namespace Core.Models
             return $"{Ime} {Prezime} ({BrojClanskeKarte}) - Status: {Status}, Član od: {GodinaClanstva}.";
         }
 
+        // Display properties for UI with "nepoznato" fallback
+        public string BrojClanskeKarteDisplay => string.IsNullOrWhiteSpace(BrojClanskeKarte) ? "nepoznato" : BrojClanskeKarte;
+        public string ImeDisplay => string.IsNullOrWhiteSpace(Ime) ? "nepoznato" : Ime;
+        public string PrezimeDisplay => string.IsNullOrWhiteSpace(Prezime) ? "nepoznato" : Prezime;
+        public string AdresaDisplay => Adresa == null || string.IsNullOrWhiteSpace(Adresa.ToString()) ? "nepoznato" : Adresa.ToString();
+        public string StatusDisplay => Status.ToString() == "R" ? "Regularni" : Status.ToString() == "V" ? "VIP" : "nepoznato";
     }
 }

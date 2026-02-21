@@ -3,10 +3,72 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Sajam knjiga" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Click="MenuItem_Exit_Click" />
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="MenuItem_About_Click" />
+            </MenuItem>
+        </Menu>
 
-    </Grid>
+        <!-- Toolbar -->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Add" Click="Toolbar_Add_Click" />
+                <Button Content="Edit" Click="Toolbar_Edit_Click" />
+                <Button Content="Delete" Click="Toolbar_Delete_Click" />
+            </ToolBar>
+        </ToolBarTray>
+
+        <!-- Status bar -->
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock Name="StatusText">Ready</TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- Central content: tabs -->
+        <Grid>
+            <TabControl Name="MainTabControl" Margin="8">
+                <TabItem Header="Posetioci">
+                    <DataGrid Name="PosetiociGrid" ItemsSource="{Binding Posetioci}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Broj članskog" Binding="{Binding BrojClanskeKarteDisplay}" Width="140" />
+                            <DataGridTextColumn Header="Ime" Binding="{Binding ImeDisplay}" Width="120" />
+                            <DataGridTextColumn Header="Prezime" Binding="{Binding PrezimeDisplay}" Width="120" />
+                            <DataGridTextColumn Header="Adresa" Binding="{Binding AdresaDisplay}" Width="*" />
+                            <DataGridTextColumn Header="Status" Binding="{Binding StatusDisplay}" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Autori">
+                    <DataGrid Name="AutoriGrid" ItemsSource="{Binding Autori}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Ime" Binding="{Binding ImeDisplay}" Width="120" />
+                            <DataGridTextColumn Header="Prezime" Binding="{Binding PrezimeDisplay}" Width="120" />
+                            <DataGridTextColumn Header="Broj lične karte" Binding="{Binding BrojLicneKarteDisplay}" Width="150" />
+                            <DataGridTextColumn Header="Datum rođenja" Binding="{Binding DatumRodjenjaDisplay}" Width="120" />
+                            <DataGridTextColumn Header="E-mejl adresa" Binding="{Binding EmailDisplay}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+                <TabItem Header="Knjige">
+                    <DataGrid Name="KnjigeGrid" ItemsSource="{Binding Knjige}" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBNDisplay}" Width="120" />
+                            <DataGridTextColumn Header="Naziv" Binding="{Binding NazivDisplay}" Width="*" />
+                            <DataGridTextColumn Header="Cena" Binding="{Binding CenaDisplay}" Width="100" />
+                            <DataGridTextColumn Header="Godina izdanja" Binding="{Binding GodinaIzdanjaDisplay}" Width="100" />
+                            <DataGridTextColumn Header="Žanr" Binding="{Binding ZanrDisplay}" Width="120" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
 </Window>
