@@ -21,6 +21,8 @@ namespace Core.Data
         private static void ProveriFolder()
         {
             if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+            Console.WriteLine(putanjaKnjige);
+
         }
 
         // --- AUTORI ---
