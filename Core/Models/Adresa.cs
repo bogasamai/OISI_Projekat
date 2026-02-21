@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SajamKnjiga.Models
+namespace Core.Models
 {
     public class Adresa
     {
@@ -19,8 +19,8 @@ namespace SajamKnjiga.Models
         public string Drzava { get; set; }
 
         // Prazan konstruktor
-        public Adresa() { }
-
+        public Adresa() { }  
+ 
         // Konstruktor za lakši unos
         public Adresa(int id, string ulica, string broj, string grad, string drzava)
         {

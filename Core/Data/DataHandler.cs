@@ -4,13 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SajamKnjiga.Models;
+using Core.Models;
 
-namespace SajamKnjiga.Data
+namespace Core.Data
 {
-    internal class DataHandler
+    public class DataHandler
     {
-        private static string folder = "podaci";
+        private static string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+        private static string folder = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "Core", "podaci"));
         private static string putanjaPosetioci = Path.Combine(folder, "posetioci.txt");
         private static string putanjaIzdavaci = Path.Combine(folder, "izdavaci.txt");
         private static string putanjaKupovine = Path.Combine(folder, "kupovine.txt");

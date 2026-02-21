@@ -6,9 +6,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SajamKnjiga.Models
+namespace Core.Models
 {
-    internal class Izdavac
+    public class Izdavac
     {
         public string Sifra { get; set; }
         public string Naziv { get; set; }
@@ -17,7 +17,7 @@ namespace SajamKnjiga.Models
 
         public List<Autor> SpisakAutora { get; set; } = new List<Autor>();
         public List<Knjiga> SpisakKnjiga { get; set; } = new List<Knjiga>();
-
+        
         public Izdavac() { }
 
         public override string ToString()

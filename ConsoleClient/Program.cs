@@ -1,10 +1,11 @@
-﻿using SajamKnjiga.Data;
-using SajamKnjiga.Models;
+﻿using Core.Data;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SajamKnjiga
+
+namespace ConsoleClient
 {
     internal class Program
     {

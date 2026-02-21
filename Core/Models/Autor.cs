@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SajamKnjiga.Models
+namespace Core.Models
 {
    public class Autor
 {
