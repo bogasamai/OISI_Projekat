@@ -29,6 +29,17 @@ namespace WpfClient
             Autori = DataHandler.UcitajAutore();
             Knjige = DataHandler.UcitajKnjige();
 
+            // Start timer to update date and time in status bar
+            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += (s, e) => {
+                StatusDateTime.Text = DateTime.Now.ToString("HH:mm dd.MM.yyyy.");
+            };
+            timer.Start();
+
+            // Handle tab selection changes to update status bar
+            MainTabControl.SelectionChanged += MainTabControl_SelectionChanged;
+
             DataContext = this;
         }
 
@@ -83,6 +94,20 @@ namespace WpfClient
         private void MenuItem_New_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Otvaranje prozora za novi unos...");
+        }
+
+        private void MainTabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            // Proveravamo da li je izvor dogadjaja bas TabControl (da ne uhvati klik u tabeli)
+            if (e.Source is System.Windows.Controls.TabControl tabControl)
+            {
+                var selectedTab = tabControl.SelectedItem as System.Windows.Controls.TabItem;
+                if (selectedTab != null)
+                {
+                    // Postavlja format: Sajam knjiga - [Ime Taba] prema Slici 4
+                    StatusText.Text = $"Sajam knjiga - {selectedTab.Header}";
+                }
+            }
         }
 
         private void MenuItem_Save_Click(object sender, EventArgs e)
