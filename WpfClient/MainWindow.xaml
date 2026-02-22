@@ -5,14 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Sajam knjiga" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="N" Command="New" />
+        <KeyBinding Modifiers="Control" Key="S" Command="Save" />
+        <KeyBinding Modifiers="Control" Key="C" Command="Close" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="MenuItem_New_Click" />
+        <CommandBinding Command="Save" Executed="MenuItem_Save_Click" />
+        <CommandBinding Command="Close" Executed="MenuItem_Exit_Click" />
+    </Window.CommandBindings>
+    
+
     <DockPanel>
+        
         <!-- Menu Bar -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="E_xit" Click="MenuItem_Exit_Click" />
+                <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MenuItem_New_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/add_icon.png" Width="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+
+                <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" />
+
+                <MenuItem Header="_Open">
+                    <MenuItem Header="_Posetioci" Click="MenuItem_OpenPosetioci_Click" />
+                    <MenuItem Header="_Knjige" Click="MenuItem_OpenKnjige_Click" />
+                    <MenuItem Header="_Autori" Click="MenuItem_OpenAutori_Click" />
+                    <MenuItem Header="_Izdavači" Click="MenuItem_OpenIzdavaci_Click" />
+                </MenuItem>
+
+                <Separator />
+
+                <MenuItem Header="_Close" InputGestureText="Ctrl+C" Click="MenuItem_Exit_Click">
+                    <MenuItem.Icon>
+                        <Image Source="/Resources/close_icon.png" Width="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
-            <MenuItem Header="Help">
-                <MenuItem Header="About" Click="MenuItem_About_Click" />
+
+            <MenuItem Header="_Edit">
+                <MenuItem Header="_Edit" Click="Toolbar_Edit_Click" />
+                <MenuItem Header="_Delete" Click="Toolbar_Delete_Click" />
+            </MenuItem>
+
+            <MenuItem Header="_Help">
+                <MenuItem Header="_About" Click="MenuItem_About_Click" />
             </MenuItem>
         </Menu>
 

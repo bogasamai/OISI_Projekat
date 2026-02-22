@@ -32,14 +32,14 @@ namespace WpfClient
             DataContext = this;
         }
 
-        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        private void MenuItem_Exit_Click(object sender, EventArgs e)
         {
             Close();
         }
 
         private void MenuItem_About_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Sajam knjiga - WPF klijent", "About", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Sajam knjiga v1.8.6, autori- Vukasin Petrovic i Luka Avramovic", "About", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void Toolbar_Add_Click(object sender, RoutedEventArgs e)
@@ -56,5 +56,45 @@ namespace WpfClient
         {
             StatusText.Text = "Delete clicked";
         }
+
+        private void MenuItem_OpenPosetioci_Click(object sender, RoutedEventArgs e)
+        {
+            
+            MainTabControl.SelectedIndex = 0;
+        }
+
+        private void MenuItem_OpenAutori_Click(object sender, RoutedEventArgs e)
+        {
+           
+            MainTabControl.SelectedIndex = 1;
+        }
+
+        private void MenuItem_OpenKnjige_Click(object sender, RoutedEventArgs e)
+        {
+            
+            MainTabControl.SelectedIndex = 2;
+        }
+        private void MenuItem_OpenIzdavaci_Click(object sender, RoutedEventArgs e)
+        {
+
+            MessageBox.Show("Otvaranje prozora za upravljanje izdavačima...");
+        }
+
+        private void MenuItem_New_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Otvaranje prozora za novi unos...");
+        }
+
+        private void MenuItem_Save_Click(object sender, EventArgs e)
+        {
+            DataHandler.SacuvajPosetioce(Posetioci);
+            //DataHandler.SacuvajIzdavace(sviIzdavaci);
+            DataHandler.SacuvajAutore(Autori);
+            DataHandler.SacuvajKnjige(Knjige);
+
+            MessageBox.Show("Svi novi podaci su uspešno sačuvani u folder 'podaci'.");
+            
+        }
+
     }
 }

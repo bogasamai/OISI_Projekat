@@ -9,7 +9,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\add_icon.png" />
+    <None Remove="Resources\close_icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\add_icon.png" />
+    <Resource Include="Resources\close_icon.png" />
   </ItemGroup>
 
 </Project>
