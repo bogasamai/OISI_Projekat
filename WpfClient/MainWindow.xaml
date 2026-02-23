@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Title="Sajam knjiga" WindowStartupLocation="CenterScreen">
-    
+
     <!-- Precice za menu bar ( Ctrl+S,Ctrl+N,Ctrl+C ) -->
     <Window.InputBindings>
         <KeyBinding Modifiers="Control" Key="N" Command="New" />
@@ -13,13 +13,13 @@
         <KeyBinding Modifiers="Control" Key="C" Command="Close" />
     </Window.InputBindings>
     <Window.CommandBindings>
-        <CommandBinding Command="New" Executed="MenuItem_New_Click" />
-        <CommandBinding Command="Save" Executed="MenuItem_Save_Click" />
-        <CommandBinding Command="Close" Executed="MenuItem_Exit_Click" />
+        <CommandBinding Command="New" Executed="MenuCommand_New_Executed" />
+        <CommandBinding Command="Save" Executed="MenuCommand_Save_Executed" />
+        <CommandBinding Command="Close" Executed="MenuCommand_Exit_Executed" />
     </Window.CommandBindings>
-    
+
     <DockPanel>
-        
+
         <!-- Menu Bar -->
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -57,17 +57,62 @@
             </MenuItem>
         </Menu>
 
-        <!-- Toolbar -->
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar>
-                <Button Content="Add" Click="Toolbar_Add_Click" />
-                <Button Content="Edit" Click="Toolbar_Edit_Click" />
-                <Button Content="Delete" Click="Toolbar_Delete_Click" />
+        <!-- Toolbar with Icons and Search -->
+        <ToolBarTray DockPanel.Dock="Top" Background="#F5F5F5">
+            <ToolBar Band="0" BandIndex="0">
+                <!-- Add Button -->
+                <Button Name="BtnAdd" Click="Toolbar_Add_Click" Padding="8,4" ToolTip="Kreiraj novi entitet (Ctrl+N)">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="pack://application:,,,/Resources/add_icon.png" Width="20" Height="20" Margin="0,0,4,0" />
+                        <TextBlock Text="Dodaj" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Edit Button -->
+                <Button Name="BtnEdit" Click="Toolbar_Edit_Click" Padding="8,4" ToolTip="Izmeni označeni entitet (Ctrl+E)">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="✎" FontSize="16" Margin="0,0,4,0" />
+                        <TextBlock Text="Izmeni" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <!-- Delete Button -->
+                <Button Name="BtnDelete" Click="Toolbar_Delete_Click" Padding="8,4" ToolTip="Obriši označeni entitet (Ctrl+D)">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="🗑" FontSize="16" Margin="0,0,4,0" />
+                        <TextBlock Text="Obriši" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <Separator Margin="8,0" />
+
+                <!-- Search Field with Icon and Search Button -->
+                <Grid VerticalAlignment="Center" Margin="4,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Search Icon (Lupa) -->
+                    <TextBlock Grid.Column="0" Text="🔍" FontSize="14" Margin="6,0,2,0" VerticalAlignment="Center" Foreground="#666666" />
+
+                    <!-- TextBox for Search -->
+                    <TextBox Name="SearchTextBox" Grid.Column="1" Padding="4,4,6,4" VerticalAlignment="Center" Foreground="#333333" />
+
+                    <!-- Search Button -->
+                    <Button Name="BtnSearch" Grid.Column="2" Click="BtnSearch_Click"  Padding="6,4" Margin="6,0,0,0" ToolTip="Pretrazi (Enter)">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="🔎" FontSize="14" Margin="0,0,4,0" />
+                            <TextBlock Text="Pretraga" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
             </ToolBar>
         </ToolBarTray>
 
         <!-- Status bar -->
-        <StatusBar DockPanel.Dock="Bottom" Background="White" BorderBrush="Gray" BorderThickness="0,1,0,0">
+        <StatusBar DockPanel.Dock="Bottom" Background="#F5F5F5">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Grid>
@@ -80,11 +125,11 @@
             </StatusBar.ItemsPanel>
 
             <StatusBarItem Grid.Column="0">
-                <TextBlock Name="StatusText" Text="Sajam knjiga - Posetioci" Margin="5,0,0,0"/>
+                <TextBlock Name="StatusText" Text="Spreman" Margin="5,0,0,0" Foreground="#333333" />
             </StatusBarItem>
 
             <StatusBarItem Grid.Column="1">
-                <TextBlock Name="StatusDateTime" Text="14:30 28.11.2025." Margin="0,0,5,0"/>
+                <TextBlock Name="StatusDateTime" Margin="0,0,5,0" Foreground="#333333" />
             </StatusBarItem>
         </StatusBar>
 

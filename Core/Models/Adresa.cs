@@ -15,7 +15,6 @@ namespace Core.Models
         public string Ulica { get; set; }
         public string Broj { get; set; }
         public string Grad { get; set; }
-
         public string Drzava { get; set; }
 
         // Prazan konstruktor
@@ -30,5 +29,13 @@ namespace Core.Models
             Grad = grad;
             Drzava = drzava;
         }
+
+        public override string ToString()
+        {
+            // Vraća formatiran string: Ulica Broj, Grad, Drzava
+            string d = string.IsNullOrWhiteSpace(Drzava) ? "" : $", {Drzava}";
+            return $"{Ulica} {Broj}, {Grad}{d}";
+        }
+
     }
 }
