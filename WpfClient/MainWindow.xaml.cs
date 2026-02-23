@@ -198,14 +198,13 @@ namespace WpfClient
 
         private void OpenAddPosetilacDialog()
         {
-            var dlg = new AddPosetilacWindow();
+            var dlg = new DodajPosetiocaWindow();
             dlg.Owner = this;
             bool? res = dlg.ShowDialog();
-            if (res == true && dlg.Result != null)
+            if (res == true && dlg.NoviPosetilac != null)
             {
-                // add to originals and observable
-                originalPosetioci.Add(dlg.Result);
-                Posetioci.Add(dlg.Result);
+                originalPosetioci.Add(dlg.NoviPosetilac);
+                Posetioci.Add(dlg.NoviPosetilac);
                 StatusText.Text = "Posetilac dodat";
             }
         }
@@ -225,15 +224,31 @@ namespace WpfClient
 
         private void Toolbar_Edit_Click(object sender, RoutedEventArgs e)
         {
-            var selectedItem = GetSelectedItemFromActiveTab();
-            if (selectedItem == null)
+            // Proveravamo da li je aktivan tab Posetioci (indeks 0)
+            if (MainTabControl.SelectedIndex == 0)
             {
-                StatusText.Text = "Molimo izaberite entitet za izmenu";
-                MessageBox.Show("Prvo izaberite entitet koji želite da izmenite.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                var selektovan = PosetiociGrid.SelectedItem as Posetilac;
+                if (selektovan != null)
+                {
+                    var dlg = new IzmenaPosetiocaWindow(selektovan);
+                    dlg.Owner = this;
+                    if (dlg.ShowDialog() == true)
+                    {
+                        // Ažuriramo listu (nađi stari, ubaci novi)
+                        int index = originalPosetioci.IndexOf(selektovan);
+                        if (index != -1)
+                        {
+                            originalPosetioci[index] = dlg.IzmenjeniPosetilac;
+                            ResetCollectionsToOriginal(); // Osveži UI
+                            StatusText.Text = "Posetilac uspešno izmenjen.";
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Molimo izaberite posetioca iz tabele.");
+                }
             }
-            StatusText.Text = "Izmena entiteta - nije implementirano";
-            MessageBox.Show("Izmena entiteta će biti implementirana.", "Info", MessageBoxButton.OK);
         }
 
         private void Toolbar_Delete_Click(object sender, RoutedEventArgs e)
