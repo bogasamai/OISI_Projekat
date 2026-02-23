@@ -30,5 +30,24 @@ namespace Core.Models
             Grad = grad;
             Drzava = drzava;
         }
+
+        public override string ToString()
+        {
+            // If user stored full address in Ulica (free text), return it
+            if (!string.IsNullOrWhiteSpace(Ulica) && string.IsNullOrWhiteSpace(Broj) && string.IsNullOrWhiteSpace(Grad) && string.IsNullOrWhiteSpace(Drzava))
+                return Ulica.Trim();
+
+            var parts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(Ulica))
+            {
+                var addr = Ulica.Trim();
+                if (!string.IsNullOrWhiteSpace(Broj)) addr += " " + Broj.Trim();
+                parts.Add(addr);
+            }
+            if (!string.IsNullOrWhiteSpace(Grad)) parts.Add(Grad.Trim());
+            if (!string.IsNullOrWhiteSpace(Drzava)) parts.Add(Drzava.Trim());
+
+            return parts.Count == 0 ? string.Empty : string.Join(", ", parts);
+        }
     }
 }

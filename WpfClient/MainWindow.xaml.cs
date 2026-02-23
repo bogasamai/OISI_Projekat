@@ -165,8 +165,62 @@ namespace WpfClient
 
         private void Toolbar_Add_Click(object sender, RoutedEventArgs e)
         {
-            StatusText.Text = "Kreiraj novi entitet - nije implementirano";
-            MessageBox.Show("Dodavanje novog entiteta će biti implementirano.", "Info", MessageBoxButton.OK);
+            OpenAddForActiveTab();
+        }
+
+        private void MenuItem_New_Click(object sender, RoutedEventArgs e)
+        {
+            OpenAddForActiveTab();
+        }
+
+        private void OpenAddForActiveTab()
+        {
+            // Determine active tab reliably using selected TabItem header
+            if (MainTabControl == null) { OpenAddPosetilacDialog(); return; }
+            var selected = MainTabControl.SelectedItem as TabItem;
+            string header = selected?.Header?.ToString() ?? string.Empty;
+            header = header.Trim().ToLowerInvariant();
+
+            if (header.Contains("autor") || header.Contains("autori") )
+            {
+                OpenAddAutorDialog();
+            }
+            else if (header.Contains("poset") || header.Contains("posetioci") )
+            {
+                OpenAddPosetilacDialog();
+            }
+            else
+            {
+                // default
+                OpenAddPosetilacDialog();
+            }
+        }
+
+        private void OpenAddPosetilacDialog()
+        {
+            var dlg = new AddPosetilacWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+            if (res == true && dlg.Result != null)
+            {
+                // add to originals and observable
+                originalPosetioci.Add(dlg.Result);
+                Posetioci.Add(dlg.Result);
+                StatusText.Text = "Posetilac dodat";
+            }
+        }
+
+        private void OpenAddAutorDialog()
+        {
+            var dlg = new AddAutorWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+            if (res == true && dlg.Result != null)
+            {
+                originalAutori.Add(dlg.Result);
+                Autori.Add(dlg.Result);
+                StatusText.Text = "Autor dodat";
+            }
         }
 
         private void Toolbar_Edit_Click(object sender, RoutedEventArgs e)
@@ -253,12 +307,6 @@ namespace WpfClient
         }
 
         // Menu click handlers used by MenuItems in XAML
-        private void MenuItem_New_Click(object sender, RoutedEventArgs e)
-        {
-            // Open generic "New" dialog placeholder
-            MessageBox.Show("Otvaranje prozora za novi unos...", "Novi entitet", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
         private void MenuItem_OpenPosetioci_Click(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedIndex = 0;
