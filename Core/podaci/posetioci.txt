@@ -1,1 +1,5 @@
-Marko|Antunovic|123|R|
+Marko|Antunovic|123|R||Nepoznato|/|Nepoznato|
+Kalu|Avramovski|123|V|123|Nepoznato|/|Nepoznato|
+asdf|asdf|1235|R|3412|Nepoznato|/|Nepoznato|
+asdfads|dhhdg|34643|V|2342|fgh 435|hk|jfj|
+adfasdf|hsdghsdh|14354326|R|123123|asdf 123|zxcv|fgsdg|

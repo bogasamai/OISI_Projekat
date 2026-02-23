@@ -103,7 +103,15 @@ namespace Core.Data
             {
                 foreach (var p in posetioci)
                 {
-                    sw.WriteLine($"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}");
+                    // Moramo "izvući" polja iz objekta Adresa. 
+                    // Koristimo ?. operator u slučaju da je Adresa null da program ne pukne.
+                    string ulica = p.Adresa?.Ulica ?? "Nepoznato";
+                    string broj = p.Adresa?.Broj ?? "/";
+                    string grad = p.Adresa?.Grad ?? "Nepoznato";
+                    string drzava = p.Adresa?.Drzava ?? "";
+
+                    // Dodajemo adresa polja na kraj linije (indeksi 5, 6, 7 i 8)
+                    sw.WriteLine($"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}|{ulica}|{broj}|{grad}|{drzava}");
                 }
             }
         }
@@ -115,15 +123,34 @@ namespace Core.Data
 
             foreach (string linija in File.ReadAllLines(putanjaPosetioci))
             {
+                if (string.IsNullOrWhiteSpace(linija)) continue;
+
                 string[] d = linija.Split('|');
-                rezultat.Add(new Posetilac
+
+                // Osnovni podaci
+                Posetilac p = new Posetilac
                 {
                     Ime = d[0],
                     Prezime = d[1],
                     BrojClanskeKarte = d[2],
                     Status = (StatusPosetioca)Enum.Parse(typeof(StatusPosetioca), d[3]),
                     Email = d[4]
-                });
+                };
+
+                // Ako linija ima bar 9 delova, znači da imamo i adresu
+                if (d.Length >= 9)
+                {
+                    p.Adresa = new Adresa
+                    {
+                        Id = 0, // Id možemo ostaviti na 0 ili generisati
+                        Ulica = d[5],
+                        Broj = d[6],
+                        Grad = d[7],
+                        Drzava = d[8]
+                    };
+                }
+
+                rezultat.Add(p);
             }
             return rezultat;
         }
