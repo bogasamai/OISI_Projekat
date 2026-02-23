@@ -1,0 +1,55 @@
+<Window x:Class="WpfClient.IzmenaAutoraWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Izmena autora" Height="520" Width="450" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="10">
+        <TabControl>
+            <TabItem Header="Informacije">
+                <StackPanel Margin="10">
+                    <TextBlock Text="Broj licne karte *" Margin="0,5,0,2"/>
+                    <TextBox x:Name="txtBrojLicne" Padding="3" TextChanged="ValidateForm"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                            <TextBlock Text="Ime *" Margin="0,5,0,2"/>
+                            <TextBox x:Name="txtIme" Padding="3" TextChanged="ValidateForm"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                            <TextBlock Text="Prezime *" Margin="0,5,0,2"/>
+                            <TextBox x:Name="txtPrezime" Padding="3" TextChanged="ValidateForm"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <TextBlock Text="Datum rodjenja *" Margin="0,5,0,2"/>
+                    <DatePicker x:Name="dpDatumRodjenja" SelectedDateChanged="ValidateForm"/>
+
+                    <TextBlock Text="Telefon" Margin="0,5,0,2"/>
+                    <TextBox x:Name="txtTelefon" Padding="3" TextChanged="ValidateForm"/>
+
+                    <TextBlock Text="Email *" Margin="0,5,0,2"/>
+                    <TextBox x:Name="txtEmail" Padding="3" TextChanged="ValidateForm"/>
+
+                    <TextBlock Text="Godine iskustva *" Margin="0,5,0,2"/>
+                    <TextBox x:Name="txtGodine" Padding="3" TextChanged="ValidateForm"/>
+
+                    <TextBlock Text="Adresa (slobodan unos)" Margin="0,5,0,2"/>
+                    <TextBox x:Name="txtAdresa" Padding="3" Height="60" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="ValidateForm"/>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                        <Button x:Name="btnOdustani" Content="Odustani" Width="80" Margin="0,0,10,0" Click="BtnOdustani_Click"/>
+                        <Button x:Name="btnPotvrdi" Content="Potvrdi" Width="80" IsEnabled="False" Click="BtnPotvrdi_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Knjige">
+                <TextBlock Text="Lista knjiga autora ce biti prikazana ovde." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
