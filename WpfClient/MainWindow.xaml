@@ -101,7 +101,7 @@
                     <TextBox Name="SearchTextBox" Grid.Column="1" Padding="4,4,6,4" VerticalAlignment="Center" Foreground="#333333" />
 
                     <!-- Search Button -->
-                    <Button Name="BtnSearch" Grid.Column="2" Click="BtnSearch_Click"  Padding="6,4" Margin="6,0,0,0" ToolTip="Pretrazi (Enter)">
+                    <Button Name="BtnSearch" Grid.Column="2" Click="BtnSearch_Click" Padding="6,4" Margin="6,0,0,0" ToolTip="Pretrazi (Enter)">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🔎" FontSize="14" Margin="0,0,4,0" />
                             <TextBlock Text="Pretraga" />

@@ -165,25 +165,61 @@ namespace WpfClient
 
         private void Toolbar_Add_Click(object sender, RoutedEventArgs e)
         {
-            int activeTab = MainTabControl.SelectedIndex;
+            OpenAddForActiveTab();
+        }
 
-            if (activeTab == 0) // Tab Posetioci
+        private void MenuItem_New_Click(object sender, RoutedEventArgs e)
+        {
+            OpenAddForActiveTab();
+        }
+
+        private void OpenAddForActiveTab()
+        {
+            // Determine active tab reliably using selected TabItem header
+            if (MainTabControl == null) { OpenAddPosetilacDialog(); return; }
+            var selected = MainTabControl.SelectedItem as TabItem;
+            string header = selected?.Header?.ToString() ?? string.Empty;
+            header = header.Trim().ToLowerInvariant();
+
+            if (header.Contains("autor") || header.Contains("autori") )
             {
-                DodajPosetiocaWindow prozor = new DodajPosetiocaWindow();
-                prozor.Owner = this; // Postavlja MainWindow kao roditelja (centriranje)
-
-                if (prozor.ShowDialog() == true)
-                {
-                    // Dodaj u originalnu listu i u ObservableCollection da se UI odmah osveži
-                    originalPosetioci.Add(prozor.NoviPosetilac);
-                    Posetioci.Add(prozor.NoviPosetilac);
-
-                    StatusText.Text = "Novi posetilac uspešno dodat.";
-                }
+                OpenAddAutorDialog();
+            }
+            else if (header.Contains("poset") || header.Contains("posetioci") )
+            {
+                OpenAddPosetilacDialog();
             }
             else
             {
-                MessageBox.Show("Dodavanje za ovaj tab će biti implementirano uskoro.");
+                // default
+                OpenAddPosetilacDialog();
+            }
+        }
+
+        private void OpenAddPosetilacDialog()
+        {
+            var dlg = new AddPosetilacWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+            if (res == true && dlg.Result != null)
+            {
+                // add to originals and observable
+                originalPosetioci.Add(dlg.Result);
+                Posetioci.Add(dlg.Result);
+                StatusText.Text = "Posetilac dodat";
+            }
+        }
+
+        private void OpenAddAutorDialog()
+        {
+            var dlg = new AddAutorWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+            if (res == true && dlg.Result != null)
+            {
+                originalAutori.Add(dlg.Result);
+                Autori.Add(dlg.Result);
+                StatusText.Text = "Autor dodat";
             }
         }
 
@@ -271,11 +307,6 @@ namespace WpfClient
         }
 
         // Menu click handlers used by MenuItems in XAML
-        private void MenuItem_New_Click(object sender, RoutedEventArgs e)
-        {
-            Toolbar_Add_Click(sender, e);
-        }
-
         private void MenuItem_OpenPosetioci_Click(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedIndex = 0;
@@ -311,9 +342,8 @@ namespace WpfClient
         // CommandBinding handlers (for keyboard shortcuts) - delegate to click handlers
         private void MenuCommand_New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            Toolbar_Add_Click(sender, e);
+            MenuItem_New_Click(sender, new RoutedEventArgs());
         }
-
 
         private void MenuCommand_Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
