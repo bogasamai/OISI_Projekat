@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -35,7 +36,11 @@ namespace WpfClient
             // Dugme "Potvrdi" se omogućava samo ako su SVI uslovi ispunjeni
             bool adresaImaZareze = txtAdresa.Text.Split(',').Length >= 3;
 
-            btnPotvrdi.IsEnabled = svaPoljaPopunjena && imeValidno && prezimeValidno && telefonValidan&& adresaImaZareze;
+            string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            bool emailValidan = Regex.IsMatch(txtEmail.Text, emailPattern);
+
+
+            btnPotvrdi.IsEnabled = svaPoljaPopunjena && imeValidno && prezimeValidno && telefonValidan&& adresaImaZareze && emailValidan;
         }
 
         private void BtnPotvrdi_Click(object sender, RoutedEventArgs e)
