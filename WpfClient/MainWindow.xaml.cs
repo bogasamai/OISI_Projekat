@@ -224,8 +224,10 @@ namespace WpfClient
 
         private void Toolbar_Edit_Click(object sender, RoutedEventArgs e)
         {
+            int activeTab = MainTabControl.SelectedIndex;
+
             // Proveravamo da li je aktivan tab Posetioci (indeks 0)
-            if (MainTabControl.SelectedIndex == 0)
+            if (activeTab == 0)
             {
                 var selektovan = PosetiociGrid.SelectedItem as Posetilac;
                 if (selektovan != null)
@@ -247,6 +249,31 @@ namespace WpfClient
                 else
                 {
                     MessageBox.Show("Molimo izaberite posetioca iz tabele.");
+                }
+            }
+            // Proveravamo da li je aktivan tab Autori (indeks 1)
+            else if (activeTab == 1)
+            {
+                var selektovan = AutoriGrid.SelectedItem as Autor;
+                if (selektovan != null)
+                {
+                    var dlg = new IzmenaAutoraWindow(selektovan);
+                    dlg.Owner = this;
+                    if (dlg.ShowDialog() == true)
+                    {
+                        // Ažuriramo listu (nađi stari, ubaci novi)
+                        int index = originalAutori.IndexOf(selektovan);
+                        if (index != -1)
+                        {
+                            originalAutori[index] = dlg.IzmenjeniAutor;
+                            ResetCollectionsToOriginal(); // Osveži UI
+                            StatusText.Text = "Autor uspešno izmenjen.";
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Molimo izaberite autora iz tabele.");
                 }
             }
         }
