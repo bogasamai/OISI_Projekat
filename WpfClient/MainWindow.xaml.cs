@@ -189,6 +189,10 @@ namespace WpfClient
             {
                 OpenAddPosetilacDialog();
             }
+            else if (header.Contains("knjig"))
+            {
+                OpenAddKnjigaDialog();
+            }
             else
             {
                 // default
@@ -208,6 +212,23 @@ namespace WpfClient
                 StatusText.Text = "Posetilac dodat";
             }
         }
+        private void OpenAddKnjigaDialog()
+        {
+            var dlg = new DodajKnjiguWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+
+            if (res == true && dlg.NovaKnjiga != null)
+            {
+                // Dodajemo u listu koja se serijalizuje
+                originalKnjige.Add(dlg.NovaKnjiga);
+                // Dodajemo u ObservableCollection koja je vezana za DataGrid
+                Knjige.Add(dlg.NovaKnjiga);
+
+                StatusText.Text = "Knjiga uspešno dodata";
+            }
+        }
+
 
         private void OpenAddAutorDialog()
         {
@@ -276,6 +297,23 @@ namespace WpfClient
                     MessageBox.Show("Molimo izaberite autora iz tabele.");
                 }
             }
+            else if (activeTab == 2)
+            {
+                var selektovana = KnjigeGrid.SelectedItem as Knjiga;
+                if (selektovana != null)
+                {
+                    // Pod pretpostavkom da ćeš napraviti IzmenaKnjigeWindow
+                    // var dlg = new IzmenaKnjigeWindow(selektovana);
+                    // dlg.Owner = this;
+                    // if (dlg.ShowDialog() == true) { ... osveži kolekciju ... }
+                    MessageBox.Show("Funkcionalnost izmene knjige će biti dostupna uskoro.");
+                }
+                else
+                {
+                    MessageBox.Show("Molimo izaberite knjigu iz tabele.");
+                }
+            }
+
         }
 
         private void Toolbar_Delete_Click(object sender, RoutedEventArgs e)
