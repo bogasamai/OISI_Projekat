@@ -47,7 +47,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Knjige" Height="22" Margin="0,0,-4,0" VerticalAlignment="Center">
+            <TabItem Header="Knjige">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="199*"/>

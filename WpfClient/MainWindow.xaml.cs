@@ -35,6 +35,7 @@ namespace WpfClient
             originalPosetioci = DataHandler.UcitajPosetioce();
             originalAutori = DataHandler.UcitajAutore();
             originalKnjige = DataHandler.UcitajKnjige();
+            DataHandler.PoveziAutoreIKnjige(originalAutori, originalKnjige);
 
             // Initialize observable collections from originals
             ResetCollectionsToOriginal();
@@ -377,6 +378,15 @@ namespace WpfClient
                         if (index != -1)
                         {
                             originalAutori[index] = dlg.IzmenjeniAutor;
+                            foreach (var knjiga in originalKnjige)
+                            {
+                                var stariAutor = knjiga.Autori?.FirstOrDefault(a => a.BrojLicneKarte == selektovan.BrojLicneKarte);
+                                if (stariAutor != null)
+                                {
+                                    knjiga.Autori.Remove(stariAutor);
+                                    knjiga.Autori.Add(dlg.IzmenjeniAutor);
+                                }
+                            }
                             ResetCollectionsToOriginal(); // Osveži UI
                             StatusText.Text = "Autor uspešno izmenjen.";
                         }
@@ -516,6 +526,7 @@ namespace WpfClient
             DataHandler.SacuvajPosetioce(originalPosetioci);
             DataHandler.SacuvajAutore(originalAutori);
             DataHandler.SacuvajKnjige(originalKnjige);
+            DataHandler.SacuvajVezeAutorKnjiga(originalAutori);
             MessageBox.Show("Svi novi podaci su uspešno sačuvani u folder 'podaci'.");
         }
 

@@ -17,6 +17,7 @@ namespace Core.Data
         private static string putanjaKupovine = Path.Combine(folder, "kupovine.txt");
         private static string putanjaKnjige = Path.Combine(folder, "knjige.txt");
         private static string putanjaAutori = Path.Combine(folder, "autori.txt");
+        private static string putanjaAutorKnjiga = Path.Combine(folder, "autor_knjiga.txt");
 
         private static void ProveriFolder()
         {
@@ -68,6 +69,45 @@ namespace Core.Data
                 rezultat.Add(autor);
             }
             return rezultat;
+        }
+
+        // --- VEZE AUTOR-KNJIGA ---
+        public static void SacuvajVezeAutorKnjiga(List<Autor> autori)
+        {
+            ProveriFolder();
+            using (StreamWriter sw = new StreamWriter(putanjaAutorKnjiga))
+            {
+                foreach (var a in autori)
+                {
+                    if (a.SpisakKnjiga == null) continue;
+                    foreach (var k in a.SpisakKnjiga)
+                    {
+                        sw.WriteLine($"{a.BrojLicneKarte}|{k.ISBN}");
+                    }
+                }
+            }
+        }
+
+        public static void PoveziAutoreIKnjige(List<Autor> autori, List<Knjiga> knjige)
+        {
+            if (!File.Exists(putanjaAutorKnjiga)) return;
+
+            foreach (string linija in File.ReadAllLines(putanjaAutorKnjiga))
+            {
+                string[] d = linija.Split('|');
+                if (d.Length < 2) continue;
+
+                var autor = autori.FirstOrDefault(a => a.BrojLicneKarte == d[0]);
+                var knjiga = knjige.FirstOrDefault(k => k.ISBN == d[1]);
+
+                if (autor != null && knjiga != null)
+                {
+                    if (autor.SpisakKnjiga != null && !autor.SpisakKnjiga.Any(k => k.ISBN == knjiga.ISBN))
+                        autor.SpisakKnjiga.Add(knjiga);
+                    if (knjiga.Autori != null && !knjiga.Autori.Any(a => a.BrojLicneKarte == autor.BrojLicneKarte))
+                        knjiga.Autori.Add(autor);
+                }
+            }
         }
 
         // --- KNJIGE ---
