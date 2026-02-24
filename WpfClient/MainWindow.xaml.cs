@@ -302,11 +302,21 @@ namespace WpfClient
                 var selektovana = KnjigeGrid.SelectedItem as Knjiga;
                 if (selektovana != null)
                 {
-                    // Pod pretpostavkom da ćeš napraviti IzmenaKnjigeWindow
-                    // var dlg = new IzmenaKnjigeWindow(selektovana);
-                    // dlg.Owner = this;
-                    // if (dlg.ShowDialog() == true) { ... osveži kolekciju ... }
-                    MessageBox.Show("Funkcionalnost izmene knjige će biti dostupna uskoro.");
+                    var dlg = new IzmenaKnjigeWindow(selektovana);
+                    dlg.Owner = this;
+                    if (dlg.ShowDialog() == true && dlg.IzmenjenaKnjiga != null)
+                    {
+                        // Pronađi indeks u originalnoj listi
+                        int index = originalKnjige.IndexOf(selektovana);
+                        if (index != -1)
+                        {
+                            // Zameni podatke u originalnoj listi
+                            originalKnjige[index] = dlg.IzmenjenaKnjiga;
+                            // Osveži ObservableCollection i UI
+                            ResetCollectionsToOriginal();
+                            StatusText.Text = "Knjiga uspešno izmenjena.";
+                        }
+                    }
                 }
                 else
                 {
