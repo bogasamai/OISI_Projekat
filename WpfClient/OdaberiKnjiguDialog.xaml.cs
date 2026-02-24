@@ -30,5 +30,24 @@ namespace WpfClient
         {
             DialogResult = false;
         }
+        private void ChkMultipleSelection_Checked(object sender, RoutedEventArgs e)
+        {
+            // Enable multiple selection in the ListBox
+            lbDostupneKnjige.SelectionMode = SelectionMode.Multiple;
+        }
+
+        // Add this method for the checkbox Unchecked event
+        private void ChkMultipleSelection_Unchecked(object sender, RoutedEventArgs e)
+        {
+            // Disable multiple selection in the ListBox
+            lbDostupneKnjige.SelectionMode = SelectionMode.Single;
+            // Optionally clear all selections except the first
+            if (lbDostupneKnjige.SelectedItems.Count > 1)
+            {
+                var first = lbDostupneKnjige.SelectedItems[0];
+                lbDostupneKnjige.SelectedItems.Clear();
+                lbDostupneKnjige.SelectedItem = first;
+            }
+        }
     }
 }
