@@ -34,6 +34,17 @@ namespace WpfClient
             txtIzdavac.TextChanged += ValidateForm;
 
             ValidateForm(null, null);
+
+            // Populate author field and enable/disable add/remove buttons
+            UpdateAuthorField();
+        }
+
+        private void UpdateAuthorField()
+        {
+            var first = _originalKnjiga.Autori?.FirstOrDefault();
+            txtAutor.Text = first != null ? $"{first.Ime} {first.Prezime}" : string.Empty;
+            btnAddAuthor.IsEnabled = _originalKnjiga.Autori == null || _originalKnjiga.Autori.Count == 0;
+            btnRemoveAuthor.IsEnabled = _originalKnjiga.Autori != null && _originalKnjiga.Autori.Count > 0;
         }
 
         private void ValidateForm(object sender, EventArgs e)
@@ -86,6 +97,27 @@ namespace WpfClient
         private void BtnOdustani_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
+        }
+
+        private void BtnAddAuthor_Click(object sender, RoutedEventArgs e)
+        {
+            // Load authors and allow user to pick one
+            var sviAutori = Core.Data.DataHandler.UcitajAutore();
+            var dlg = new ChooseAutorWindow(sviAutori);
+            dlg.Owner = this;
+            if (dlg.ShowDialog() == true && dlg.SelectedAuthor != null)
+            {
+                if (_originalKnjiga.Autori == null) _originalKnjiga.Autori = new System.Collections.Generic.List<Autor>();
+                _originalKnjiga.Autori.Clear();
+                _originalKnjiga.Autori.Add(dlg.SelectedAuthor);
+                UpdateAuthorField();
+            }
+        }
+
+        private void BtnRemoveAuthor_Click(object sender, RoutedEventArgs e)
+        {
+            if (_originalKnjiga.Autori != null) _originalKnjiga.Autori.Clear();
+            UpdateAuthorField();
         }
     }
 }

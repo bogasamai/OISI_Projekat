@@ -1,0 +1,18 @@
+<Window x:Class="WpfClient.ChooseAutorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Odaberi autora" Height="400" Width="400" WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ListBox Name="LbAutori" DisplayMemberPath="PunoIme" Grid.Row="0" />
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0">
+            <Button Name="BtnChoose" Content="Potvrdi" Width="80" Margin="0,0,8,0" Click="BtnChoose_Click" />
+            <Button Name="BtnCancel" Content="Odustani" Width="80" Click="BtnCancel_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

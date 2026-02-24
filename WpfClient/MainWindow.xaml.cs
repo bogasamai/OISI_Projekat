@@ -164,6 +164,9 @@ namespace WpfClient
             foreach (var p in pageItems) Posetioci.Add(p);
 
             if (PosetiociPageText != null) PosetiociPageText.Text = $"{posetiociPage}/{totalPages}";
+            // enable/disable pager buttons
+            if (BtnPosetiociPrev != null) BtnPosetiociPrev.IsEnabled = posetiociPage > 1;
+            if (BtnPosetiociNext != null) BtnPosetiociNext.IsEnabled = posetiociPage < totalPages;
         }
 
         private void RefreshAutoriView()
@@ -183,6 +186,15 @@ namespace WpfClient
                     case "Email":
                         src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.Email) : src.OrderByDescending(a => a.Email);
                         break;
+                    case "BrojLicneKarte":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.BrojLicneKarte) : src.OrderByDescending(a => a.BrojLicneKarte);
+                        break;
+                    case "DatumRodjenja":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.DatumRodjenja) : src.OrderByDescending(a => a.DatumRodjenja);
+                        break;
+                    case "Adresa":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.AdresaStanovanja?.Ulica) : src.OrderByDescending(a => a.AdresaStanovanja?.Ulica);
+                        break;
                 }
             }
 
@@ -196,6 +208,9 @@ namespace WpfClient
             foreach (var a in pageItems) Autori.Add(a);
 
             if (AutoriPageText != null) AutoriPageText.Text = $"{autoriPage}/{totalPages}";
+            // enable/disable pager buttons
+            if (BtnAutoriPrev != null) BtnAutoriPrev.IsEnabled = autoriPage > 1;
+            if (BtnAutoriNext != null) BtnAutoriNext.IsEnabled = autoriPage < totalPages;
         }
 
         private void RefreshKnjigeView()
@@ -234,6 +249,9 @@ namespace WpfClient
             foreach (var k in pageItems) Knjige.Add(k);
 
             if (KnjigePageText != null) KnjigePageText.Text = $"{knjigePage}/{totalPages}";
+            // enable/disable pager buttons
+            if (BtnKnjigePrev != null) BtnKnjigePrev.IsEnabled = knjigePage > 1;
+            if (BtnKnjigeNext != null) BtnKnjigeNext.IsEnabled = knjigePage < totalPages;
         }
 
         // Sorting handlers
