@@ -258,39 +258,8 @@
                                         </StackPanel>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding BrojLicneKarteDisplay}" SortMemberPath="BrojLicneKarte" Width="150">
-                                    <DataGridTextColumn.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Broj lične karte" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                            <StackPanel Orientation="Vertical">
-                                                <Button Content="▲" Tag="Autori:BrojLicneKarte:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                                <Button Content="▼" Tag="Autori:BrojLicneKarte:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding DatumRodjenjaDisplay}" SortMemberPath="DatumRodjenja" Width="120">
-                                    <DataGridTextColumn.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Datum rođenja" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                            <StackPanel Orientation="Vertical">
-                                                <Button Content="▲" Tag="Autori:DatumRodjenja:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                                <Button Content="▼" Tag="Autori:DatumRodjenja:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding AdresaStanovanja.Ulica}" SortMemberPath="Adresa" Width="150">
-                                    <DataGridTextColumn.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Adresa" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                            <StackPanel Orientation="Vertical">
-                                                <Button Content="▲" Tag="Autori:Adresa:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                                <Button Content="▼" Tag="Autori:Adresa:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Broj lične karte" Binding="{Binding BrojLicneKarteDisplay}" Width="150" />
+                                <DataGridTextColumn Header="Datum rođenja" Binding="{Binding DatumRodjenjaDisplay}" Width="120" />
                             <DataGridTextColumn Binding="{Binding EmailDisplay}" SortMemberPath="Email" Width="*">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal">
