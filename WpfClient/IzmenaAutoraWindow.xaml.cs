@@ -28,6 +28,15 @@ namespace WpfClient
         public IzmenaAutoraWindow(Autor a, List<Knjiga> dostupneKnjige) : this(a)
         {
             _dostupneKnjige = dostupneKnjige ?? new List<Knjiga>();
+
+            // POPRAVKA: Osvezi _autorKnjige na osnovu stvarnih veza u dostupneKnjige
+            // Ovo osigurava da se svaki put kad se prozor otvori, knjige ucitaju
+            // iz originalKnjige na osnovu Autori liste svake knjige
+            _autorKnjige = _dostupneKnjige
+                .Where(k => k.Autori != null && k.Autori.Any(au => au.BrojLicneKarte == a.BrojLicneKarte))
+                .ToList();
+
+            PopuniKnjigeAutora(); // Ponovo popuni grid sa osvezenom listom
         }
 
         private void PopuniPolja(Autor a)
@@ -40,7 +49,6 @@ namespace WpfClient
             txtEmail.Text = a.Email;
             txtGodine.Text = a.GodineIskustva.ToString();
 
-            // Adresa u istom formatu kao kod posetioca: "Ulica, Broj, Grad, Drzava"
             if (a.AdresaStanovanja != null)
             {
                 string ulica = a.AdresaStanovanja.Ulica ?? "";
@@ -70,6 +78,7 @@ namespace WpfClient
         {
             var knjigeBezAutora = _dostupneKnjige
                 .Where(k => !_autorKnjige.Any(ak => ak.ISBN == k.ISBN))
+                .Where(k => k.Autori == null || k.Autori.Count == 0)
                 .ToList();
 
             if (!knjigeBezAutora.Any())
@@ -82,22 +91,26 @@ namespace WpfClient
             var dialog = new OdaberiKnjiguDialog(knjigeBezAutora);
             dialog.Owner = this;
 
-            if (dialog.ShowDialog() == true && dialog.OdabranaKnjiga != null)
+            if (dialog.ShowDialog() == true && dialog.OdabraneKnjige.Any())
             {
-                _autorKnjige.Add(dialog.OdabranaKnjiga);
-
-                var selectedBook = dialog.OdabranaKnjiga;
-                if (selectedBook.Autori == null)
-                    selectedBook.Autori = new List<Autor>();
-
-                if (!selectedBook.Autori.Any(a => a.BrojLicneKarte == _originalAutor.BrojLicneKarte))
+                foreach (var selectedBook in dialog.OdabraneKnjige)
                 {
-                    selectedBook.Autori.Add(_originalAutor);
+                    if (_autorKnjige.Any(k => k.ISBN == selectedBook.ISBN)) continue;
+
+                    _autorKnjige.Add(selectedBook);
+
+                    if (selectedBook.Autori == null)
+                        selectedBook.Autori = new List<Autor>();
+
+                    if (!selectedBook.Autori.Any(a => a.BrojLicneKarte == _originalAutor.BrojLicneKarte))
+                    {
+                        selectedBook.Autori.Add(_originalAutor);
+                    }
                 }
 
                 PopuniKnjigeAutora();
 
-                MessageBox.Show($"Knjiga '{selectedBook.Naziv}' je uspešno dodana autoru.", "Uspeh",
+                MessageBox.Show("Knjige su uspešno dodate autoru.", "Uspeh",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -144,14 +157,13 @@ namespace WpfClient
                         !string.IsNullOrWhiteSpace(txtPrezime.Text) &&
                         txtEmail.Text.Contains("@") &&
                         int.TryParse(txtGodine.Text, out _) &&
-                        txtAdresa.Text.Split(',').Length >= 3; // validacija adrese
+                        txtAdresa.Text.Split(',').Length >= 3;
 
             btnPotvrdi.IsEnabled = isOk;
         }
 
         private void BtnPotvrdi_Click(object sender, RoutedEventArgs e)
         {
-            // Parsiranje adrese u istom formatu kao kod posetioca
             string[] delovi = txtAdresa.Text.Split(',');
             string ulica = delovi.Length > 0 ? delovi[0].Trim() : "Nepoznato";
             string broj = delovi.Length > 1 ? delovi[1].Trim() : "/";

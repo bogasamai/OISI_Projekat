@@ -20,7 +20,7 @@ namespace WpfClient
         private List<Posetilac> originalPosetioci = new List<Posetilac>();
         private List<Autor> originalAutori = new List<Autor>();
         private List<Knjiga> originalKnjige = new List<Knjiga>();
-        
+
         // Pagination / filtering / sorting state
         private const int PageSize = 16;
         private int posetiociPage = 1, autoriPage = 1, knjigePage = 1;
@@ -47,9 +47,10 @@ namespace WpfClient
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             // Load data
-            originalPosetioci = DataHandler.UcitajPosetioce();
-            originalAutori = DataHandler.UcitajAutore();
-            originalKnjige = DataHandler.UcitajKnjige();
+            var (autori, knjige, posetioci) = DataHandler.UcitajSve();
+            originalAutori = autori;
+            originalKnjige = knjige;
+            originalPosetioci = posetioci;
 
             // Initialize observable collections from originals
             ResetCollectionsToOriginal();
@@ -142,14 +143,8 @@ namespace WpfClient
                     case "Prezime":
                         src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.Prezime) : src.OrderByDescending(p => p.Prezime);
                         break;
-                    case "GodinaClanstva":
-                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.GodinaClanstva) : src.OrderByDescending(p => p.GodinaClanstva);
-                        break;
                     case "Status":
                         src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.Status) : src.OrderByDescending(p => p.Status);
-                        break;
-                    case "ProsecnaOcena":
-                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.ProsecnaOcena) : src.OrderByDescending(p => p.ProsecnaOcena);
                         break;
                 }
             }
@@ -484,11 +479,11 @@ namespace WpfClient
             string header = selected?.Header?.ToString() ?? string.Empty;
             header = header.Trim().ToLowerInvariant();
 
-            if (header.Contains("autor") || header.Contains("autori") )
+            if (header.Contains("autor") || header.Contains("autori"))
             {
                 OpenAddAutorDialog();
             }
-            else if (header.Contains("poset") || header.Contains("posetioci") )
+            else if (header.Contains("poset") || header.Contains("posetioci"))
             {
                 OpenAddPosetilacDialog();
             }
@@ -581,16 +576,61 @@ namespace WpfClient
                 var selektovan = AutoriGrid.SelectedItem as Autor;
                 if (selektovan != null)
                 {
-                    // Pass available books to the dialog
                     var dlg = new IzmenaAutoraWindow(selektovan, originalKnjige);
                     dlg.Owner = this;
                     if (dlg.ShowDialog() == true)
                     {
-                        // Ažuriramo listu (nađi stari, ubaci novi)
                         int index = originalAutori.IndexOf(selektovan);
                         if (index != -1)
                         {
                             originalAutori[index] = dlg.IzmenjeniAutor;
+
+                            // Sinhronizuj veze u originalKnjige
+                            var noviAutor = dlg.IzmenjeniAutor;
+                            var stareKnjige = selektovan.SpisakKnjiga ?? new List<Knjiga>();
+                            var noveKnjige = noviAutor.SpisakKnjiga ?? new List<Knjiga>();
+                            foreach (var knjiga in noveKnjige)
+                            {
+                                var origKnjiga = originalKnjige.FirstOrDefault(k => k.ISBN == knjiga.ISBN);
+                                if (origKnjiga != null)
+                                {
+                                    if (origKnjiga.Autori == null) origKnjiga.Autori = new List<Autor>();
+                                    if (!origKnjiga.Autori.Any(a => a.BrojLicneKarte == noviAutor.BrojLicneKarte))
+                                    {
+                                        origKnjiga.Autori.Add(noviAutor);
+                                    }
+                                    else
+                                    {
+                                        var stari = origKnjiga.Autori.FirstOrDefault(a => a.BrojLicneKarte == noviAutor.BrojLicneKarte);
+                                        if (stari != null)
+                                        {
+                                            int idx = origKnjiga.Autori.IndexOf(stari);
+                                            origKnjiga.Autori[idx] = noviAutor;
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Ukloni autora sa knjiga koje više nisu u spisku
+                            foreach (var staraKnjiga in stareKnjige)
+                            {
+                                if (!noveKnjige.Any(nk => nk.ISBN == staraKnjiga.ISBN))
+                                {
+                                    var origKnjiga = originalKnjige.FirstOrDefault(k => k.ISBN == staraKnjiga.ISBN);
+                                    if (origKnjiga != null && origKnjiga.Autori != null)
+                                    {
+                                        var zaUklanjanje = origKnjiga.Autori.FirstOrDefault(a => a.BrojLicneKarte == noviAutor.BrojLicneKarte);
+                                        if (zaUklanjanje != null)
+                                            origKnjiga.Autori.Remove(zaUklanjanje);
+                                    }
+                                }
+                            }
+
+                            // Ažuriraj SpisakKnjiga za novog autora na osnovu aktuelnog stanja originalKnjige
+                            noviAutor.SpisakKnjiga = originalKnjige
+                                .Where(k => k.Autori != null && k.Autori.Any(a => a.BrojLicneKarte == noviAutor.BrojLicneKarte))
+                                .ToList();
+
                             ResetCollectionsToOriginal(); // Osveži UI
                             StatusText.Text = "Autor uspešno izmenjen.";
                         }
@@ -660,6 +700,16 @@ namespace WpfClient
                     {
                         originalAutori.Remove(a);
                         Autori.Remove(a);
+                        // Ukloni autora sa svih knjiga
+                        foreach (var knjiga in originalKnjige)
+                        {
+                            if (knjiga.Autori != null)
+                            {
+                                var zaUklanjanje = knjiga.Autori.FirstOrDefault(au => au.BrojLicneKarte == a.BrojLicneKarte);
+                                if (zaUklanjanje != null)
+                                    knjiga.Autori.Remove(zaUklanjanje);
+                            }
+                        }
                     }
                 }
                 else if (active == 2)
@@ -669,6 +719,16 @@ namespace WpfClient
                     {
                         originalKnjige.Remove(k);
                         Knjige.Remove(k);
+                        // Ukloni knjigu iz spiska svih autora
+                        foreach (var autor in originalAutori)
+                        {
+                            if (autor.SpisakKnjiga != null)
+                            {
+                                var zaUklanjanje = autor.SpisakKnjiga.FirstOrDefault(kn => kn.ISBN == k.ISBN);
+                                if (zaUklanjanje != null)
+                                    autor.SpisakKnjiga.Remove(zaUklanjanje);
+                            }
+                        }
                     }
                 }
 
