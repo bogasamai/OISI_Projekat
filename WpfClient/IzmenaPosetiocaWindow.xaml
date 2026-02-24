@@ -104,12 +104,21 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0">
-                        <Button Content="Dodaj" Width="80" Padding="6,4" Margin="0,0,5,0"/>
-                        <Button Content="Obriši" Width="80" Padding="6,4" Margin="0,0,5,0"/>
-                        <Button Content="Kupovina" Width="80" Padding="6,4"/>
+                        <Button x:Name="BtnZeljaDodaj" Content="Dodaj" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaDodaj_Click"/>
+                        <Button x:Name="BtnZeljaObrisi" Content="Obriši" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaObrisi_Click" IsEnabled="False"/>
+                        <Button x:Name="BtnZeljaKupovina" Content="Kupovina" Width="80" Padding="6,4" Click="BtnZeljaKupovina_Click" IsEnabled="False"/>
                     </StackPanel>
 
-                    <TextBlock Text="Lista želja će biti prikazana ovde." VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+                    <DataGrid x:Name="dgZelja" Grid.Row="1" Margin="10,0,10,10" 
+                              AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" 
+                              SelectionChanged="DgZelja_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120" />
+                            <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" Width="*" />
+                            <DataGridTextColumn Header="Žanr" Binding="{Binding Zanr}" Width="120" />
+                            <DataGridTextColumn Header="Cena" Binding="{Binding Cena, StringFormat={}{0:F2} RSD}" Width="100" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
