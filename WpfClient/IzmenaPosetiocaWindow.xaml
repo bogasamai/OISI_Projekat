@@ -51,8 +51,50 @@
             </TabItem>
 
             <TabItem Header="Kupljene">
-                <TextBlock Text="Lista kupljenih knjiga će biti prikazana ovde." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Cancel Purchase Button -->
+                    <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0">
+                        <Button x:Name="btnPonistiKupovinu" Content="Poništi kupovinu" Width="120" Padding="6,4" 
+                    Click="BtnPonistiKupovinu_Click" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <!-- Purchased Books Table -->
+                    <DataGrid x:Name="dgKupljeneKnjige" Grid.Row="1" Margin="10,0,10,10" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  SelectionMode="Single" SelectionChanged="DgKupljeneKnjige_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding Knjiga.ISBN}" Width="100"/>
+                            <DataGridTextColumn Header="Naziv" Binding="{Binding Knjiga.Naziv}" Width="100"/>
+                            <DataGridTextColumn Header="Datum" Binding="{Binding DatumKupovine, StringFormat={}{0:dd.MM.yyyy}}" Width="80"/>
+                            <DataGridTextColumn Header="Ocena" Binding="{Binding Ocena}" Width="60"/>
+                            <DataGridTextColumn Header="Cena" Binding="{Binding Knjiga.Cena, StringFormat={}{0:F2} RSD}" Width="100"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Statistics Panel -->
+                    <Grid Grid.Row="2" Margin="10,0,10,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBlock Text="Prosečna ocena: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="lblProsecnaOcena" Text="0.0" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                            <TextBlock Text="Ukupna potrošnja: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBlock x:Name="lblUkupnaPotrosnja" Text="0.00 RSD" FontWeight="Bold" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
             </TabItem>
+
+
 
             <TabItem Header="Želje">
                 <Grid>

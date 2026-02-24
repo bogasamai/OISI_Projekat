@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -10,11 +11,17 @@ namespace WpfClient
     public partial class IzmenaPosetiocaWindow : Window
     {
         public Posetilac IzmenjeniPosetilac { get; private set; }
+        private Posetilac _originalPosetilac;
+        private List<Kupovina> _kupljeneKnjige;
 
         public IzmenaPosetiocaWindow(Posetilac p)
         {
             InitializeComponent();
+            _originalPosetilac = p;
+            _kupljeneKnjige = new List<Kupovina>(p.KupljeneKnjige ?? new List<Kupovina>());
             PopuniPolja(p);
+            PopuniKupljeneKnjige();
+            IzracunajStatistike();
         }
 
         private void PopuniPolja(Posetilac p)
@@ -31,6 +38,56 @@ namespace WpfClient
             {
                 if (item.Tag.ToString() == p.Status.ToString())
                     cbStatus.SelectedItem = item;
+            }
+        }
+
+        private void PopuniKupljeneKnjige()
+        {
+            dgKupljeneKnjige.ItemsSource = null;
+            dgKupljeneKnjige.ItemsSource = _kupljeneKnjige;
+        }
+
+        private void IzracunajStatistike()
+        {
+            if (_kupljeneKnjige == null || !_kupljeneKnjige.Any())
+            {
+                lblProsecnaOcena.Text = "0.0";
+                lblUkupnaPotrosnja.Text = "0.00 RSD";
+                return;
+            }
+
+            // Prosečna ocena - računaj samo za knjige koje imaju ocenu (ocena > 0)
+            var ocenjeneKnjige = _kupljeneKnjige.Where(k => k.Ocena > 0).ToList();
+            double prosecnaOcena = ocenjeneKnjige.Any() ? ocenjeneKnjige.Average(k => k.Ocena) : 0.0;
+            lblProsecnaOcena.Text = prosecnaOcena.ToString("F1");
+
+            // Ukupna potrošnja
+            double ukupnaPotrosnja = _kupljeneKnjige.Sum(k => k.Knjiga?.Cena ?? 0);
+            lblUkupnaPotrosnja.Text = $"{ukupnaPotrosnja:F2} RSD";
+        }
+
+        private void DgKupljeneKnjige_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnPonistiKupovinu.IsEnabled = dgKupljeneKnjige.SelectedItem != null;
+        }
+
+        private void BtnPonistiKupovinu_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgKupljeneKnjige.SelectedItem is Kupovina selectedKupovina)
+            {
+                var result = MessageBox.Show(
+                    $"Da li ste sigurni da želite da poništite kupovinu knjige '{selectedKupovina.Knjiga?.Naziv}'?",
+                    "Potvrda brisanja",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    _kupljeneKnjige.Remove(selectedKupovina);
+                    PopuniKupljeneKnjige();
+                    IzracunajStatistike();
+                    btnPonistiKupovinu.IsEnabled = false;
+                }
             }
         }
 
@@ -62,7 +119,9 @@ namespace WpfClient
                 Telefon = txtTelefon.Text,
                 Email = txtEmail.Text,
                 Adresa = novaAdresa,
-                Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R
+                Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R,
+                KupljeneKnjige = _kupljeneKnjige, // Include modified purchases
+                ListaZelja = _originalPosetilac.ListaZelja // Keep original wishlist
             };
 
             DialogResult = true;
