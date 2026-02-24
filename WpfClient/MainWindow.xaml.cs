@@ -367,7 +367,8 @@ namespace WpfClient
                 var selektovan = AutoriGrid.SelectedItem as Autor;
                 if (selektovan != null)
                 {
-                    var dlg = new IzmenaAutoraWindow(selektovan);
+                    // Pass available books to the dialog
+                    var dlg = new IzmenaAutoraWindow(selektovan, originalKnjige);
                     dlg.Owner = this;
                     if (dlg.ShowDialog() == true)
                     {
