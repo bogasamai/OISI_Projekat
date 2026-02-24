@@ -13,12 +13,14 @@ namespace WpfClient
         public Posetilac IzmenjeniPosetilac { get; private set; }
         private Posetilac _originalPosetilac;
         private List<Kupovina> _kupljeneKnjige;
+        private List<Knjiga> _listaZelja;
 
         public IzmenaPosetiocaWindow(Posetilac p)
         {
             InitializeComponent();
             _originalPosetilac = p;
             _kupljeneKnjige = new List<Kupovina>(p.KupljeneKnjige ?? new List<Kupovina>());
+            _listaZelja = new List<Knjiga>(p.ListaZelja ?? new List<Knjiga>());
             PopuniPolja(p);
             PopuniKupljeneKnjige();
             IzracunajStatistike();
@@ -75,15 +77,24 @@ namespace WpfClient
         {
             if (dgKupljeneKnjige.SelectedItem is Kupovina selectedKupovina)
             {
-                var result = MessageBox.Show(
-                    $"Da li ste sigurni da želite da poništite kupovinu knjige '{selectedKupovina.Knjiga?.Naziv}'?",
-                    "Potvrda brisanja",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
+                // Show custom modal dialog
+                var dialog = new PonistiKupovinuDialog(selectedKupovina.Knjiga?.Naziv ?? "Nepoznata knjiga");
+                dialog.Owner = this; // Makes it modal and centered relative to parent
 
-                if (result == MessageBoxResult.Yes)
+                bool? result = dialog.ShowDialog();
+
+                if (result == true)
                 {
+                    // Remove from purchased books
                     _kupljeneKnjige.Remove(selectedKupovina);
+
+                    // Add to wishlist 
+                    // if (selectedKupovina.Knjiga != null && !_listaZelja.Any(k => k.ISBN == selectedKupovina.Knjiga.ISBN))
+                    // {
+                    //     _listaZelja.Add(selectedKupovina.Knjiga);
+                    // }
+
+                    // Update UI
                     PopuniKupljeneKnjige();
                     IzracunajStatistike();
                     btnPonistiKupovinu.IsEnabled = false;
@@ -121,7 +132,7 @@ namespace WpfClient
                 Adresa = novaAdresa,
                 Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R,
                 KupljeneKnjige = _kupljeneKnjige, // Include modified purchases
-                ListaZelja = _originalPosetilac.ListaZelja // Keep original wishlist
+                ListaZelja = _listaZelja // Include modified wishlist
             };
 
             DialogResult = true;
@@ -130,3 +141,4 @@ namespace WpfClient
         private void BtnOdustani_Click(object sender, RoutedEventArgs e) => DialogResult = false;
     }
 }
+
