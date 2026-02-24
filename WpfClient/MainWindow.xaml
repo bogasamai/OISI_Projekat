@@ -141,37 +141,250 @@
         <Grid>
             <TabControl Name="MainTabControl" Margin="8">
                 <TabItem Header="Posetioci">
-                    <DataGrid Name="PosetiociGrid" ItemsSource="{Binding Posetioci}" AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Broj članskog" Binding="{Binding BrojClanskeKarteDisplay}" Width="140" />
-                            <DataGridTextColumn Header="Ime" Binding="{Binding ImeDisplay}" Width="120" />
-                            <DataGridTextColumn Header="Prezime" Binding="{Binding PrezimeDisplay}" Width="120" />
-                            <DataGridTextColumn Header="Adresa" Binding="{Binding AdresaDisplay}" Width="*" />
-                            <DataGridTextColumn Header="Status" Binding="{Binding StatusDisplay}" Width="100" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <DataGrid Name="PosetiociGrid" ItemsSource="{Binding Posetioci}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True" Sorting="PosetiociGrid_Sorting">
+                            <DataGrid.Columns>
+                                <!-- SortMemberPath points to real model property; Binding shows display-friendly text -->
+                            <DataGridTextColumn Binding="{Binding BrojClanskeKarteDisplay}" SortMemberPath="BrojClanskeKarte" Width="140">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Broj članskog" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Content="▲" Tag="Posetioci:BrojClanskeKarte:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            <Button Content="▼" Tag="Posetioci:BrojClanskeKarte:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ImeDisplay}" SortMemberPath="Ime" Width="120">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Ime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Content="▲" Tag="Posetioci:Ime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            <Button Content="▼" Tag="Posetioci:Ime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding PrezimeDisplay}" SortMemberPath="Prezime" Width="120">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Prezime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Content="▲" Tag="Posetioci:Prezime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            <Button Content="▼" Tag="Posetioci:Prezime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding GodinaClanstva}" SortMemberPath="GodinaClanstva" Width="120">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Godina članstva" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Content="▲" Tag="Posetioci:GodinaClanstva:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            <Button Content="▼" Tag="Posetioci:GodinaClanstva:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                                <DataGridTextColumn Header="Adresa" Binding="{Binding AdresaDisplay}" Width="*" />
+                                <DataGridTextColumn Binding="{Binding StatusDisplay}" SortMemberPath="Status" Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Status" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Posetioci:Status:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Posetioci:Status:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding ProsecnaOcena}" SortMemberPath="ProsecnaOcena" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Prosečna ocena" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Posetioci:ProsecnaOcena:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Posetioci:ProsecnaOcena:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Grid.Row="1">
+                            <Button Name="BtnPosetiociPrev" Content="←" Width="36" Click="BtnPosetiociPrev_Click" />
+                            <TextBlock Name="PosetiociPageText" Text="1/1" VerticalAlignment="Center" Margin="8,0" />
+                            <Button Name="BtnPosetiociNext" Content="→" Width="36" Click="BtnPosetiociNext_Click" />
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Autori">
-                    <DataGrid Name="AutoriGrid" ItemsSource="{Binding Autori}" AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Ime" Binding="{Binding ImeDisplay}" Width="120" />
-                            <DataGridTextColumn Header="Prezime" Binding="{Binding PrezimeDisplay}" Width="120" />
-                            <DataGridTextColumn Header="Broj lične karte" Binding="{Binding BrojLicneKarteDisplay}" Width="150" />
-                            <DataGridTextColumn Header="Datum rođenja" Binding="{Binding DatumRodjenjaDisplay}" Width="120" />
-                            <DataGridTextColumn Header="E-mejl adresa" Binding="{Binding EmailDisplay}" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <DataGrid Name="AutoriGrid" ItemsSource="{Binding Autori}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True" Sorting="AutoriGrid_Sorting">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding ImeDisplay}" SortMemberPath="Ime" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Ime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Autori:Ime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Autori:Ime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding PrezimeDisplay}" SortMemberPath="Prezime" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Prezime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Autori:Prezime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Autori:Prezime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding BrojLicneKarteDisplay}" SortMemberPath="BrojLicneKarte" Width="150">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Broj lične karte" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Autori:BrojLicneKarte:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Autori:BrojLicneKarte:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding DatumRodjenjaDisplay}" SortMemberPath="DatumRodjenja" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Datum rođenja" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Autori:DatumRodjenja:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Autori:DatumRodjenja:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding AdresaStanovanja.Ulica}" SortMemberPath="Adresa" Width="150">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Adresa" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Autori:Adresa:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Autori:Adresa:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding EmailDisplay}" SortMemberPath="Email" Width="*">
+                                <DataGridTextColumn.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="E-mejl adresa" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                        <StackPanel Orientation="Vertical">
+                                            <Button Content="▲" Tag="Autori:Email:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            <Button Content="▼" Tag="Autori:Email:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Grid.Row="1">
+                            <Button Name="BtnAutoriPrev" Content="←" Width="36" Click="BtnAutoriPrev_Click" />
+                            <TextBlock Name="AutoriPageText" Text="1/1" VerticalAlignment="Center" Margin="8,0" />
+                            <Button Name="BtnAutoriNext" Content="→" Width="36" Click="BtnAutoriNext_Click" />
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Knjige">
-                    <DataGrid Name="KnjigeGrid" ItemsSource="{Binding Knjige}" AutoGenerateColumns="False" IsReadOnly="True">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBNDisplay}" Width="120" />
-                            <DataGridTextColumn Header="Naziv" Binding="{Binding NazivDisplay}" Width="*" />
-                            <DataGridTextColumn Header="Cena" Binding="{Binding CenaDisplay}" Width="100" />
-                            <DataGridTextColumn Header="Godina izdanja" Binding="{Binding GodinaIzdanjaDisplay}" Width="100" />
-                            <DataGridTextColumn Header="Žanr" Binding="{Binding ZanrDisplay}" Width="120" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <DataGrid Name="KnjigeGrid" ItemsSource="{Binding Knjige}" AutoGenerateColumns="False" IsReadOnly="True" CanUserSortColumns="True" Sorting="KnjigeGrid_Sorting">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding ISBNDisplay}" SortMemberPath="ISBN" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="ISBN" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Knjige:ISBN:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Knjige:ISBN:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding NazivDisplay}" SortMemberPath="Naziv" Width="*">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Naziv" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Knjige:Naziv:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Knjige:Naziv:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding CenaDisplay}" SortMemberPath="Cena" Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Cena" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Knjige:Cena:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Knjige:Cena:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding GodinaIzdanjaDisplay}" SortMemberPath="GodinaIzdanja" Width="100">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Godina izdanja" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Knjige:GodinaIzdanja:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Knjige:GodinaIzdanja:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Binding="{Binding ZanrDisplay}" SortMemberPath="Zanr" Width="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Žanr" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <StackPanel Orientation="Vertical">
+                                                <Button Content="▲" Tag="Knjige:Zanr:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                                <Button Content="▼" Tag="Knjige:Zanr:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Grid.Row="1">
+                            <Button Name="BtnKnjigePrev" Content="←" Width="36" Click="BtnKnjigePrev_Click" />
+                            <TextBlock Name="KnjigePageText" Text="1/1" VerticalAlignment="Center" Margin="8,0" />
+                            <Button Name="BtnKnjigeNext" Content="→" Width="36" Click="BtnKnjigeNext_Click" />
+                        </StackPanel>
+                    </Grid>
                 </TabItem>
             </TabControl>
         </Grid>

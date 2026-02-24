@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Collections.ObjectModel;
 
@@ -19,6 +20,20 @@ namespace WpfClient
         private List<Posetilac> originalPosetioci = new List<Posetilac>();
         private List<Autor> originalAutori = new List<Autor>();
         private List<Knjiga> originalKnjige = new List<Knjiga>();
+        
+        // Pagination / filtering / sorting state
+        private const int PageSize = 16;
+        private int posetiociPage = 1, autoriPage = 1, knjigePage = 1;
+        private List<Posetilac> filteredPosetioci = new List<Posetilac>();
+        private List<Autor> filteredAutori = new List<Autor>();
+        private List<Knjiga> filteredKnjige = new List<Knjiga>();
+
+        private string posetiociSortMember = null;
+        private ListSortDirection posetiociSortDir = ListSortDirection.Ascending;
+        private string autoriSortMember = null;
+        private ListSortDirection autoriSortDir = ListSortDirection.Ascending;
+        private string knjigeSortMember = null;
+        private ListSortDirection knjigeSortDir = ListSortDirection.Ascending;
 
         public MainWindow()
         {
@@ -67,14 +82,17 @@ namespace WpfClient
 
         private void ResetCollectionsToOriginal()
         {
-            Posetioci.Clear();
-            foreach (var p in originalPosetioci) Posetioci.Add(p);
+            // Initialize filtered lists and reset pagination/sorting
+            filteredPosetioci = originalPosetioci.ToList();
+            filteredAutori = originalAutori.ToList();
+            filteredKnjige = originalKnjige.ToList();
 
-            Autori.Clear();
-            foreach (var a in originalAutori) Autori.Add(a);
+            posetiociPage = autoriPage = knjigePage = 1;
+            posetiociSortMember = autoriSortMember = knjigeSortMember = null;
 
-            Knjige.Clear();
-            foreach (var k in originalKnjige) Knjige.Add(k);
+            RefreshPosetiociView();
+            RefreshAutoriView();
+            RefreshKnjigeView();
         }
 
         private void PerformSearch()
@@ -104,6 +122,185 @@ namespace WpfClient
                 }
             }
         }
+
+        // --- Refresh / pagination / sorting helpers ---
+        private void RefreshPosetiociView()
+        {
+            if (filteredPosetioci == null) filteredPosetioci = originalPosetioci.ToList();
+
+            IEnumerable<Posetilac> src = filteredPosetioci;
+            if (!string.IsNullOrEmpty(posetiociSortMember))
+            {
+                switch (posetiociSortMember)
+                {
+                    case "BrojClanskeKarte":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.BrojClanskeKarte) : src.OrderByDescending(p => p.BrojClanskeKarte);
+                        break;
+                    case "Ime":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.Ime) : src.OrderByDescending(p => p.Ime);
+                        break;
+                    case "Prezime":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.Prezime) : src.OrderByDescending(p => p.Prezime);
+                        break;
+                    case "GodinaClanstva":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.GodinaClanstva) : src.OrderByDescending(p => p.GodinaClanstva);
+                        break;
+                    case "Status":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.Status) : src.OrderByDescending(p => p.Status);
+                        break;
+                    case "ProsecnaOcena":
+                        src = posetiociSortDir == ListSortDirection.Ascending ? src.OrderBy(p => p.ProsecnaOcena) : src.OrderByDescending(p => p.ProsecnaOcena);
+                        break;
+                }
+            }
+
+            int total = src.Count();
+            int totalPages = Math.Max(1, (total + PageSize - 1) / PageSize);
+            if (posetiociPage > totalPages) posetiociPage = totalPages;
+
+            var pageItems = src.Skip((posetiociPage - 1) * PageSize).Take(PageSize).ToList();
+
+            Posetioci.Clear();
+            foreach (var p in pageItems) Posetioci.Add(p);
+
+            if (PosetiociPageText != null) PosetiociPageText.Text = $"{posetiociPage}/{totalPages}";
+        }
+
+        private void RefreshAutoriView()
+        {
+            if (filteredAutori == null) filteredAutori = originalAutori.ToList();
+            IEnumerable<Autor> src = filteredAutori;
+            if (!string.IsNullOrEmpty(autoriSortMember))
+            {
+                switch (autoriSortMember)
+                {
+                    case "Ime":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.Ime) : src.OrderByDescending(a => a.Ime);
+                        break;
+                    case "Prezime":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.Prezime) : src.OrderByDescending(a => a.Prezime);
+                        break;
+                    case "Email":
+                        src = autoriSortDir == ListSortDirection.Ascending ? src.OrderBy(a => a.Email) : src.OrderByDescending(a => a.Email);
+                        break;
+                }
+            }
+
+            int total = src.Count();
+            int totalPages = Math.Max(1, (total + PageSize - 1) / PageSize);
+            if (autoriPage > totalPages) autoriPage = totalPages;
+
+            var pageItems = src.Skip((autoriPage - 1) * PageSize).Take(PageSize).ToList();
+
+            Autori.Clear();
+            foreach (var a in pageItems) Autori.Add(a);
+
+            if (AutoriPageText != null) AutoriPageText.Text = $"{autoriPage}/{totalPages}";
+        }
+
+        private void RefreshKnjigeView()
+        {
+            if (filteredKnjige == null) filteredKnjige = originalKnjige.ToList();
+            IEnumerable<Knjiga> src = filteredKnjige;
+            if (!string.IsNullOrEmpty(knjigeSortMember))
+            {
+                switch (knjigeSortMember)
+                {
+                    case "ISBN":
+                        src = knjigeSortDir == ListSortDirection.Ascending ? src.OrderBy(k => k.ISBN) : src.OrderByDescending(k => k.ISBN);
+                        break;
+                    case "Naziv":
+                        src = knjigeSortDir == ListSortDirection.Ascending ? src.OrderBy(k => k.Naziv) : src.OrderByDescending(k => k.Naziv);
+                        break;
+                    case "Cena":
+                        src = knjigeSortDir == ListSortDirection.Ascending ? src.OrderBy(k => k.Cena) : src.OrderByDescending(k => k.Cena);
+                        break;
+                    case "GodinaIzdanja":
+                        src = knjigeSortDir == ListSortDirection.Ascending ? src.OrderBy(k => k.GodinaIzdanja) : src.OrderByDescending(k => k.GodinaIzdanja);
+                        break;
+                    case "Zanr":
+                        src = knjigeSortDir == ListSortDirection.Ascending ? src.OrderBy(k => k.Zanr) : src.OrderByDescending(k => k.Zanr);
+                        break;
+                }
+            }
+
+            int total = src.Count();
+            int totalPages = Math.Max(1, (total + PageSize - 1) / PageSize);
+            if (knjigePage > totalPages) knjigePage = totalPages;
+
+            var pageItems = src.Skip((knjigePage - 1) * PageSize).Take(PageSize).ToList();
+
+            Knjige.Clear();
+            foreach (var k in pageItems) Knjige.Add(k);
+
+            if (KnjigePageText != null) KnjigePageText.Text = $"{knjigePage}/{totalPages}";
+        }
+
+        // Sorting handlers
+        private void PosetiociGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            string member = e.Column.SortMemberPath;
+            if (string.IsNullOrEmpty(member)) return;
+            if (posetiociSortMember == member)
+                posetiociSortDir = posetiociSortDir == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+            else
+            {
+                posetiociSortMember = member;
+                posetiociSortDir = ListSortDirection.Ascending;
+            }
+            // update column sort indicators
+            foreach (var col in PosetiociGrid.Columns) col.SortDirection = null;
+            e.Column.SortDirection = posetiociSortDir;
+            posetiociPage = 1;
+            RefreshPosetiociView();
+        }
+
+        private void AutoriGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            string member = e.Column.SortMemberPath;
+            if (string.IsNullOrEmpty(member)) return;
+            if (autoriSortMember == member)
+                autoriSortDir = autoriSortDir == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+            else
+            {
+                autoriSortMember = member;
+                autoriSortDir = ListSortDirection.Ascending;
+            }
+            foreach (var col in AutoriGrid.Columns) col.SortDirection = null;
+            e.Column.SortDirection = autoriSortDir;
+            autoriPage = 1;
+            RefreshAutoriView();
+        }
+
+        private void KnjigeGrid_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            e.Handled = true;
+            string member = e.Column.SortMemberPath;
+            if (string.IsNullOrEmpty(member)) return;
+            if (knjigeSortMember == member)
+                knjigeSortDir = knjigeSortDir == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+            else
+            {
+                knjigeSortMember = member;
+                knjigeSortDir = ListSortDirection.Ascending;
+            }
+            foreach (var col in KnjigeGrid.Columns) col.SortDirection = null;
+            e.Column.SortDirection = knjigeSortDir;
+            knjigePage = 1;
+            RefreshKnjigeView();
+        }
+
+        // Pager handlers
+        private void BtnPosetiociPrev_Click(object sender, RoutedEventArgs e) { if (posetiociPage > 1) { posetiociPage--; RefreshPosetiociView(); } }
+        private void BtnPosetiociNext_Click(object sender, RoutedEventArgs e) { posetiociPage++; RefreshPosetiociView(); }
+
+        private void BtnAutoriPrev_Click(object sender, RoutedEventArgs e) { if (autoriPage > 1) { autoriPage--; RefreshAutoriView(); } }
+        private void BtnAutoriNext_Click(object sender, RoutedEventArgs e) { autoriPage++; RefreshAutoriView(); }
+
+        private void BtnKnjigePrev_Click(object sender, RoutedEventArgs e) { if (knjigePage > 1) { knjigePage--; RefreshKnjigeView(); } }
+        private void BtnKnjigeNext_Click(object sender, RoutedEventArgs e) { knjigePage++; RefreshKnjigeView(); }
 
         private void SearchPosetioci(string searchInput)
         {
@@ -151,11 +348,11 @@ namespace WpfClient
                 foundPosetioci = new List<Posetilac>();
             }
 
-            Posetioci.Clear();
-            foreach (var p in foundPosetioci)
-                Posetioci.Add(p);
-
-            StatusText.Text = $"Pronađeno {Posetioci.Count} posetilaca";
+            // Set filtered list and refresh with pagination/sorting
+            filteredPosetioci = foundPosetioci;
+            posetiociPage = 1;
+            RefreshPosetiociView();
+            StatusText.Text = $"Pronađeno {filteredPosetioci.Count} posetilaca";
         }
 
         private void SearchAutori(string searchInput)
@@ -192,11 +389,11 @@ namespace WpfClient
                 foundAutori = new List<Autor>();
             }
 
-            Autori.Clear();
-            foreach (var a in foundAutori)
-                Autori.Add(a);
+            filteredAutori = foundAutori;
+            autoriPage = 1;
+            RefreshAutoriView();
 
-            StatusText.Text = $"Pronađeno {Autori.Count} autora";
+            StatusText.Text = $"Pronađeno {filteredAutori.Count} autora";
         }
 
         private void SearchKnjige(string searchInput)
@@ -208,12 +405,11 @@ namespace WpfClient
                 .Where(k => k.NazivDisplay.ToLower().Contains(searchTerm) ||
                            k.ISBNDisplay.ToLower().Contains(searchTerm))
                 .ToList();
+            filteredKnjige = foundKnjige;
+            knjigePage = 1;
+            RefreshKnjigeView();
 
-            Knjige.Clear();
-            foreach (var k in foundKnjige)
-                Knjige.Add(k);
-
-            StatusText.Text = $"Pronađeno {Knjige.Count} knjiga";
+            StatusText.Text = $"Pronađeno {filteredKnjige.Count} knjiga";
         }
 
 
@@ -533,6 +729,51 @@ namespace WpfClient
         private void MenuCommand_Exit_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MenuItem_Exit_Click(sender, new RoutedEventArgs());
+        }
+
+        // Header arrow click handler (Tag format: "Grid:Member:Asc|Desc")
+        private void HeaderSort_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.Tag is string tag)
+            {
+                var parts = tag.Split(':');
+                if (parts.Length != 3) return;
+                var grid = parts[0];
+                var member = parts[1];
+                var dir = parts[2] == "Asc" ? ListSortDirection.Ascending : ListSortDirection.Descending;
+
+                switch (grid)
+                {
+                    case "Posetioci":
+                        posetiociSortMember = member;
+                        posetiociSortDir = dir;
+                        // update column indicators
+                        foreach (var col in PosetiociGrid.Columns) col.SortDirection = null;
+                        var c1 = PosetiociGrid.Columns.FirstOrDefault(c => c.SortMemberPath == member);
+                        if (c1 != null) c1.SortDirection = dir;
+                        posetiociPage = 1;
+                        RefreshPosetiociView();
+                        break;
+                    case "Autori":
+                        autoriSortMember = member;
+                        autoriSortDir = dir;
+                        foreach (var col in AutoriGrid.Columns) col.SortDirection = null;
+                        var c2 = AutoriGrid.Columns.FirstOrDefault(c => c.SortMemberPath == member);
+                        if (c2 != null) c2.SortDirection = dir;
+                        autoriPage = 1;
+                        RefreshAutoriView();
+                        break;
+                    case "Knjige":
+                        knjigeSortMember = member;
+                        knjigeSortDir = dir;
+                        foreach (var col in KnjigeGrid.Columns) col.SortDirection = null;
+                        var c3 = KnjigeGrid.Columns.FirstOrDefault(c => c.SortMemberPath == member);
+                        if (c3 != null) c3.SortDirection = dir;
+                        knjigePage = 1;
+                        RefreshKnjigeView();
+                        break;
+                }
+            }
         }
     }
 }
