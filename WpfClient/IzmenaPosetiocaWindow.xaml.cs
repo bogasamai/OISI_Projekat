@@ -96,8 +96,18 @@ namespace WpfClient
 
         private void BtnZeljaDodaj_Click(object sender, RoutedEventArgs e)
         {
-            // Not implemented: selecting a book to add to wishlist
-            MessageBox.Show("Funkcionalnost dodavanja knjige u listu želja nije implementirana.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            // Kreiramo prozor i prosleđujemo trenutne liste radi filtriranja
+            var dialog = new DodajKnjiguUZeljuWindow(_kupljeneKnjige, _listaZelja);
+            dialog.Owner = this;
+
+            if (dialog.ShowDialog() == true && dialog.SelektovanaKnjiga != null)
+            {
+                // Dodavanje izabrane knjige u lokalnu listu želja
+                _listaZelja.Add(dialog.SelektovanaKnjiga);
+
+                // Ažuriranje prikaza u tabeli Želje
+                PopuniListuZelja();
+            }
         }
 
         private void BtnZeljaObrisi_Click(object sender, RoutedEventArgs e)
