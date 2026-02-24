@@ -1,0 +1,56 @@
+﻿<Window x:Class="WpfClient.IzmenaKnjigeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Izmena knjige" Height="500" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <TextBlock Text="Izmeni podatke o knjizi" FontSize="20" FontWeight="Bold" Margin="0,0,0,10"/>
+        </StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="ISBN:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="txtISBN" Margin="5" />
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Naziv:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Name="txtNaziv" Margin="5" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Žanr:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="txtZanr" Margin="5" />
+
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Godina izdanja:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Name="txtGodina" Margin="5" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Cena:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="4" Grid.Column="1" Name="txtCena" Margin="5" />
+
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Broj strana:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Name="txtBrojStrana" Margin="5" />
+
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="Izdavač:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="6" Grid.Column="1" Name="txtIzdavac" Margin="5" />
+        </Grid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Name="btnPotvrdi" Content="Sačuvaj izmene" Width="120" Margin="5" Click="BtnPotvrdi_Click"/>
+            <Button Name="btnOdustani" Content="Odustani" Width="100" Margin="5" Click="BtnOdustani_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

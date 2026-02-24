@@ -189,6 +189,10 @@ namespace WpfClient
             {
                 OpenAddPosetilacDialog();
             }
+            else if (header.Contains("knjig"))
+            {
+                OpenAddKnjigaDialog();
+            }
             else
             {
                 // default
@@ -208,6 +212,23 @@ namespace WpfClient
                 StatusText.Text = "Posetilac dodat";
             }
         }
+        private void OpenAddKnjigaDialog()
+        {
+            var dlg = new DodajKnjiguWindow();
+            dlg.Owner = this;
+            bool? res = dlg.ShowDialog();
+
+            if (res == true && dlg.NovaKnjiga != null)
+            {
+                // Dodajemo u listu koja se serijalizuje
+                originalKnjige.Add(dlg.NovaKnjiga);
+                // Dodajemo u ObservableCollection koja je vezana za DataGrid
+                Knjige.Add(dlg.NovaKnjiga);
+
+                StatusText.Text = "Knjiga uspešno dodata";
+            }
+        }
+
 
         private void OpenAddAutorDialog()
         {
@@ -276,6 +297,33 @@ namespace WpfClient
                     MessageBox.Show("Molimo izaberite autora iz tabele.");
                 }
             }
+            else if (activeTab == 2)
+            {
+                var selektovana = KnjigeGrid.SelectedItem as Knjiga;
+                if (selektovana != null)
+                {
+                    var dlg = new IzmenaKnjigeWindow(selektovana);
+                    dlg.Owner = this;
+                    if (dlg.ShowDialog() == true && dlg.IzmenjenaKnjiga != null)
+                    {
+                        // Pronađi indeks u originalnoj listi
+                        int index = originalKnjige.IndexOf(selektovana);
+                        if (index != -1)
+                        {
+                            // Zameni podatke u originalnoj listi
+                            originalKnjige[index] = dlg.IzmenjenaKnjiga;
+                            // Osveži ObservableCollection i UI
+                            ResetCollectionsToOriginal();
+                            StatusText.Text = "Knjiga uspešno izmenjena.";
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Molimo izaberite knjigu iz tabele.");
+                }
+            }
+
         }
 
         private void Toolbar_Delete_Click(object sender, RoutedEventArgs e)

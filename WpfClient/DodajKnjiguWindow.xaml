@@ -1,0 +1,66 @@
+﻿<Window x:Class="WpfClient.DodajKnjiguWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Dodavanje knjige" Height="423" Width="420" 
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10,0,0,15"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="25,25,25,9">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="ISBN *" Grid.Row="0"/>
+        <TextBox Name="txtISBN" TextChanged="ValidateForm" Grid.Row="0" Grid.Column="1"/>
+
+        <TextBlock Text="Naziv knjige *" Grid.Row="1"/>
+        <TextBox Name="txtNaziv" TextChanged="ValidateForm" Grid.Row="1" Grid.Column="1"/>
+
+        <TextBlock Text="Žanr" Grid.Row="2"/>
+        <TextBox Name="txtZanr" TextChanged="ValidateForm" Grid.Row="2" Grid.Column="1"/>
+
+        <TextBlock Text="Godina izdanja *" Grid.Row="3"/>
+        <TextBox Name="txtGodina" TextChanged="ValidateForm" Grid.Row="3" Grid.Column="1"/>
+
+        <TextBlock Text="Cena (RSD) *" Grid.Row="4"/>
+        <TextBox Name="txtCena" TextChanged="ValidateForm" Grid.Row="4" Grid.Column="1"/>
+
+        <TextBlock Text="Broj strana" Grid.Row="5"/>
+        <TextBox Name="txtBrojStrana" TextChanged="ValidateForm" Grid.Row="5" Grid.Column="1"/>
+
+        <TextBlock Text="Izdavač" Grid.Row="6"/>
+        <TextBox Name="txtIzdavac" TextChanged="ValidateForm" Grid.Row="6" Grid.Column="1"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Odustani" Width="85" Height="25" Margin="0,0,10,0" 
+                    Click="BtnOdustani_Click" Background="#F0F0F0"/>
+            <Button Name="btnPotvrdi" Content="Sačuvaj" IsEnabled="False" Width="86" Height="25" 
+                    Background="#A0C4FF" FontWeight="Bold" Click="BtnPotvrdi_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

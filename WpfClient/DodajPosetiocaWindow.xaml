@@ -71,13 +71,13 @@
         </ComboBox>
 
         <TextBlock Text="Adresa *" Grid.Row="7"/>
-        <TextBox Name="txtAdresa" TextChanged="ValidateForm" Grid.Row="7" Grid.Column="1">
+        <TextBox Name="txtAdresa" TextChanged="ValidateForm" Grid.Row="7" Grid.Column="1" Margin="10,0,0,10">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                     <Style.Resources>
                         <VisualBrush x:Key="PlaceholderBrush" AlignmentX="Left" Stretch="None">
                             <VisualBrush.Visual>
-                                <TextBlock Text="Ulica, Broj, Grad, Država" Foreground="Gray" FontStyle="Italic" Opacity="0.6"/>
+                                <TextBlock Text="Ulica, Broj, Grad, Država"  Foreground="Gray" FontStyle="Italic" Opacity="0.6" />
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Style.Resources>

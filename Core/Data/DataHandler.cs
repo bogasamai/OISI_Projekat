@@ -33,10 +33,11 @@ namespace Core.Data
             {
                 foreach (var a in autori)
                 {
-                    sw.WriteLine($"{a.Ime}|{a.Prezime}|{a.BrojLicneKarte}|{a.Email}|{a.GodineIskustva}|{a.Telefon}");
+                    sw.WriteLine($"{a.Ime}|{a.Prezime}|{a.BrojLicneKarte}|{a.Email}|{a.GodineIskustva}|{a.Telefon}|{a.DatumRodjenja:yyyy-MM-dd}");
                 }
             }
         }
+
 
         public static List<Autor> UcitajAutore()
         {
@@ -47,7 +48,8 @@ namespace Core.Data
             {
                 string[] d = linija.Split('|');
                 if (d.Length < 6) continue;
-                rezultat.Add(new Autor
+
+                var autor = new Autor
                 {
                     Ime = d[0],
                     Prezime = d[1],
@@ -55,7 +57,15 @@ namespace Core.Data
                     Email = d[3],
                     GodineIskustva = int.Parse(d[4]),
                     Telefon = d[5]
-                });
+                };
+
+                // Dodaj DatumRodjenja ako postoji u fajlu
+                if (d.Length >= 7 && DateTime.TryParse(d[6], out DateTime datum))
+                {
+                    autor.DatumRodjenja = datum;
+                }
+
+                rezultat.Add(autor);
             }
             return rezultat;
         }
@@ -68,7 +78,7 @@ namespace Core.Data
             {
                 foreach (var k in knjige)
                 {
-                    sw.WriteLine($"{k.ISBN}|{k.Naziv}|{k.Zanr}|{k.Cena}|{k.GodinaIzdanja}|{k.Izdavac}");
+                    sw.WriteLine($"{k.ISBN}|{k.Naziv}|{k.Zanr}|{k.Cena}|{k.GodinaIzdanja}|{k.Izdavac}|{k.BrojStrana}");
                 }
             }
         }
@@ -89,7 +99,9 @@ namespace Core.Data
                     Zanr = d[2],
                     Cena = double.Parse(d[3]),
                     GodinaIzdanja = int.Parse(d[4]),
-                    Izdavac = d[5]
+                    Izdavac = d[5],
+                    BrojStrana = int.TryParse(d[6], out int brojStrana) ? brojStrana : 0
+
                 });
             }
             return rezultat;
