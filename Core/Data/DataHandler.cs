@@ -78,7 +78,14 @@ namespace Core.Data
             {
                 foreach (var k in knjige)
                 {
-                    sw.WriteLine($"{k.ISBN}|{k.Naziv}|{k.Zanr}|{k.Cena}|{k.GodinaIzdanja}|{k.Izdavac}|{k.BrojStrana}");
+                    // Serialize authors by their BrojLicneKarte (comma-separated), if any
+                    string authorsField = "";
+                    if (k.Autori != null && k.Autori.Count > 0)
+                    {
+                        authorsField = string.Join(",", k.Autori.Where(a => a != null && !string.IsNullOrWhiteSpace(a.BrojLicneKarte)).Select(a => a.BrojLicneKarte));
+                    }
+
+                    sw.WriteLine($"{k.ISBN}|{k.Naziv}|{k.Zanr}|{k.Cena}|{k.GodinaIzdanja}|{k.Izdavac}|{k.BrojStrana}|{authorsField}");
                 }
             }
         }
@@ -87,22 +94,38 @@ namespace Core.Data
         {
             List<Knjiga> rezultat = new List<Knjiga>();
             if (!File.Exists(putanjaKnjige)) return rezultat;
+            // load all authors to be able to link them to books by BrojLicneKarte
+            var sviAutori = UcitajAutore();
 
             foreach (string linija in File.ReadAllLines(putanjaKnjige))
             {
+                if (string.IsNullOrWhiteSpace(linija)) continue;
                 string[] d = linija.Split('|');
-                if (d.Length < 6) continue;
-                rezultat.Add(new Knjiga
+                if (d.Length < 7) continue; // need at least 7 parts (0..6)
+
+                var knjiga = new Knjiga
                 {
                     ISBN = d[0],
                     Naziv = d[1],
                     Zanr = d[2],
-                    Cena = double.Parse(d[3]),
-                    GodinaIzdanja = int.Parse(d[4]),
+                    Cena = double.TryParse(d[3], out double cena) ? cena : 0,
+                    GodinaIzdanja = int.TryParse(d[4], out int godina) ? godina : 0,
                     Izdavac = d[5],
                     BrojStrana = int.TryParse(d[6], out int brojStrana) ? brojStrana : 0
+                };
 
-                });
+                // if there is an authors field (index 7), parse comma-separated BrojLicneKarte and link to loaded authors
+                if (d.Length >= 8 && !string.IsNullOrWhiteSpace(d[7]))
+                {
+                    var authIds = d[7].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                    foreach (var id in authIds)
+                    {
+                        var match = sviAutori.FirstOrDefault(a => a.BrojLicneKarte == id);
+                        if (match != null) knjiga.Autori.Add(match);
+                    }
+                }
+
+                rezultat.Add(knjiga);
             }
             return rezultat;
         }
