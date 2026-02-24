@@ -279,19 +279,25 @@ namespace Core.Data
         public static void SacuvajPosetioce(List<Posetilac> posetioci)
         {
             ProveriFolder();
-            using (StreamWriter sw = new StreamWriter(putanjaPosetioci))
-            {
-                foreach (var p in posetioci)
-                {
-                    string ulica = p.Adresa?.Ulica ?? "Nepoznato";
-                    string broj = p.Adresa?.Broj ?? "/";
-                    string grad = p.Adresa?.Grad ?? "Nepoznato";
-                    string drzava = p.Adresa?.Drzava ?? "";
-                    string telefon = p.Telefon ?? "";
+            var linije = new List<string>();
 
-                    sw.WriteLine($"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}|{ulica}|{broj}|{grad}|{drzava}|{telefon}");
-                }
+            foreach (var p in posetioci)
+            {
+                // Datum cuvamo u ISO 8601 ("o") formatu radi pouzdanog parsiranja
+                string datum = p.DatumRodjenja.ToString("o");
+
+                string ulica = p.Adresa?.Ulica ?? "Nepoznato";
+                string broj = p.Adresa?.Broj ?? "/";
+                string grad = p.Adresa?.Grad ?? "Nepoznato";
+                string drzava = p.Adresa?.Drzava ?? "";
+                string telefon = p.Telefon ?? "";
+
+                // Format (novo): Ime|Prezime|BrojClanske|Status|Email|Datum|Ulica|Broj|Grad|Drzava|Telefon
+                string linija = $"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}|{datum}|{ulica}|{broj}|{grad}|{drzava}|{telefon}";
+                linije.Add(linija);
             }
+
+            File.WriteAllLines(putanjaPosetioci, linije);
         }
 
         public static List<Posetilac> UcitajPosetioce()
@@ -304,6 +310,7 @@ namespace Core.Data
                 if (string.IsNullOrWhiteSpace(linija)) continue;
 
                 string[] d = linija.Split('|');
+                if (d.Length < 5) continue; // minimum polja: ime, prezime, brojKarte, status, email
 
                 Posetilac p = new Posetilac
                 {
@@ -314,27 +321,53 @@ namespace Core.Data
                     Email = d[4]
                 };
 
-                // Adresa
-                if (d.Length >= 9)
+                // Parsiranje datuma rodjenja:
+                DateTime datumRodjenja = DateTime.Now;
+                int addrStartIndex = 5; // podrazumevani start adrese (stari format: nakon email sledi ulica)
+                if (d.Length > 5)
+                {
+                    // Pokusaj da parsiramo polje d[5] kao datum.
+                    if (DateTime.TryParse(d[5], out DateTime parsedDate))
+                    {
+                        datumRodjenja = parsedDate;
+                        addrStartIndex = 6; // adresa pocinje nakon datuma (novi format)
+                    }
+                    else
+                    {
+                        // nije datum -> tretiramo ga kao pocetak adrese (stari format)
+                        datumRodjenja = DateTime.Now;
+                        addrStartIndex = 5;
+                    }
+                }
+                p.DatumRodjenja = datumRodjenja;
+
+                // Adresa (ocekivano 4 polja: ulica, broj, grad, drzava)
+                if (d.Length >= addrStartIndex + 4)
                 {
                     p.Adresa = new Adresa
                     {
                         Id = 0,
-                        Ulica = d[5],
-                        Broj = d[6],
-                        Grad = d[7],
-                        Drzava = d[8]
+                        Ulica = d[addrStartIndex],
+                        Broj = d[addrStartIndex + 1],
+                        Grad = d[addrStartIndex + 2],
+                        Drzava = d[addrStartIndex + 3]
                     };
                 }
 
-                // Telefon - sada se cuva na indeksu 9
-                if (d.Length >= 10)
+                // Telefon: u novom formatu nalazi se posle adrese; u starom formatu telefon je možda prazan/izostavljen
+                if (d.Length > addrStartIndex + 4)
                 {
-                    p.Telefon = d[9];
+                    p.Telefon = d[addrStartIndex + 4];
+                }
+                else
+                {
+                    p.Telefon = ""; // fallback ako nema telefona u fajlu
                 }
 
+                // Ostaviti ostalu logiku (kupovine, lista zelja) nepromenjenu
                 rezultat.Add(p);
             }
+
             return rezultat;
         }
 
