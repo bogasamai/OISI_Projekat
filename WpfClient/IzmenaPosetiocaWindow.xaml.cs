@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -10,11 +11,19 @@ namespace WpfClient
     public partial class IzmenaPosetiocaWindow : Window
     {
         public Posetilac IzmenjeniPosetilac { get; private set; }
+        private Posetilac _originalPosetilac;
+        private List<Kupovina> _kupljeneKnjige;
+        private List<Knjiga> _listaZelja;
 
         public IzmenaPosetiocaWindow(Posetilac p)
         {
             InitializeComponent();
+            _originalPosetilac = p;
+            _kupljeneKnjige = new List<Kupovina>(p.KupljeneKnjige ?? new List<Kupovina>());
+            _listaZelja = new List<Knjiga>(p.ListaZelja ?? new List<Knjiga>());
             PopuniPolja(p);
+            PopuniKupljeneKnjige();
+            IzracunajStatistike();
         }
 
         private void PopuniPolja(Posetilac p)
@@ -31,6 +40,65 @@ namespace WpfClient
             {
                 if (item.Tag.ToString() == p.Status.ToString())
                     cbStatus.SelectedItem = item;
+            }
+        }
+
+        private void PopuniKupljeneKnjige()
+        {
+            dgKupljeneKnjige.ItemsSource = null;
+            dgKupljeneKnjige.ItemsSource = _kupljeneKnjige;
+        }
+
+        private void IzracunajStatistike()
+        {
+            if (_kupljeneKnjige == null || !_kupljeneKnjige.Any())
+            {
+                lblProsecnaOcena.Text = "0.0";
+                lblUkupnaPotrosnja.Text = "0.00 RSD";
+                return;
+            }
+
+            // Prosečna ocena - računaj samo za knjige koje imaju ocenu (ocena > 0)
+            var ocenjeneKnjige = _kupljeneKnjige.Where(k => k.Ocena > 0).ToList();
+            double prosecnaOcena = ocenjeneKnjige.Any() ? ocenjeneKnjige.Average(k => k.Ocena) : 0.0;
+            lblProsecnaOcena.Text = prosecnaOcena.ToString("F1");
+
+            // Ukupna potrošnja
+            double ukupnaPotrosnja = _kupljeneKnjige.Sum(k => k.Knjiga?.Cena ?? 0);
+            lblUkupnaPotrosnja.Text = $"{ukupnaPotrosnja:F2} RSD";
+        }
+
+        private void DgKupljeneKnjige_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            btnPonistiKupovinu.IsEnabled = dgKupljeneKnjige.SelectedItem != null;
+        }
+
+        private void BtnPonistiKupovinu_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgKupljeneKnjige.SelectedItem is Kupovina selectedKupovina)
+            {
+                // Show custom modal dialog
+                var dialog = new PonistiKupovinuDialog(selectedKupovina.Knjiga?.Naziv ?? "Nepoznata knjiga");
+                dialog.Owner = this; // Makes it modal and centered relative to parent
+
+                bool? result = dialog.ShowDialog();
+
+                if (result == true)
+                {
+                    // Remove from purchased books
+                    _kupljeneKnjige.Remove(selectedKupovina);
+
+                    // Add to wishlist 
+                    // if (selectedKupovina.Knjiga != null && !_listaZelja.Any(k => k.ISBN == selectedKupovina.Knjiga.ISBN))
+                    // {
+                    //     _listaZelja.Add(selectedKupovina.Knjiga);
+                    // }
+
+                    // Update UI
+                    PopuniKupljeneKnjige();
+                    IzracunajStatistike();
+                    btnPonistiKupovinu.IsEnabled = false;
+                }
             }
         }
 
@@ -62,7 +130,9 @@ namespace WpfClient
                 Telefon = txtTelefon.Text,
                 Email = txtEmail.Text,
                 Adresa = novaAdresa,
-                Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R
+                Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R,
+                KupljeneKnjige = _kupljeneKnjige, // Include modified purchases
+                ListaZelja = _listaZelja // Include modified wishlist
             };
 
             DialogResult = true;
@@ -71,3 +141,4 @@ namespace WpfClient
         private void BtnOdustani_Click(object sender, RoutedEventArgs e) => DialogResult = false;
     }
 }
+

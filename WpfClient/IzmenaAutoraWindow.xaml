@@ -47,8 +47,37 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Knjige">
-                <TextBlock Text="Lista knjiga autora ce biti prikazana ovde." VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TabItem Header="Knjige" Height="22" Margin="0,0,-4,0" VerticalAlignment="Center">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="199*"/>
+                        <ColumnDefinition Width="225*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Buttons for book management -->
+                    <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0" Grid.ColumnSpan="2">
+                        <Button x:Name="btnDodajKnjigu" Content="Dodaj knjigu" Width="100" Padding="6,4" 
+                                Margin="0,0,10,0" Click="BtnDodajKnjigu_Click"/>
+                        <Button x:Name="btnUkloniKnjigu" Content="Ukloni knjigu" Width="100" Padding="6,4" 
+                                IsEnabled="False" Click="BtnUkloniKnjigu_Click"/>
+                    </StackPanel>
+
+                    <!-- Books table -->
+                    <DataGrid x:Name="dgKnjigeAutora" Grid.Row="1" Margin="10,0,10,10" 
+                              AutoGenerateColumns="False" CanUserAddRows="False" 
+                              SelectionMode="Single" SelectionChanged="DgKnjigeAutora_SelectionChanged" Grid.ColumnSpan="2">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120"/>
+                            <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" Width="100"/>
+                            <DataGridTextColumn Header="Godina izdanja" Binding="{Binding GodinaIzdanja}" Width="100"/>
+                            <DataGridTextColumn Header="Zanr" Binding="{Binding Zanr}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

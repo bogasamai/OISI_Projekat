@@ -80,9 +80,9 @@ namespace WpfClient
         private void PerformSearch()
         {
             if (SearchTextBox == null) return;
-            string searchTerm = SearchTextBox.Text.ToLower().Trim();
+            string searchInput = SearchTextBox.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(searchTerm))
+            if (string.IsNullOrWhiteSpace(searchInput))
             {
                 ResetCollectionsToOriginal();
                 StatusText.Text = "Sajam knjiga - prikazani su svi entiteti";
@@ -92,41 +92,130 @@ namespace WpfClient
                 int activeTabIndex = MainTabControl.SelectedIndex;
                 switch (activeTabIndex)
                 {
-                    case 0:
-                        var foundP = originalPosetioci
-                            .Where(p => p.ImeDisplay.ToLower().Contains(searchTerm) ||
-                                        p.PrezimeDisplay.ToLower().Contains(searchTerm) ||
-                                        p.BrojClanskeKarteDisplay.ToLower().Contains(searchTerm) ||
-                                        p.AdresaDisplay.ToLower().Contains(searchTerm))
-                            .ToList();
-                        Posetioci.Clear();
-                        foreach (var p in foundP) Posetioci.Add(p);
-                        StatusText.Text = $"Pronađeno {Posetioci.Count} posetilaca";
+                    case 0: // Posetioci
+                        SearchPosetioci(searchInput);
                         break;
-                    case 1:
-                        var foundA = originalAutori
-                            .Where(a => a.ImeDisplay.ToLower().Contains(searchTerm) ||
-                                        a.PrezimeDisplay.ToLower().Contains(searchTerm) ||
-                                        a.BrojLicneKarteDisplay.ToLower().Contains(searchTerm) ||
-                                        a.EmailDisplay.ToLower().Contains(searchTerm))
-                            .ToList();
-                        Autori.Clear();
-                        foreach (var a in foundA) Autori.Add(a);
-                        StatusText.Text = $"Pronađeno {Autori.Count} autora";
+                    case 1: // Autori
+                        SearchAutori(searchInput);
                         break;
-                    case 2:
-                        var foundK = originalKnjige
-                            .Where(k => k.NazivDisplay.ToLower().Contains(searchTerm) ||
-                                        k.ISBNDisplay.ToLower().Contains(searchTerm) ||
-                                        k.ZanrDisplay.ToLower().Contains(searchTerm))
-                            .ToList();
-                        Knjige.Clear();
-                        foreach (var k in foundK) Knjige.Add(k);
-                        StatusText.Text = $"Pronađeno {Knjige.Count} knjiga";
+                    case 2: // Knjige
+                        SearchKnjige(searchInput);
                         break;
                 }
             }
         }
+
+        private void SearchPosetioci(string searchInput)
+        {
+            // Parse comma-separated words (case-insensitive)
+            var words = searchInput.Split(',')
+                                   .Select(w => w.Trim().ToLower())
+                                   .Where(w => !string.IsNullOrEmpty(w))
+                                   .ToArray();
+
+            List<Posetilac> foundPosetioci = new List<Posetilac>();
+
+            if (words.Length == 1)
+            {
+                // Jedna reč → prikazuju se posetioci čije prezime sadrži unetu reč
+                string prezimeSearch = words[0];
+                foundPosetioci = originalPosetioci
+                    .Where(p => p.PrezimeDisplay.ToLower().Contains(prezimeSearch))
+                    .ToList();
+            }
+            else if (words.Length == 2)
+            {
+                // Dve reči → prva reč mora biti sadržana u prezimenu, a druga u imenu
+                string prezimeSearch = words[0];
+                string imeSearch = words[1];
+                foundPosetioci = originalPosetioci
+                    .Where(p => p.PrezimeDisplay.ToLower().Contains(prezimeSearch) &&
+                               p.ImeDisplay.ToLower().Contains(imeSearch))
+                    .ToList();
+            }
+            else if (words.Length == 3)
+            {
+                // Tri reči → prva reč mora biti deo broja članske kartice, druga deo imena, a treća deo prezimena
+                string brojKarticeSearch = words[0];
+                string imeSearch = words[1];
+                string prezimeSearch = words[2];
+                foundPosetioci = originalPosetioci
+                    .Where(p => p.BrojClanskeKarteDisplay.ToLower().Contains(brojKarticeSearch) &&
+                               p.ImeDisplay.ToLower().Contains(imeSearch) &&
+                               p.PrezimeDisplay.ToLower().Contains(prezimeSearch))
+                    .ToList();
+            }
+            else
+            {
+                // Više od 3 reči - ne pretražuj
+                foundPosetioci = new List<Posetilac>();
+            }
+
+            Posetioci.Clear();
+            foreach (var p in foundPosetioci)
+                Posetioci.Add(p);
+
+            StatusText.Text = $"Pronađeno {Posetioci.Count} posetilaca";
+        }
+
+        private void SearchAutori(string searchInput)
+        {
+            // Parse comma-separated words (case-insensitive)
+            var words = searchInput.Split(',')
+                                   .Select(w => w.Trim().ToLower())
+                                   .Where(w => !string.IsNullOrEmpty(w))
+                                   .ToArray();
+
+            List<Autor> foundAutori = new List<Autor>();
+
+            if (words.Length == 1)
+            {
+                // Jedna reč → prikazuju se autori čije prezime sadrži unetu reč
+                string prezimeSearch = words[0];
+                foundAutori = originalAutori
+                    .Where(a => a.PrezimeDisplay.ToLower().Contains(prezimeSearch))
+                    .ToList();
+            }
+            else if (words.Length == 2)
+            {
+                // Dve reči → prva reč mora biti sadržana u prezimenu, a druga u imenu
+                string prezimeSearch = words[0];
+                string imeSearch = words[1];
+                foundAutori = originalAutori
+                    .Where(a => a.PrezimeDisplay.ToLower().Contains(prezimeSearch) &&
+                               a.ImeDisplay.ToLower().Contains(imeSearch))
+                    .ToList();
+            }
+            else
+            {
+                // Više od 2 reči - ne pretražuj
+                foundAutori = new List<Autor>();
+            }
+
+            Autori.Clear();
+            foreach (var a in foundAutori)
+                Autori.Add(a);
+
+            StatusText.Text = $"Pronađeno {Autori.Count} autora";
+        }
+
+        private void SearchKnjige(string searchInput)
+        {
+            // Pretraga knjiga se obavlja unosom dela naziva knjige ili dela ISBN broja
+            string searchTerm = searchInput.ToLower().Trim();
+
+            var foundKnjige = originalKnjige
+                .Where(k => k.NazivDisplay.ToLower().Contains(searchTerm) ||
+                           k.ISBNDisplay.ToLower().Contains(searchTerm))
+                .ToList();
+
+            Knjige.Clear();
+            foreach (var k in foundKnjige)
+                Knjige.Add(k);
+
+            StatusText.Text = $"Pronađeno {Knjige.Count} knjiga";
+        }
+
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -278,7 +367,8 @@ namespace WpfClient
                 var selektovan = AutoriGrid.SelectedItem as Autor;
                 if (selektovan != null)
                 {
-                    var dlg = new IzmenaAutoraWindow(selektovan);
+                    // Pass available books to the dialog
+                    var dlg = new IzmenaAutoraWindow(selektovan, originalKnjige);
                     dlg.Owner = this;
                     if (dlg.ShowDialog() == true)
                     {
