@@ -8,6 +8,7 @@ namespace WpfClient
     public partial class OdaberiKnjiguDialog : Window
     {
         public Knjiga OdabranaKnjiga { get; private set; }
+        public List<Knjiga> OdabraneKnjige { get; private set; } = new List<Knjiga>();
 
         public OdaberiKnjiguDialog(List<Knjiga> dostupneKnjige)
         {
@@ -17,12 +18,13 @@ namespace WpfClient
 
         private void LbDostupneKnjige_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            btnPotvrdi.IsEnabled = lbDostupneKnjige.SelectedItem != null;
+            btnPotvrdi.IsEnabled = lbDostupneKnjige.SelectedItems.Count > 0;
         }
 
         private void BtnPotvrdi_Click(object sender, RoutedEventArgs e)
         {
-            OdabranaKnjiga = lbDostupneKnjige.SelectedItem as Knjiga;
+            OdabraneKnjige = lbDostupneKnjige.SelectedItems.Cast<Knjiga>().ToList();
+            OdabranaKnjiga = OdabraneKnjige.FirstOrDefault();
             DialogResult = true;
         }
 

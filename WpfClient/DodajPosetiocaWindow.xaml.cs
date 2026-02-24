@@ -40,7 +40,7 @@ namespace WpfClient
             bool emailValidan = Regex.IsMatch(txtEmail.Text, emailPattern);
 
 
-            btnPotvrdi.IsEnabled = svaPoljaPopunjena && imeValidno && prezimeValidno && telefonValidan&& adresaImaZareze && emailValidan;
+            btnPotvrdi.IsEnabled = svaPoljaPopunjena && imeValidno && prezimeValidno && telefonValidan && adresaImaZareze && emailValidan;
         }
 
         private void BtnPotvrdi_Click(object sender, RoutedEventArgs e)
@@ -68,8 +68,8 @@ namespace WpfClient
             Adresa unesenaAdresa = new Adresa(generisaniId, ulica, broj, grad, drzava);
             NoviPosetilac = new Posetilac
             {
-                BrojClanskeKarte=txtBrojKarte.Text,
-                Ime= txtIme.Text,
+                BrojClanskeKarte = txtBrojKarte.Text,
+                Ime = txtIme.Text,
                 Prezime = txtPrezime.Text,
                 DatumRodjenja = dpDatumRodjenja.SelectedDate ?? DateTime.Now,
                 Telefon = txtTelefon.Text,

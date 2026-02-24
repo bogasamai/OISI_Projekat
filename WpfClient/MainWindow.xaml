@@ -183,17 +183,7 @@
                                     </StackPanel>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Binding="{Binding GodinaClanstva}" SortMemberPath="GodinaClanstva" Width="120">
-                                <DataGridTextColumn.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Godina članstva" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                        <StackPanel Orientation="Vertical">
-                                            <Button Content="▲" Tag="Posetioci:GodinaClanstva:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                            <Button Content="▼" Tag="Posetioci:GodinaClanstva:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                        </StackPanel>
-                                    </StackPanel>
-                                </DataGridTextColumn.Header>
-                            </DataGridTextColumn>
+                           
                                 <DataGridTextColumn Header="Adresa" Binding="{Binding AdresaDisplay}" Width="*" />
                                 <DataGridTextColumn Binding="{Binding StatusDisplay}" SortMemberPath="Status" Width="100">
                                     <DataGridTextColumn.Header>
@@ -202,17 +192,6 @@
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Posetioci:Status:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Posetioci:Status:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </DataGridTextColumn.Header>
-                                </DataGridTextColumn>
-                                <DataGridTextColumn Binding="{Binding ProsecnaOcena}" SortMemberPath="ProsecnaOcena" Width="120">
-                                    <DataGridTextColumn.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Prosečna ocena" VerticalAlignment="Center" Margin="0,0,6,0" />
-                                            <StackPanel Orientation="Vertical">
-                                                <Button Content="▲" Tag="Posetioci:ProsecnaOcena:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
-                                                <Button Content="▼" Tag="Posetioci:ProsecnaOcena:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                             </StackPanel>
                                         </StackPanel>
                                     </DataGridTextColumn.Header>

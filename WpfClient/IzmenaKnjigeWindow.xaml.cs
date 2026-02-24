@@ -116,8 +116,17 @@ namespace WpfClient
 
         private void BtnRemoveAuthor_Click(object sender, RoutedEventArgs e)
         {
-            if (_originalKnjiga.Autori != null) _originalKnjiga.Autori.Clear();
-            UpdateAuthorField();
+            var result = MessageBox.Show(
+                "Da li ste sigurni da želite da uklonite autora sa ove knjige?",
+                "Potvrda uklanjanja",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                if (_originalKnjiga.Autori != null) _originalKnjiga.Autori.Clear();
+                UpdateAuthorField();
+            }
         }
     }
 }

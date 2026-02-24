@@ -12,25 +12,31 @@ namespace WpfClient
         public Autor IzmenjeniAutor { get; private set; }
         private Autor _originalAutor;
         private List<Knjiga> _autorKnjige;
-        private List<Knjiga> _dostupneKnjige; // All available books in the system
+        private List<Knjiga> _dostupneKnjige;
 
         public IzmenaAutoraWindow(Autor a)
         {
             InitializeComponent();
             _originalAutor = a;
             _autorKnjige = new List<Knjiga>(a.SpisakKnjiga ?? new List<Knjiga>());
-
-            // Load all available books from the system (you might need to pass this as parameter)
-            _dostupneKnjige = new List<Knjiga>(); // This should be populated with all books from MainWindow
+            _dostupneKnjige = new List<Knjiga>();
 
             PopuniPolja(a);
             PopuniKnjigeAutora();
         }
 
-        // Constructor overload that accepts available books
         public IzmenaAutoraWindow(Autor a, List<Knjiga> dostupneKnjige) : this(a)
         {
             _dostupneKnjige = dostupneKnjige ?? new List<Knjiga>();
+
+            // POPRAVKA: Osvezi _autorKnjige na osnovu stvarnih veza u dostupneKnjige
+            // Ovo osigurava da se svaki put kad se prozor otvori, knjige ucitaju
+            // iz originalKnjige na osnovu Autori liste svake knjige
+            _autorKnjige = _dostupneKnjige
+                .Where(k => k.Autori != null && k.Autori.Any(au => au.BrojLicneKarte == a.BrojLicneKarte))
+                .ToList();
+
+            PopuniKnjigeAutora(); // Ponovo popuni grid sa osvezenom listom
         }
 
         private void PopuniPolja(Autor a)
@@ -42,7 +48,19 @@ namespace WpfClient
             txtTelefon.Text = a.Telefon;
             txtEmail.Text = a.Email;
             txtGodine.Text = a.GodineIskustva.ToString();
-            txtAdresa.Text = a.AdresaStanovanja?.Ulica ?? string.Empty;
+
+            if (a.AdresaStanovanja != null)
+            {
+                string ulica = a.AdresaStanovanja.Ulica ?? "";
+                string broj = a.AdresaStanovanja.Broj ?? "";
+                string grad = a.AdresaStanovanja.Grad ?? "";
+                string drzava = a.AdresaStanovanja.Drzava ?? "";
+                txtAdresa.Text = $"{ulica}, {broj}, {grad}, {drzava}";
+            }
+            else
+            {
+                txtAdresa.Text = string.Empty;
+            }
         }
 
         private void PopuniKnjigeAutora()
@@ -58,9 +76,9 @@ namespace WpfClient
 
         private void BtnDodajKnjigu_Click(object sender, RoutedEventArgs e)
         {
-            // Show dialog to select from available books that author hasn't written yet
             var knjigeBezAutora = _dostupneKnjige
                 .Where(k => !_autorKnjige.Any(ak => ak.ISBN == k.ISBN))
+                .Where(k => k.Autori == null || k.Autori.Count == 0)
                 .ToList();
 
             if (!knjigeBezAutora.Any())
@@ -70,31 +88,29 @@ namespace WpfClient
                 return;
             }
 
-            // Create and show book selection dialog
             var dialog = new OdaberiKnjiguDialog(knjigeBezAutora);
             dialog.Owner = this;
 
-            if (dialog.ShowDialog() == true && dialog.OdabranaKnjiga != null)
+            if (dialog.ShowDialog() == true && dialog.OdabraneKnjige.Any())
             {
-                // Add book to author's list
-                _autorKnjige.Add(dialog.OdabranaKnjiga);
-
-                // Also add author to book's author list (bidirectional relationship)
-                var selectedBook = dialog.OdabranaKnjiga;
-                if (selectedBook.Autori == null)
-                    selectedBook.Autori = new List<Autor>();
-
-                // Check if author is not already in the book's author list
-                if (!selectedBook.Autori.Any(a => a.BrojLicneKarte == _originalAutor.BrojLicneKarte))
+                foreach (var selectedBook in dialog.OdabraneKnjige)
                 {
-                    selectedBook.Autori.Add(_originalAutor);
+                    if (_autorKnjige.Any(k => k.ISBN == selectedBook.ISBN)) continue;
+
+                    _autorKnjige.Add(selectedBook);
+
+                    if (selectedBook.Autori == null)
+                        selectedBook.Autori = new List<Autor>();
+
+                    if (!selectedBook.Autori.Any(a => a.BrojLicneKarte == _originalAutor.BrojLicneKarte))
+                    {
+                        selectedBook.Autori.Add(_originalAutor);
+                    }
                 }
 
-                // Refresh the UI
                 PopuniKnjigeAutora();
 
-                // Show success message
-                MessageBox.Show($"Knjiga '{selectedBook.Naziv}' je uspešno dodana autoru.", "Uspeh",
+                MessageBox.Show("Knjige su uspešno dodate autoru.", "Uspeh",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -111,10 +127,8 @@ namespace WpfClient
 
                 if (result == MessageBoxResult.Yes)
                 {
-                    // Remove from author's book list
                     _autorKnjige.Remove(selectedKnjiga);
 
-                    // Also remove author from book's author list (bidirectional relationship)
                     if (selectedKnjiga.Autori != null)
                     {
                         var authorToRemove = selectedKnjiga.Autori
@@ -125,11 +139,9 @@ namespace WpfClient
                         }
                     }
 
-                    // Refresh the UI
                     PopuniKnjigeAutora();
                     btnUkloniKnjigu.IsEnabled = false;
 
-                    // Show success message
                     MessageBox.Show($"Knjiga '{selectedKnjiga.Naziv}' je uspešno uklonjena od autora.", "Uspeh",
                         MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -144,13 +156,21 @@ namespace WpfClient
                         !string.IsNullOrWhiteSpace(txtIme.Text) &&
                         !string.IsNullOrWhiteSpace(txtPrezime.Text) &&
                         txtEmail.Text.Contains("@") &&
-                        int.TryParse(txtGodine.Text, out _);
+                        int.TryParse(txtGodine.Text, out _) &&
+                        txtAdresa.Text.Split(',').Length >= 3;
 
             btnPotvrdi.IsEnabled = isOk;
         }
 
         private void BtnPotvrdi_Click(object sender, RoutedEventArgs e)
         {
+            string[] delovi = txtAdresa.Text.Split(',');
+            string ulica = delovi.Length > 0 ? delovi[0].Trim() : "Nepoznato";
+            string broj = delovi.Length > 1 ? delovi[1].Trim() : "/";
+            string grad = delovi.Length > 2 ? delovi[2].Trim() : "Nepoznato";
+            string drzava = delovi.Length > 3 ? delovi[3].Trim() : "";
+            int generisaniId = (int)(DateTime.Now.Ticks % 1000000);
+
             IzmenjeniAutor = new Autor
             {
                 BrojLicneKarte = txtBrojLicne.Text.Trim(),
@@ -160,8 +180,8 @@ namespace WpfClient
                 Telefon = txtTelefon.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 GodineIskustva = int.TryParse(txtGodine.Text.Trim(), out var g) ? g : 0,
-                AdresaStanovanja = new Adresa { Ulica = txtAdresa.Text.Trim() },
-                SpisakKnjiga = _autorKnjige // Include modified book list
+                AdresaStanovanja = new Adresa(generisaniId, ulica, broj, grad, drzava),
+                SpisakKnjiga = _autorKnjige
             };
 
             DialogResult = true;
@@ -170,4 +190,3 @@ namespace WpfClient
         private void BtnOdustani_Click(object sender, RoutedEventArgs e) => DialogResult = false;
     }
 }
-
