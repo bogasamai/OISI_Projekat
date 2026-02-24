@@ -37,7 +37,7 @@
                     <TextBlock Text="Godine iskustva *" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtGodine" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Adresa (slobodan unos)" Margin="0,5,0,2"/>
+                    <TextBlock Text="Adresa (Ulica,Broj,Grad,Drzava): " Margin="0,5,0,2"/>
                     <TextBox x:Name="txtAdresa" Padding="3" Height="60" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="ValidateForm"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">

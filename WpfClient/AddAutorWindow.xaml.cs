@@ -19,6 +19,7 @@ namespace WpfClient
             TxtBrojLicne.TextChanged += ValidateForm;
             TxtEmail.TextChanged += ValidateForm;
             TxtGodine.TextChanged += ValidateForm;
+            TxtAdresa.TextChanged += ValidateForm;
 
             DpDatum.SelectedDate = DateTime.Now;
             ValidateForm(this, null);
@@ -33,12 +34,22 @@ namespace WpfClient
             if (string.IsNullOrWhiteSpace(TxtBrojLicne.Text)) valid = false;
             if (string.IsNullOrWhiteSpace(TxtEmail.Text) || !Regex.IsMatch(TxtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$")) valid = false;
             if (!int.TryParse(TxtGodine.Text, out _)) valid = false;
+            // Adresa mora imati bar 3 dela razdvojena zarezima (Ulica, Broj, Grad)
+            if (string.IsNullOrWhiteSpace(TxtAdresa.Text) || TxtAdresa.Text.Split(',').Length < 3) valid = false;
 
             BtnConfirm.IsEnabled = valid;
         }
 
         private void BtnConfirm_Click(object sender, RoutedEventArgs e)
         {
+            // Parsiranje adrese u istom formatu kao kod posetioca
+            string[] delovi = TxtAdresa.Text.Split(',');
+            string ulica = delovi.Length > 0 ? delovi[0].Trim() : "Nepoznato";
+            string broj = delovi.Length > 1 ? delovi[1].Trim() : "/";
+            string grad = delovi.Length > 2 ? delovi[2].Trim() : "Nepoznato";
+            string drzava = delovi.Length > 3 ? delovi[3].Trim() : "";
+            int generisaniId = (int)(DateTime.Now.Ticks % 1000000);
+
             Result = new Autor
             {
                 Ime = TxtIme.Text.Trim(),
@@ -48,7 +59,7 @@ namespace WpfClient
                 Telefon = TxtTelefon.Text.Trim(),
                 Email = TxtEmail.Text.Trim(),
                 GodineIskustva = int.TryParse(TxtGodine.Text.Trim(), out var g) ? g : 0,
-                AdresaStanovanja = new Adresa { Ulica = TxtAdresa.Text.Trim() }
+                AdresaStanovanja = new Adresa(generisaniId, ulica, broj, grad, drzava)
             };
 
             DialogResult = true;

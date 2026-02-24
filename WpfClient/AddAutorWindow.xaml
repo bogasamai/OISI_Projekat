@@ -45,8 +45,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="0,4">
-                <TextBlock Width="140" VerticalAlignment="Top">Adresa (slobodan unos):</TextBlock>
-                <TextBox Name="TxtAdresa" Width="240" Height="60" AcceptsReturn="True" TextWrapping="Wrap" />
+                <TextBlock Width="142" VerticalAlignment="Center">Adresa: </TextBlock>
+                <TextBox Name="TxtAdresa" Width="240" />
             </StackPanel>
         </StackPanel>
 
