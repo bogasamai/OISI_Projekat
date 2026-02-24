@@ -24,6 +24,7 @@ namespace WpfClient
             PopuniPolja(p);
             PopuniKupljeneKnjige();
             IzracunajStatistike();
+            PopuniListuZelja();
         }
 
         private void PopuniPolja(Posetilac p)
@@ -71,6 +72,64 @@ namespace WpfClient
         private void DgKupljeneKnjige_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             btnPonistiKupovinu.IsEnabled = dgKupljeneKnjige.SelectedItem != null;
+        }
+
+        private void PopuniListuZelja()
+        {
+            dgZelja.ItemsSource = null;
+            dgZelja.ItemsSource = _listaZelja;
+            var btnKup = this.FindName("BtnZeljaKupovina") as Button;
+            if (btnKup != null) btnKup.IsEnabled = dgZelja.SelectedItem != null;
+            // delete button (if exists) enable based on selection
+            var btn = this.FindName("BtnZeljaObrisi") as Button;
+            if (btn != null) btn.IsEnabled = dgZelja.SelectedItem != null;
+        }
+
+        private void DgZelja_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // enable/disable buttons if they are named
+            var btnObrisi = this.FindName("BtnZeljaObrisi") as Button;
+            var btnKup = this.FindName("BtnZeljaKupovina") as Button;
+            if (btnObrisi != null) btnObrisi.IsEnabled = dgZelja.SelectedItem != null;
+            if (btnKup != null) btnKup.IsEnabled = dgZelja.SelectedItem != null;
+        }
+
+        private void BtnZeljaDodaj_Click(object sender, RoutedEventArgs e)
+        {
+            // Not implemented: selecting a book to add to wishlist
+            MessageBox.Show("Funkcionalnost dodavanja knjige u listu želja nije implementirana.", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void BtnZeljaObrisi_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgZelja.SelectedItem is Knjiga selected)
+            {
+                if (MessageBox.Show($"Da li ste sigurni da želite obrisati '{selected.Naziv}' iz liste želja?", "Potvrda", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    _listaZelja.Remove(selected);
+                    PopuniListuZelja();
+                }
+            }
+        }
+
+        private void BtnZeljaKupovina_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgZelja.SelectedItem is Knjiga selected)
+            {
+                // Pretvaramo wishlist stavku u kupovinu
+                var kup = new Kupovina
+                {
+                    Knjiga = selected,
+                    DatumKupovine = DateTime.Now,
+                    Ocena = 0,
+                    Posetilac = _originalPosetilac
+                };
+                _kupljeneKnjige.Add(kup);
+                _listaZelja.Remove(selected);
+                PopuniKupljeneKnjige();
+                PopuniListuZelja();
+                IzracunajStatistike();
+            }
         }
 
         private void BtnPonistiKupovinu_Click(object sender, RoutedEventArgs e)
