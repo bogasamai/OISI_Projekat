@@ -19,12 +19,11 @@
                RenderOptions.BitmapScalingMode="HighQuality"/>
 
         <!-- Message -->
-        <TextBlock Grid.Row="1" x:Name="txtMessage" 
+        <TextBlock x:Name="txtMessage" 
                    TextWrapping="Wrap" 
                    HorizontalAlignment="Center" 
                    VerticalAlignment="Center"
-                   FontSize="14"
-                   Margin="0,0,0,20"/>
+                   FontSize="12" />
 
         <!-- Buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">

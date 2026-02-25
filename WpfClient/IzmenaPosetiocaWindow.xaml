@@ -66,7 +66,7 @@
 
                     <!-- Purchased Books Table -->
                     <DataGrid x:Name="dgKupljeneKnjige" Grid.Row="1" Margin="10,0,10,10" 
-                  AutoGenerateColumns="False" CanUserAddRows="False" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
                   SelectionMode="Single" SelectionChanged="DgKupljeneKnjige_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ISBN" Binding="{Binding Knjiga.ISBN}" Width="100"/>
@@ -110,7 +110,7 @@
                     </StackPanel>
 
                     <DataGrid x:Name="dgZelja" Grid.Row="1" Margin="10,0,10,10" 
-                              AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" 
+                              AutoGenerateColumns="False" CanUserAddRows="False" SelectionMode="Single" IsReadOnly="True"
                               SelectionChanged="DgZelja_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120" />
