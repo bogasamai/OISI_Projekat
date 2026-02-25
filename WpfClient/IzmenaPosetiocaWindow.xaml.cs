@@ -142,6 +142,21 @@ namespace WpfClient
             }
         }
 
+        private void BtnZeljaSacuvaj_Click(object sender, RoutedEventArgs e)
+        {
+            // Apply wishlist changes to original Posetilac and persist to disk
+            _originalPosetilac.ListaZelja = new List<Knjiga>(_listaZelja);
+            try
+            {
+                Core.Data.DataHandler.UpdatePosetilac(_originalPosetilac);
+                MessageBox.Show("Lista želja uspešno sačuvana.", "Sačuvano", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Greška pri čuvanju liste želja: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void BtnPonistiKupovinu_Click(object sender, RoutedEventArgs e)
         {
             if (dgKupljeneKnjige.SelectedItem is Kupovina selectedKupovina)
