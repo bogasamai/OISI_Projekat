@@ -35,6 +35,7 @@
                     <MenuItem Header="_Posetioci" Click="MenuItem_OpenPosetioci_Click" />
                     <MenuItem Header="_Knjige" Click="MenuItem_OpenKnjige_Click" />
                     <MenuItem Header="_Autori" Click="MenuItem_OpenAutori_Click" />
+                    <MenuItem Header="Autori iz liste želja" Click="MenuItem_OpenAutoriZaPosetioca_Click" />
                     <MenuItem Header="_Izdavači" Click="MenuItem_OpenIzdavaci_Click" />
                 </MenuItem>
 

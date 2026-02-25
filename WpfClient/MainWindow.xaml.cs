@@ -784,6 +784,20 @@ namespace WpfClient
             MessageBox.Show("Otvaranje prozora za upravljanje izdavačima...", "Izdavači", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        private void MenuItem_OpenAutoriZaPosetioca_Click(object sender, RoutedEventArgs e)
+        {
+            var selektovan = PosetiociGrid.SelectedItem as Posetilac;
+            if (selektovan == null)
+            {
+                MessageBox.Show("Molimo izaberite posetioca iz tabele.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var dlg = new AutoriZaPosetiocaWindow(selektovan);
+            dlg.Owner = this;
+            dlg.ShowDialog();
+        }
+
         // Menu Save click handler
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
         {
