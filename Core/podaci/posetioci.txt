@@ -1,4 +1,4 @@
-asdfs|asdf|12352|R|vukasin.002@gm.com|2021-02-15T00:00:00.0000000|Nepoznato|/|Nepoznato||
-adfasdf|hsdghsdh|14354326|R|123123@asdf.com|1999-02-05T00:00:00.0000000|asdf 123|zxcv|fgsdg||3235325325
-Lul|Avram|123123|R|adf@asdf.com|1999-02-25T00:00:00.0000000|Bul|12|PS|Srbija|11111111111
-Lasd|Avrams|123123|V|2123@asdf.com|2026-02-25T00:00:00.0000000|Kul|123|Nov|Sad|999999999999999999
+asdfs|asdf|12352|R|vukasin.002@gm.com|2021-02-15T00:00:00.0000000|Nepoznato|/|Nepoznato|||23234
+adfasdf|hsdghsdh|14354326|R|123123@asdf.com|1999-02-05T00:00:00.0000000|asdf 123|zxcv|fgsdg||3235325325|
+Lul|Avram|123123|R|adf@asdf.com|1999-02-25T00:00:00.0000000|Bul|12|PS|Srbija|11111111111|
+Lasd|Avrams|123123|V|2123@asdf.com|2026-02-25T00:00:00.0000000|Kul|123|Nov|Sad|999999999999999999|23234

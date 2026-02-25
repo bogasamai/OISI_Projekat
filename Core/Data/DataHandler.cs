@@ -92,6 +92,23 @@ namespace Core.Data
             return rezultat;
         }
 
+        // Update single posetilac in storage (loads existing file, replaces matching by BrojClanskeKarte, saves back)
+        public static void UpdatePosetilac(Posetilac posetilac)
+        {
+            var svi = UcitajPosetioce();
+            var existing = svi.FirstOrDefault(p => p.BrojClanskeKarte == posetilac.BrojClanskeKarte);
+            if (existing != null)
+            {
+                int idx = svi.IndexOf(existing);
+                svi[idx] = posetilac;
+            }
+            else
+            {
+                svi.Add(posetilac);
+            }
+            SacuvajPosetioce(svi);
+        }
+
         // --- KNJIGE ---
         public static void SacuvajKnjige(List<Knjiga> knjige)
         {
@@ -293,7 +310,14 @@ namespace Core.Data
                 string telefon = p.Telefon ?? "";
 
                 // Format (novo): Ime|Prezime|BrojClanske|Status|Email|Datum|Ulica|Broj|Grad|Drzava|Telefon
-                string linija = $"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}|{datum}|{ulica}|{broj}|{grad}|{drzava}|{telefon}";
+                // serialize wishlist as comma-separated ISBNs
+                string wishlistField = "";
+                if (p.ListaZelja != null && p.ListaZelja.Count > 0)
+                {
+                    wishlistField = string.Join(",", p.ListaZelja.Where(k => k != null && !string.IsNullOrWhiteSpace(k.ISBN)).Select(k => k.ISBN));
+                }
+
+                string linija = $"{p.Ime}|{p.Prezime}|{p.BrojClanskeKarte}|{p.Status}|{p.Email}|{datum}|{ulica}|{broj}|{grad}|{drzava}|{telefon}|{wishlistField}";
                 linije.Add(linija);
             }
 
@@ -362,6 +386,17 @@ namespace Core.Data
                 else
                 {
                     p.Telefon = ""; // fallback ako nema telefona u fajlu
+                }
+
+                // Wishlist: ako postoji polje nakon telefona, tretiraj ga kao comma-separated listu ISBN-ova
+                if (d.Length > addrStartIndex + 5 && !string.IsNullOrWhiteSpace(d[addrStartIndex + 5]))
+                {
+                    var isbns = d[addrStartIndex + 5].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(s => s.Trim()).ToList();
+                    p.ListaZelja = new List<Knjiga>();
+                    foreach (var isbn in isbns)
+                    {
+                        p.ListaZelja.Add(new Knjiga { ISBN = isbn });
+                    }
                 }
 
                 // Ostaviti ostalu logiku (kupovine, lista zelja) nepromenjenu
