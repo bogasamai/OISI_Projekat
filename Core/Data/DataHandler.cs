@@ -106,7 +106,9 @@ namespace Core.Data
             {
                 svi.Add(posetilac);
             }
+            // Save posetioci and purchases to keep kupovine in sync
             SacuvajPosetioce(svi);
+            SacuvajKupovine(svi);
         }
 
         // --- KNJIGE ---
@@ -258,6 +260,20 @@ namespace Core.Data
                         knjiga.PosetiociKupili.Add(posetilac);
                     }
                 }
+            }
+
+            // Map wishlist placeholders (Knjiga objects with only ISBN) to actual Knjiga instances
+            foreach (var pos in posetioci)
+            {
+                if (pos.ListaZelja == null || pos.ListaZelja.Count == 0) continue;
+                var mapped = new List<Knjiga>();
+                foreach (var wish in pos.ListaZelja)
+                {
+                    if (wish == null || string.IsNullOrWhiteSpace(wish.ISBN)) continue;
+                    var match = knjige.FirstOrDefault(k => k.ISBN == wish.ISBN);
+                    if (match != null) mapped.Add(match);
+                }
+                pos.ListaZelja = mapped;
             }
 
             return (autori, knjige, posetioci);

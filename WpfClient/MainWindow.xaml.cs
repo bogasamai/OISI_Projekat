@@ -790,6 +790,7 @@ namespace WpfClient
             DataHandler.SacuvajPosetioce(originalPosetioci);
             DataHandler.SacuvajAutore(originalAutori);
             DataHandler.SacuvajKnjige(originalKnjige);
+            DataHandler.SacuvajKupovine(originalPosetioci);
             MessageBox.Show("Svi novi podaci su uspešno sačuvani u folder 'podaci'.");
         }
 

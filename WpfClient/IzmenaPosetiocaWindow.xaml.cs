@@ -126,36 +126,35 @@ namespace WpfClient
         {
             if (dgZelja.SelectedItem is Knjiga selected)
             {
-                // Pretvaramo wishlist stavku u kupovinu
-                var kup = new Kupovina
+                // Open modal dialog to enter purchase data
+                var dlg = new DodajKupovinuWindow(selected);
+                dlg.Owner = this; // center over wishlist dialog
+                if (dlg.ShowDialog() == true && dlg.Result != null)
                 {
-                    Knjiga = selected,
-                    DatumKupovine = DateTime.Now,
-                    Ocena = 0,
-                    Posetilac = _originalPosetilac
-                };
-                _kupljeneKnjige.Add(kup);
-                _listaZelja.Remove(selected);
-                PopuniKupljeneKnjige();
-                PopuniListuZelja();
-                IzracunajStatistike();
+                    var kup = dlg.Result;
+                    kup.Posetilac = _originalPosetilac;
+
+                    // Add to purchased and remove from wishlist
+                    _kupljeneKnjige.Add(kup);
+                    _listaZelja.Remove(selected);
+
+                    // Update original posetilac and persist
+                    _originalPosetilac.KupljeneKnjige = new List<Kupovina>(_kupljeneKnjige);
+                    _originalPosetilac.ListaZelja = new List<Knjiga>(_listaZelja);
+                    try
+                    {
+                        Core.Data.DataHandler.UpdatePosetilac(_originalPosetilac);
+                    }
+                    catch { /* ignore save errors here, user can Save explicitly */ }
+
+                    PopuniKupljeneKnjige();
+                    PopuniListuZelja();
+                    IzracunajStatistike();
+                }
             }
         }
 
-        private void BtnZeljaSacuvaj_Click(object sender, RoutedEventArgs e)
-        {
-            // Apply wishlist changes to original Posetilac and persist to disk
-            _originalPosetilac.ListaZelja = new List<Knjiga>(_listaZelja);
-            try
-            {
-                Core.Data.DataHandler.UpdatePosetilac(_originalPosetilac);
-                MessageBox.Show("Lista želja uspešno sačuvana.", "Sačuvano", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Greška pri čuvanju liste želja: {ex.Message}", "Greška", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-        }
+        
 
         private void BtnPonistiKupovinu_Click(object sender, RoutedEventArgs e)
         {
