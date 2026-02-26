@@ -781,7 +781,28 @@ namespace WpfClient
 
         private void MenuItem_OpenIzdavaci_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Otvaranje prozora za upravljanje izdavačima...", "Izdavači", MessageBoxButton.OK, MessageBoxImage.Information);
+            // Show a simple selector of publishers based on available books
+            var izdavaci = originalKnjige
+                .Select(k => k.Izdavac?.Trim())
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(s => s)
+                .ToList();
+
+            if (!izdavaci.Any())
+            {
+                MessageBox.Show("Nema registrovanih izdavača u sistemu.", "Izdavači", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var dlg = new OdaberiIzdavacaWindow(izdavaci);
+            dlg.Owner = this;
+            if (dlg.ShowDialog() == true && !string.IsNullOrWhiteSpace(dlg.SelectedIzdavac))
+            {
+                var autDlg = new AutoriZaIzdavacaWindow(dlg.SelectedIzdavac, originalKnjige);
+                autDlg.Owner = this;
+                autDlg.ShowDialog();
+            }
         }
 
         private void MenuItem_OpenAutoriZaPosetioca_Click(object sender, RoutedEventArgs e)
