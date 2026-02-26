@@ -34,7 +34,7 @@ namespace WpfClient
         private ListSortDirection autoriSortDir = ListSortDirection.Ascending;
         private string knjigeSortMember = null;
         private ListSortDirection knjigeSortDir = ListSortDirection.Ascending;
-
+        private List<Izdavac> originalIzdavaci = new List<Izdavac>();
         public MainWindow()
         {
             InitializeComponent();
@@ -51,7 +51,12 @@ namespace WpfClient
             originalAutori = autori;
             originalKnjige = knjige;
             originalPosetioci = posetioci;
-
+            originalIzdavaci = originalKnjige
+    .Select(k => k.Izdavac?.Trim())
+    .Where(s => !string.IsNullOrWhiteSpace(s))
+    .Distinct(StringComparer.OrdinalIgnoreCase)
+    .Select(ime => new Izdavac { Naziv = ime }) // Ovde kreiramo objekte koji će "živeti"
+    .ToList();
             // Initialize observable collections from originals
             ResetCollectionsToOriginal();
 
@@ -781,29 +786,37 @@ namespace WpfClient
 
         private void MenuItem_OpenIzdavaci_Click(object sender, RoutedEventArgs e)
         {
-            // Show a simple selector of publishers based on available books
-            var izdavaci = originalKnjige
-                .Select(k => k.Izdavac?.Trim())
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(s => s)
-                .ToList();
+            // 1. Uzimamo imena za selector iz naše stalne liste izdavača
+            var imenaIzdavaca = originalIzdavaci.Select(i => i.Naziv).ToList();
 
-            if (!izdavaci.Any())
+            if (!imenaIzdavaca.Any())
             {
-                MessageBox.Show("Nema registrovanih izdavača u sistemu.", "Izdavači", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Nema izdavača.");
                 return;
             }
 
-            var dlg = new OdaberiIzdavacaWindow(izdavaci, originalKnjige);
+            var dlg = new OdaberiIzdavacaWindow(imenaIzdavaca, originalKnjige);
             dlg.Owner = this;
+
             if (dlg.ShowDialog() == true && !string.IsNullOrWhiteSpace(dlg.SelectedIzdavac))
             {
-                var autDlg = new AutoriZaIzdavacaWindow(dlg.SelectedIzdavac, originalKnjige);
-                autDlg.Owner = this;
-                autDlg.ShowDialog();
+                // 2. KLJUČNA PROMENA: Pronađi postojećeg izdavača u listi, nemoj praviti novog!
+                var postojećiIzdavac = originalIzdavaci.FirstOrDefault(i =>
+                    i.Naziv.Equals(dlg.SelectedIzdavac, StringComparison.OrdinalIgnoreCase));
+
+                if (postojećiIzdavac != null)
+                {
+                    // Sada prosleđujemo objekat koji ostaje u memoriji MainWindow-a
+                    var autDlg = new AutoriZaIzdavacaWindow(postojećiIzdavac, originalKnjige);
+                    autDlg.Owner = this;
+                    autDlg.ShowDialog();
+
+                    // Pošto AutoriZaIzdavacaWindow menja 'postojećiIzdavac', 
+                    // izmena će ostati sačuvana u listi 'originalIzdavaci'!
+                }
             }
         }
+
 
         private void MenuItem_OpenAutoriZaPosetioca_Click(object sender, RoutedEventArgs e)
         {
@@ -826,6 +839,7 @@ namespace WpfClient
             DataHandler.SacuvajAutore(originalAutori);
             DataHandler.SacuvajKnjige(originalKnjige);
             DataHandler.SacuvajKupovine(originalPosetioci);
+            DataHandler.SacuvajIzdavace(originalIzdavaci);
             MessageBox.Show("Svi novi podaci su uspešno sačuvani u folder 'podaci'.");
         }
 

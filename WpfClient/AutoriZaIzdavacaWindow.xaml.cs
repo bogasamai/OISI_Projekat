@@ -12,13 +12,23 @@ namespace WpfClient
         private List<Autor> _allAuthors = new List<Autor>();
         private List<Autor> _visibleAuthors = new List<Autor>();
 
-        public AutoriZaIzdavacaWindow(string izdavacNaziv, List<Knjiga> sveKnjige)
+        // DODATO: Referenca na izdavača kojem menjamo šefa
+        private Izdavac _trenutniIzdavac;
+
+        // PROMENJENO: Konstruktor sada prima ceo objekat Izdavac umesto samo imena
+        public AutoriZaIzdavacaWindow(Izdavac izdavac, List<Knjiga> sveKnjige)
         {
             InitializeComponent();
-            if (string.IsNullOrWhiteSpace(izdavacNaziv) || sveKnjige == null) return;
 
-            // Pronađi sve knjige koje imaju polje Izdavac == izdavacNaziv
-            var knjigeIzdavaca = sveKnjige.Where(k => string.Equals(k.Izdavac?.Trim(), izdavacNaziv.Trim(), StringComparison.OrdinalIgnoreCase)).ToList();
+            if (izdavac == null || sveKnjige == null) return;
+
+            _trenutniIzdavac = izdavac;
+            string izdavacNaziv = izdavac.Naziv;
+
+            // Pronalaženje svih autora koji su radili za ovog izdavača
+            var knjigeIzdavaca = sveKnjige
+                .Where(k => string.Equals(k.Izdavac?.Trim(), izdavacNaziv.Trim(), StringComparison.OrdinalIgnoreCase))
+                .ToList();
 
             var authors = new List<Autor>();
             foreach (var knj in knjigeIzdavaca)
@@ -35,33 +45,76 @@ namespace WpfClient
             _allAuthors = authors;
             _visibleAuthors = _allAuthors.ToList();
             dgAutori.ItemsSource = _visibleAuthors;
+            OsveziPrikazSefa();
             this.Title = $"Autori izdavača: {izdavacNaziv}";
-        }
 
-        private void TxtPretraga_TextChanged(object sender, TextChangedEventArgs e)
+            // Inicijalno onemogući dugme dok se ne selektuje neko
+            btnPostaviZaSefa.IsEnabled = false;
+        }
+        private void OsveziPrikazSefa()
         {
-            string q = txtPretraga.Text?.Trim().ToLower() ?? string.Empty;
-            if (string.IsNullOrEmpty(q))
+            if (_trenutniIzdavac.SefIzdavaca != null)
             {
-                _visibleAuthors = _allAuthors.ToList();
+                lblTrenutniSef.Text = $"{_trenutniIzdavac.SefIzdavaca.Ime} {_trenutniIzdavac.SefIzdavaca.Prezime}";
             }
             else
             {
-                _visibleAuthors = _allAuthors.Where(a =>
-                    (a.Ime ?? string.Empty).ToLower().Contains(q) ||
-                    (a.Prezime ?? string.Empty).ToLower().Contains(q) ||
-                    (a.Email ?? string.Empty).ToLower().Contains(q) ||
-                    (a.AdresaStanovanja?.Ulica ?? string.Empty).ToLower().Contains(q) ||
-                    (a.Telefon ?? string.Empty).ToLower().Contains(q)
-                ).ToList();
+                lblTrenutniSef.Text = "Nije postavljen";
             }
+        }
+        private void TxtPretraga_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string q = txtPretraga.Text?.Trim().ToLower() ?? string.Empty;
+            _visibleAuthors = string.IsNullOrEmpty(q)
+                ? _allAuthors.ToList()
+                : _allAuthors.Where(a =>
+                    (a.Ime ?? "").ToLower().Contains(q) ||
+                    (a.Prezime ?? "").ToLower().Contains(q) ||
+                    (a.Email ?? "").ToLower().Contains(q) ||
+                    a.GodineIskustva.ToString().Contains(q)
+                ).ToList();
+
             dgAutori.ItemsSource = null;
             dgAutori.ItemsSource = _visibleAuthors;
         }
 
-        private void BtnZatvori_Click(object sender, RoutedEventArgs e)
+        private void DgAutori_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DialogResult = false;
+            if (dgAutori.SelectedItem is Autor selektovan)
+            {
+                // Automatska provera uslova: iskustvo >= 5
+                btnPostaviZaSefa.IsEnabled = selektovan.GodineIskustva >= 5;
+            }
+            else
+            {
+                btnPostaviZaSefa.IsEnabled = false;
+            }
         }
+
+        private void BtnPostaviZaSefa_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgAutori.SelectedItem is Autor selektovaniAutor)
+            {
+                // Provera biznis pravila: GodineIskustva $\ge 5$
+                if (selektovaniAutor.GodineIskustva >= 5)
+                {
+                    // KLJUČNA LINIJA: Menjamo šefa u memoriji
+                    _trenutniIzdavac.SefIzdavaca = selektovaniAutor;
+                    OsveziPrikazSefa();
+                    MessageBox.Show($"Autor {selektovaniAutor.Ime} {selektovaniAutor.Prezime} je uspešno postavljen za šefa izdavača '{_trenutniIzdavac.Naziv}'.",
+                                    "Uspeh", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                   // DialogResult = true;
+                }
+                else
+                {
+                    // Ovo je "double-check" ako neko nekako klikne na onemogućeno dugme
+                    MessageBox.Show($"Greška: Autor nema dovoljno iskustva.",
+                                    "Nedovoljno iskustva", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+
+        private void BtnZatvori_Click(object sender, RoutedEventArgs e) => DialogResult = false;
     }
 }
