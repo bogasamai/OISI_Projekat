@@ -795,7 +795,7 @@ namespace WpfClient
                 return;
             }
 
-            var dlg = new OdaberiIzdavacaWindow(izdavaci);
+            var dlg = new OdaberiIzdavacaWindow(izdavaci, originalKnjige);
             dlg.Owner = this;
             if (dlg.ShowDialog() == true && !string.IsNullOrWhiteSpace(dlg.SelectedIzdavac))
             {
