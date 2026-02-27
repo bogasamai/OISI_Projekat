@@ -1,0 +1,52 @@
+﻿<Window x:Class="WpfClient.PosetiociZaAutoraWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Posetioci zainteresovani za autora" 
+        Height="450" Width="600"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+            <Label Content="Pretraga posetilaca (ime, prezime ili email):" FontWeight="Bold"/>
+            <TextBox x:Name="txtPretraga" 
+                     Height="25" 
+                     VerticalContentAlignment="Center"
+                     TextChanged="txtPretraga_TextChanged" />
+        </StackPanel>
+
+        <DataGrid x:Name="dgPosetioci" 
+                  Grid.Row="1" 
+                  AutoGenerateColumns="False" 
+                  CanUserAddRows="False" 
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  Background="White"
+                  AlternatingRowBackground="#F2F2F2">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ime" 
+                                    Binding="{Binding Ime}" 
+                                    Width="*" />
+                <DataGridTextColumn Header="Prezime" 
+                                    Binding="{Binding Prezime}" 
+                                    Width="*" />
+                <DataGridTextColumn Header="E-mail" 
+                                    Binding="{Binding Email}" 
+                                    Width="1.5*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Grid.Row="2" 
+                Content="Zatvori" 
+                Width="80" 
+                Height="25" 
+                HorizontalAlignment="Right" 
+                Margin="0,10,0,0" 
+                Click="BtnZatvori_Click"/>
+    </Grid>
+</Window>

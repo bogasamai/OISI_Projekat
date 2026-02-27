@@ -831,6 +831,20 @@ namespace WpfClient
             dlg.Owner = this;
             dlg.ShowDialog();
         }
+        private void MenuItem_OpenPosetiociNaListiZelja_Click(object sender, RoutedEventArgs e)
+        {
+            var selektovan = AutoriGrid.SelectedItem as Autor;
+            if (selektovan == null)
+            {
+                MessageBox.Show("Molimo izaberite autora iz tabele.", "Upozorenje", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var dlg = new PosetiociZaAutoraWindow(selektovan,originalPosetioci);
+            dlg.Owner = this;
+            dlg.ShowDialog();
+        }
+
 
         // Menu Save click handler
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)

@@ -3,4 +3,4 @@
 45134|U paklenom Jarku|Klasik|990|2001|Eureka|179|43234323
 49786|Lisiciji Brk|Komedija|870|1945|Galeb|350|43234323
 23784|Jadranski mislilac|Biografija|1570|2004|Vulkan|670|
-71234|Hari Poter i zatvorenik iz Alkatraza|Istorijski|900|2002|Galeb|430|3444
+71234|Hari Poter i zatvorenik iz Alkatraza|Istorijski|900|2002|Galeb|430|1
