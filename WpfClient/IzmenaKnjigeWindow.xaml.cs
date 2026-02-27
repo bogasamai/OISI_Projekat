@@ -35,7 +35,6 @@ namespace WpfClient
 
             ValidateForm(null, null);
 
-            // Populate author field and enable/disable add/remove buttons
             UpdateAuthorField();
         }
 
@@ -81,7 +80,7 @@ namespace WpfClient
                     Cena = double.Parse(txtCena.Text),
                     BrojStrana = string.IsNullOrWhiteSpace(txtBrojStrana.Text) ? 0 : int.Parse(txtBrojStrana.Text),
                     Izdavac = txtIzdavac.Text.Trim(),
-                    Autori = _originalKnjiga.Autori, // Autori ostaju isti
+                    Autori = _originalKnjiga.Autori, 
                     PosetiociKupili = _originalKnjiga.PosetiociKupili,
                     PosetiociListaZelja = _originalKnjiga.PosetiociListaZelja
                 };

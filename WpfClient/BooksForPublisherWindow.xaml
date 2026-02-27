@@ -1,7 +1,7 @@
 <Window x:Class="WpfClient.BooksForPublisherWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Knjige izdavača" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+        Title="{DynamicResource lblKnjigeIzdavaca}" Height="450" Width="800" WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -10,23 +10,23 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,8">
-            <TextBlock Text="Pretraga:" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBlock Text="{DynamicResource lblSearch}" VerticalAlignment="Center" Margin="0,0,8,0" />
             <TextBox Name="txtSearch" Width="400" TextChanged="TxtSearch_TextChanged" />
         </StackPanel>
 
         <DataGrid Name="dgKnjige" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120" />
-                <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" Width="*" />
-                <DataGridTextColumn Header="Žanr" Binding="{Binding Zanr}" Width="120" />
-                <DataGridTextColumn Header="Godina" Binding="{Binding GodinaIzdanja}" Width="80" />
-                <DataGridTextColumn Header="Cena" Binding="{Binding Cena, StringFormat={}{0:F2} RSD}" Width="120" />
-                <DataGridTextColumn Header="Autori" Binding="{Binding AutoriDisplay}" Width="200" />
+                <DataGridTextColumn Header="{DynamicResource colNaziv}" Binding="{Binding Naziv}" Width="*" />
+                <DataGridTextColumn Header="{DynamicResource colZanr}" Binding="{Binding Zanr}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource colGodizd}" Binding="{Binding GodinaIzdanja}" Width="80" />
+                <DataGridTextColumn Header="{DynamicResource colCena}" Binding="{Binding Cena, StringFormat={}{0:F2} RSD}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource colAutori}" Binding="{Binding AutoriDisplay}" Width="200" />
             </DataGrid.Columns>
         </DataGrid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,8,0,0">
-            <Button Content="Zatvori" Width="100" Click="BtnClose_Click" />
+            <Button Content="{DynamicResource btnClose}" Width="100" Click="BtnClose_Click" />
         </StackPanel>
     </Grid>
 </Window>

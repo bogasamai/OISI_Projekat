@@ -29,25 +29,25 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="ISBN:" VerticalAlignment="Center"/>
             <TextBox Grid.Row="0" Grid.Column="1" Name="txtISBN" Margin="5" />
 
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Naziv:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="{DynamicResource lblNazivKnjige}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="1" Grid.Column="1" Name="txtNaziv" Margin="5" />
 
-            <TextBlock Grid.Row="2" Grid.Column="0" Text="Žanr:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="{DynamicResource colZanr}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="2" Grid.Column="1" Name="txtZanr" Margin="5" />
 
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Godina izdanja:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="{DynamicResource colGodizd}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="3" Grid.Column="1" Name="txtGodina" Margin="5" />
 
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Cena:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="{DynamicResource colCena}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="4" Grid.Column="1" Name="txtCena" Margin="5" />
 
-            <TextBlock Grid.Row="5" Grid.Column="0" Text="Broj strana:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="{DynamicResource lblBrojStrana}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="5" Grid.Column="1" Name="txtBrojStrana" Margin="5" />
 
-            <TextBlock Grid.Row="6" Grid.Column="0" Text="Izdavač:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="{DynamicResource lblIzdavac}" VerticalAlignment="Center"/>
             <TextBox Grid.Row="6" Grid.Column="1" Name="txtIzdavac" Margin="5" />
 
-            <TextBlock Grid.Row="7" Grid.Column="0" Text="Autor*:" VerticalAlignment="Center"/>
+            <TextBlock Grid.Row="7" Grid.Column="0" Text="{DynamicResource lblAutor}" VerticalAlignment="Center"/>
             <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" Margin="5">
                 <TextBox Name="txtAutor" IsReadOnly="True" Width="300" />
                 <Button Name="btnAddAuthor" Content="+" Width="28" Height="24" Margin="6,0,0,0" Click="BtnAddAuthor_Click" />
@@ -55,8 +55,8 @@
             </StackPanel>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Name="btnPotvrdi" Content="Sačuvaj izmene" Width="120" Margin="5" Click="BtnPotvrdi_Click"/>
-            <Button Name="btnOdustani" Content="Odustani" Width="100" Margin="5" Click="BtnOdustani_Click"/>
+            <Button Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" Width="120" Margin="5" Click="BtnPotvrdi_Click"/>
+            <Button Name="btnOdustani" Content="{DynamicResource btnCancel}" Width="100" Margin="5" Click="BtnOdustani_Click"/>
 
         </StackPanel>
     </Grid>

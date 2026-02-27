@@ -15,7 +15,7 @@
     <system:String x:Key="tabAutori">Authors</system:String>
     <system:String x:Key="tabKnjige">Books</system:String>
     <system:String x:Key="tabAutorisalistezelja">Authors from wishlist</system:String>
-    <system:String x:Key="tabIzdavaci">Producers</system:String>
+    <system:String x:Key="tabIzdavaci">Publishers</system:String>
     <system:String x:Key="tabPosetiocinalistizelja">Visitors on wishlist</system:String>
 
     <system:String x:Key="btnAdd">Add</system:String>
@@ -38,4 +38,58 @@
     <system:String x:Key="colGodizd">Year of Publication</system:String>
     <system:String x:Key="colDate">Date of Birth</system:String>
     <system:String x:Key="colBrl">ID Card Number</system:String>
+    <system:String x:Key="colAutori">Authors</system:String>
+    <system:String x:Key="colNaziv1">Naziv:</system:String>
+
+    <system:String x:Key="lblAddAutorTitle">Add author</system:String>
+    <system:String x:Key="lblEnterData">Insert data about author</system:String>
+    <system:String x:Key="lblIme">First name:</system:String>
+    <system:String x:Key="lblPrezime">Last name:</system:String>
+    <system:String x:Key="lblBrojLicne">ID card number:</system:String>
+    <system:String x:Key="lblDatumRodjenja">Date of birth:</system:String>
+    <system:String x:Key="lblTelefon">Telephone number:</system:String>
+    <system:String x:Key="lblTelefon1">Telephone number</system:String>
+    <system:String x:Key="lblEmail">E-mail:</system:String>
+    <system:String x:Key="lblIskustvo">Years of experience:</system:String>
+    <system:String x:Key="lblIskustvo1">Years of experience</system:String>
+    <system:String x:Key="lblAdresa">Address:</system:String>
+    <system:String x:Key="lblSearch">Search:</system:String>
+    <system:String x:Key="lblCurrentBoss">Current publishing boss:</system:String>
+    <system:String x:Key="lblOdaberiAutora">Choose Author</system:String>
+    <system:String x:Key="lblDodavanjeKnjige">Add book</system:String>
+    <system:String x:Key="lblAutoriizlistezelja">Authors from wishlist</system:String>
+    <system:String x:Key="lblKnjigeIzdavaca">Books of publishers</system:String>
+    <system:String x:Key="lblNazivKnjige">Book Name: *</system:String>
+    <system:String x:Key="lblBrojStrana">Number of pages: *</system:String>
+    <system:String x:Key="lblIzdavac">Publisher: *</system:String>
+    <system:String x:Key="lblOcena">Rating (1-5):</system:String>
+    <system:String x:Key="lblDatumKupovine">Date of purchase:</system:String>
+    <system:String x:Key="lblUnosKupovine">Enter purchase</system:String>
+    <system:String x:Key="lblUlicaBrojGradDrzava">Street,Number,City,State</system:String>
+    <system:String x:Key="lblDodajPosetioca">Add visitor</system:String>
+    <system:String x:Key="lblBrojClanske">Member ID: </system:String>
+    <system:String x:Key="lblPretragaPosetilaca">Search visitors (name, surname or e-mail):</system:String>
+    <system:String x:Key="lblPosetiocizainteresovani">Visitors interested in author</system:String>
+    <system:String x:Key="lblAutor">Author:</system:String>
+    <system:String x:Key="lblIzmeniPodatke">Edit book information:</system:String>
+    <system:String x:Key="lblIzmenaKnjige">Edit book</system:String>
+    <system:String x:Key="lblPotvrda">Book deletion confirmation</system:String>
+    <system:String x:Key="lblDodajKnjigu">Add book</system:String>
+    <system:String x:Key="lblOmoguci">Enable multiple book choice</system:String>
+    <system:String x:Key="lblOdaberiIzdavaca">Choose publisher</system:String>
+
+
+    <system:String x:Key="btnConfirm">Confirm</system:String>
+    <system:String x:Key="btnCancel">Cancel</system:String>
+    <system:String x:Key="btnSetAsBoss">Assign as boss</system:String>
+    <system:String x:Key="btnClose">Close</system:String>
+    <system:String x:Key="btnPrikaziAutore">Show authors</system:String>
+    <system:String x:Key="btnPrikaziKnjige">Show books</system:String>
+
+    <system:String x:Key="winAutoriIzdavacaTitle">Author publishers</system:String>
+    <system:String x:Key="statusNoBoss">No boss</system:String>
+    <system:String x:Key="statusVIP">VIP</system:String>
+    <system:String x:Key="statusRegular">Regular</system:String>
+
+
 </ResourceDictionary>

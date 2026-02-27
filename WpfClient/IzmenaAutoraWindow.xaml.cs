@@ -29,9 +29,7 @@ namespace WpfClient
         {
             _dostupneKnjige = dostupneKnjige ?? new List<Knjiga>();
 
-            // POPRAVKA: Osvezi _autorKnjige na osnovu stvarnih veza u dostupneKnjige
-            // Ovo osigurava da se svaki put kad se prozor otvori, knjige ucitaju
-            // iz originalKnjige na osnovu Autori liste svake knjige
+
             _autorKnjige = _dostupneKnjige
                 .Where(k => k.Autori != null && k.Autori.Any(au => au.BrojLicneKarte == a.BrojLicneKarte))
                 .ToList();

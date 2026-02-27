@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfClient.DodajKnjiguWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodavanje knjige" Height="423" Width="420" 
+        Title="{DynamicResource lblDodavanjeKnjige}" Height="423" Width="420" 
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
 
     <Window.Resources>
@@ -38,28 +38,28 @@
         <TextBlock Text="ISBN *" Grid.Row="0"/>
         <TextBox Name="txtISBN" TextChanged="ValidateForm" Grid.Row="0" Grid.Column="1"/>
 
-        <TextBlock Text="Naziv knjige *" Grid.Row="1"/>
+        <TextBlock Text="{DynamicResource lblNazivKnjige}" Grid.Row="1"/>
         <TextBox Name="txtNaziv" TextChanged="ValidateForm" Grid.Row="1" Grid.Column="1"/>
 
-        <TextBlock Text="Žanr" Grid.Row="2"/>
+        <TextBlock Text="{DynamicResource colZanr}" Grid.Row="2"/>
         <TextBox Name="txtZanr" TextChanged="ValidateForm" Grid.Row="2" Grid.Column="1"/>
 
-        <TextBlock Text="Godina izdanja *" Grid.Row="3"/>
+        <TextBlock Text="{DynamicResource colGodizd}" Grid.Row="3"/>
         <TextBox Name="txtGodina" TextChanged="ValidateForm" Grid.Row="3" Grid.Column="1"/>
 
-        <TextBlock Text="Cena (RSD) *" Grid.Row="4"/>
+        <TextBlock Text="{DynamicResource colCena}" Grid.Row="4"/>
         <TextBox Name="txtCena" TextChanged="ValidateForm" Grid.Row="4" Grid.Column="1"/>
 
-        <TextBlock Text="Broj strana" Grid.Row="5"/>
+        <TextBlock Text="{DynamicResource lblBrojStrana}" Grid.Row="5"/>
         <TextBox Name="txtBrojStrana" TextChanged="ValidateForm" Grid.Row="5" Grid.Column="1"/>
 
-        <TextBlock Text="Izdavač" Grid.Row="6"/>
+        <TextBlock Text="{DynamicResource lblIzdavac}" Grid.Row="6"/>
         <TextBox Name="txtIzdavac" TextChanged="ValidateForm" Grid.Row="6" Grid.Column="1"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,10,0,0">
-            <Button Content="Odustani" Width="85" Height="25" Margin="0,0,10,0" 
+            <Button Content="{DynamicResource btnCancel}" Width="85" Height="25" Margin="0,0,10,0" 
                     Click="BtnOdustani_Click" Background="#F0F0F0"/>
-            <Button Name="btnPotvrdi" Content="Sačuvaj" IsEnabled="False" Width="86" Height="25" 
+            <Button Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" IsEnabled="False" Width="86" Height="25" 
                     Background="#A0C4FF" FontWeight="Bold" Click="BtnPotvrdi_Click"/>
         </StackPanel>
     </Grid>

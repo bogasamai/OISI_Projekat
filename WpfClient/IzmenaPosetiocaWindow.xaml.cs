@@ -145,7 +145,7 @@ namespace WpfClient
                     {
                         Core.Data.DataHandler.UpdatePosetilac(_originalPosetilac);
                     }
-                    catch { /* ignore save errors here, user can Save explicitly */ }
+                    catch {  }
 
                     PopuniKupljeneKnjige();
                     PopuniListuZelja();
@@ -172,10 +172,10 @@ namespace WpfClient
                     _kupljeneKnjige.Remove(selectedKupovina);
 
                     // Add to wishlist 
-                    // if (selectedKupovina.Knjiga != null && !_listaZelja.Any(k => k.ISBN == selectedKupovina.Knjiga.ISBN))
-                    // {
-                    //     _listaZelja.Add(selectedKupovina.Knjiga);
-                    // }
+                     if (selectedKupovina.Knjiga != null && !_listaZelja.Any(k => k.ISBN == selectedKupovina.Knjiga.ISBN))
+                     {
+                         _listaZelja.Add(selectedKupovina.Knjiga);
+                     }
 
                     // Update UI
                     PopuniKupljeneKnjige();
@@ -214,8 +214,8 @@ namespace WpfClient
                 Email = txtEmail.Text,
                 Adresa = novaAdresa,
                 Status = (cbStatus.SelectedItem as ComboBoxItem)?.Tag?.ToString() == "V" ? StatusPosetioca.V : StatusPosetioca.R,
-                KupljeneKnjige = _kupljeneKnjige, // Include modified purchases
-                ListaZelja = _listaZelja // Include modified wishlist
+                KupljeneKnjige = _kupljeneKnjige, 
+                ListaZelja = _listaZelja 
             };
 
             DialogResult = true;

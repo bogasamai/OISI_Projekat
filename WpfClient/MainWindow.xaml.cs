@@ -478,28 +478,30 @@ namespace WpfClient
 
         private void OpenAddForActiveTab()
         {
-            // Determine active tab reliably using selected TabItem header
             if (MainTabControl == null) { OpenAddPosetilacDialog(); return; }
-            var selected = MainTabControl.SelectedItem as TabItem;
-            string header = selected?.Header?.ToString() ?? string.Empty;
-            header = header.Trim().ToLowerInvariant();
 
-            if (header.Contains("autor") || header.Contains("autori"))
+            var selected = MainTabControl.SelectedItem as TabItem;
+            // Uzimamo Tag i pretvaramo u string. Ako je Tag null, biće prazan string.
+            string tabTag = selected?.Tag?.ToString() ?? string.Empty;
+
+            switch (tabTag)
             {
-                OpenAddAutorDialog();
-            }
-            else if (header.Contains("poset") || header.Contains("posetioci"))
-            {
-                OpenAddPosetilacDialog();
-            }
-            else if (header.Contains("knjig"))
-            {
-                OpenAddKnjigaDialog();
-            }
-            else
-            {
-                // default
-                OpenAddPosetilacDialog();
+                case "autori":
+                    OpenAddAutorDialog();
+                    break;
+
+                case "posetioci":
+                    OpenAddPosetilacDialog();
+                    break;
+
+                case "knjige":
+                    OpenAddKnjigaDialog();
+                    break;
+
+                default:
+                    // Ako dodaješ nove tabove, uvek je dobro imati default
+                    OpenAddPosetilacDialog();
+                    break;
             }
         }
 
@@ -765,7 +767,6 @@ namespace WpfClient
             }
         }
 
-        // Menu click handlers used by MenuItems in XAML
         private void MenuItem_OpenPosetioci_Click(object sender, RoutedEventArgs e)
         {
             MainTabControl.SelectedIndex = 0;
@@ -800,7 +801,6 @@ namespace WpfClient
 
             if (dlg.ShowDialog() == true && !string.IsNullOrWhiteSpace(dlg.SelectedIzdavac))
             {
-                // 2. KLJUČNA PROMENA: Pronađi postojećeg izdavača u listi, nemoj praviti novog!
                 var postojećiIzdavac = originalIzdavaci.FirstOrDefault(i =>
                     i.Naziv.Equals(dlg.SelectedIzdavac, StringComparison.OrdinalIgnoreCase));
 
@@ -865,7 +865,7 @@ namespace WpfClient
             MessageBox.Show("Svi novi podaci su uspešno sačuvani u folder 'podaci'.");
         }
 
-        // CommandBinding handlers (for keyboard shortcuts) - delegate to click handlers
+        // CommandBinding handlers (for keyboard shortcuts) - transfer to click handlers
         private void MenuCommand_New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             MenuItem_New_Click(sender, new RoutedEventArgs());

@@ -145,7 +145,7 @@
         <!-- Central content: tabs -->
         <Grid>
             <TabControl Name="MainTabControl" Margin="8">
-                <TabItem Header="{DynamicResource tabPosetioci}">
+                <TabItem Header="{DynamicResource tabPosetioci}" Tag="posetioci">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -215,7 +215,7 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="{DynamicResource tabAutori}">
+                <TabItem Header="{DynamicResource tabAutori}" Tag="autori">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -269,7 +269,7 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="{DynamicResource tabKnjige}">
+                <TabItem Header="{DynamicResource tabKnjige}" Tag="knjige">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />

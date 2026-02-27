@@ -34,16 +34,13 @@ namespace WpfClient
         }
         private void ChkMultipleSelection_Checked(object sender, RoutedEventArgs e)
         {
-            // Enable multiple selection in the ListBox
             lbDostupneKnjige.SelectionMode = SelectionMode.Multiple;
         }
 
-        // Add this method for the checkbox Unchecked event
         private void ChkMultipleSelection_Unchecked(object sender, RoutedEventArgs e)
         {
-            // Disable multiple selection in the ListBox
             lbDostupneKnjige.SelectionMode = SelectionMode.Single;
-            // Optionally clear all selections except the first
+            // izbrisi svu selekciju sem prve
             if (lbDostupneKnjige.SelectedItems.Count > 1)
             {
                 var first = lbDostupneKnjige.SelectedItems[0];

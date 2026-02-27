@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfClient.DodajPosetiocaWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Dodavanje posetioca" Height="434" Width="450" 
+        Title="{DynamicResource lblDodajPosetioca}" Height="434" Width="450" 
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize" ShowInTaskbar="False">
 
     <Window.Resources>
@@ -46,38 +46,38 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Broj članske karte *" Grid.Row="0"/>
+        <TextBlock Text="{DynamicResource lblBrojClanske}" Grid.Row="0"/>
         <TextBox Name="txtBrojKarte" TextChanged="ValidateForm" Grid.Row="0" Grid.Column="1"/>
 
-        <TextBlock Text="Ime *" Grid.Row="1"/>
+        <TextBlock Text="{DynamicResource lblIme}" Grid.Row="1"/>
         <TextBox Name="txtIme" TextChanged="ValidateForm" Grid.Row="1" Grid.Column="1"/>
 
-        <TextBlock Text="Prezime *" Grid.Row="2"/>
+        <TextBlock Text="{DynamicResource lblPrezime}" Grid.Row="2"/>
         <TextBox Name="txtPrezime" TextChanged="ValidateForm" Grid.Row="2" Grid.Column="1"/>
 
-        <TextBlock Text="Datum rođenja *" Grid.Row="3"/>
+        <TextBlock Text="{DynamicResource lblDatumRodjenja}" Grid.Row="3"/>
         <DatePicker Name="dpDatumRodjenja" SelectedDateChanged="ValidateForm" Grid.Row="3" Grid.Column="1"/>
 
-        <TextBlock Text="Kontakt telefon *" Grid.Row="4"/>
+        <TextBlock Text="{DynamicResource lblTelefon}" Grid.Row="4"/>
         <TextBox Name="txtTelefon" TextChanged="ValidateForm" Grid.Row="4" Grid.Column="1"/>
 
-        <TextBlock Text="Email *" Grid.Row="5"/>
+        <TextBlock Text="E-mail *" Grid.Row="5"/>
         <TextBox Name="txtEmail" TextChanged="ValidateForm" Grid.Row="5" Grid.Column="1"/>
 
         <TextBlock Text="Status *" Grid.Row="6"/>
         <ComboBox Name="cbStatus" Grid.Row="6" Grid.Column="1">
-            <ComboBoxItem Content="Regularni" Tag="R" IsSelected="True"/>
-            <ComboBoxItem Content="VIP" Tag="V"/>
+            <ComboBoxItem Content="{DynamicResource statusRegular}" Tag="R" IsSelected="True"/>
+            <ComboBoxItem Content="{DynamicResource statusVIP}" Tag="V"/>
         </ComboBox>
 
-        <TextBlock Text="Adresa *" Grid.Row="7"/>
+        <TextBlock Text="{DynamicResource lblAdresa}" Grid.Row="7"/>
         <TextBox Name="txtAdresa" TextChanged="ValidateForm" Grid.Row="7" Grid.Column="1" Margin="10,0,0,10">
             <TextBox.Style>
                 <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
                     <Style.Resources>
                         <VisualBrush x:Key="PlaceholderBrush" AlignmentX="Left" Stretch="None">
                             <VisualBrush.Visual>
-                                <TextBlock Text="Ulica, Broj, Grad, Država"  Foreground="Gray" FontStyle="Italic" Opacity="0.6" />
+                                <TextBlock Text="{DynamicResource lblUlicaBrojGradDrzava}"  Foreground="Gray" FontStyle="Italic" Opacity="0.6" />
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Style.Resources>
@@ -97,8 +97,8 @@
         </TextBox>
 
         <StackPanel Orientation="Horizontal" Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,15,0,0">
-            <Button Content="Odustani" Width="90" Height="30" Margin="0,0,10,0" Click="BtnOdustani_Click" Background="#F0F0F0"/>
-            <Button Name="btnPotvrdi" Content="Potvrdi" IsEnabled="False" Width="90" Height="30" Background="#A0C4FF" FontWeight="Bold" Click="BtnPotvrdi_Click"/>
+            <Button Content="{DynamicResource btnCancel}" Width="90" Height="30" Margin="0,0,10,0" Click="BtnOdustani_Click" Background="#F0F0F0"/>
+            <Button Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" IsEnabled="False" Width="90" Height="30" Background="#A0C4FF" FontWeight="Bold" Click="BtnPotvrdi_Click"/>
         </StackPanel>
     </Grid>
 </Window>

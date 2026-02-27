@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfClient.PonistiKupovinuDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Potvrda poništavanja kupovine" 
+        Title="{DynamicResource lblPotvrda}" 
         Height="200" Width="400" 
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
@@ -27,12 +27,12 @@
 
         <!-- Buttons -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnPotvrdi" Content="Potvrdi" 
+            <Button x:Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" 
                     Width="80" Height="30" 
                     Margin="0,0,10,0"
                     IsDefault="True"
                     Click="BtnPotvrdi_Click"/>
-            <Button x:Name="btnOdustani" Content="Odustani" 
+            <Button x:Name="btnOdustani" Content="{DynamicResource btnCancel}" 
                     Width="80" Height="30"
                     IsCancel="True"
                     Click="BtnOdustani_Click"/>

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfClient.PosetiociZaAutoraWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Posetioci zainteresovani za autora" 
+        Title="{DynamicResource lblPosetiocizainteresovani}" 
         Height="450" Width="600"
         WindowStartupLocation="CenterScreen">
 
@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,10">
-            <Label Content="Pretraga posetilaca (ime, prezime ili email):" FontWeight="Bold"/>
+            <Label Content="{DynamicResource lblPretragaPosetilaca}" FontWeight="Bold"/>
             <TextBox x:Name="txtPretraga" 
                      Height="25" 
                      VerticalContentAlignment="Center"
@@ -29,10 +29,10 @@
                   Background="White"
                   AlternatingRowBackground="#F2F2F2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ime" 
+                <DataGridTextColumn Header="{DynamicResource colIme}" 
                                     Binding="{Binding Ime}" 
                                     Width="*" />
-                <DataGridTextColumn Header="Prezime" 
+                <DataGridTextColumn Header="{DynamicResource colPrezime}" 
                                     Binding="{Binding Prezime}" 
                                     Width="*" />
                 <DataGridTextColumn Header="E-mail" 
@@ -42,7 +42,7 @@
         </DataGrid>
 
         <Button Grid.Row="2" 
-                Content="Zatvori" 
+                Content="{DynamicResource btnClose}"
                 Width="80" 
                 Height="25" 
                 HorizontalAlignment="Right" 

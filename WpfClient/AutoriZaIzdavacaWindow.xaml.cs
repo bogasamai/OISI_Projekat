@@ -12,10 +12,8 @@ namespace WpfClient
         private List<Autor> _allAuthors = new List<Autor>();
         private List<Autor> _visibleAuthors = new List<Autor>();
 
-        // DODATO: Referenca na izdavača kojem menjamo šefa
         private Izdavac _trenutniIzdavac;
 
-        // PROMENJENO: Konstruktor sada prima ceo objekat Izdavac umesto samo imena
         public AutoriZaIzdavacaWindow(Izdavac izdavac, List<Knjiga> sveKnjige)
         {
             InitializeComponent();
@@ -59,7 +57,7 @@ namespace WpfClient
             }
             else
             {
-                lblTrenutniSef.Text = "Nije postavljen";
+                lblTrenutniSef.Text = "Nije postavljen"; 
             }
         }
         private void TxtPretraga_TextChanged(object sender, TextChangedEventArgs e)
@@ -95,10 +93,10 @@ namespace WpfClient
         {
             if (dgAutori.SelectedItem is Autor selektovaniAutor)
             {
-                // Provera biznis pravila: GodineIskustva $\ge 5$
+                // Provera biznis pravila: GodineIskustva >=5
                 if (selektovaniAutor.GodineIskustva >= 5)
                 {
-                    // KLJUČNA LINIJA: Menjamo šefa u memoriji
+                    //  Menjamo šefa u memoriji
                     _trenutniIzdavac.SefIzdavaca = selektovaniAutor;
                     OsveziPrikazSefa();
                     MessageBox.Show($"Autor {selektovaniAutor.Ime} {selektovaniAutor.Prezime} je uspešno postavljen za šefa izdavača '{_trenutniIzdavac.Naziv}'.",

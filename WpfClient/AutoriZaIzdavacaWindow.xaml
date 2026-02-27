@@ -1,7 +1,7 @@
 <Window x:Class="WpfClient.AutoriZaIzdavacaWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Autori izdavača" Height="450" Width="700" WindowStartupLocation="CenterOwner">
+        Title="{DynamicResource winAutoriIzdavacaTitle}" Height="450" Width="700" WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -10,30 +10,30 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,8">
-            <TextBlock Text="Pretraga:" VerticalAlignment="Center" Margin="0,0,8,0" />
+            <TextBlock Text="{DynamicResource lblSearch}" VerticalAlignment="Center" Margin="0,0,8,0" />
             <TextBox Name="txtPretraga" Width="350" TextChanged="TxtPretraga_TextChanged" />
         </StackPanel>
 
         <DataGrid Name="dgAutori" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionChanged="DgAutori_SelectionChanged">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ime" Binding="{Binding Ime}" Width="120" />
-                <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}" Width="120" />
-                <DataGridTextColumn Header="Datum rođenja" Binding="{Binding DatumRodjenja, StringFormat={}{0:dd.MM.yyyy}}" Width="120" />
-                <DataGridTextColumn Header="Godine Iskustva" Binding="{Binding GodineIskustva}" Width="150" />
-                <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource colIme}" Binding="{Binding Ime}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource colPrezime}" Binding="{Binding Prezime}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource colDate}" Binding="{Binding DatumRodjenja, StringFormat={}{0:dd.MM.yyyy}}" Width="120" />
+                <DataGridTextColumn Header="{DynamicResource lblIskustvo1}" Binding="{Binding GodineIskustva}" Width="150" />
+                <DataGridTextColumn Header="{DynamicResource lblTelefon1}" Binding="{Binding Telefon}" Width="120" />
                 <DataGridTextColumn Header="E-mail" Binding="{Binding Email}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="2">
-            <TextBlock Text="Trenutni šef izdavača: " FontWeight="Bold" VerticalAlignment="Center"/>
-            <TextBlock Name="lblTrenutniSef" Text="Nema šefa" Foreground="DarkBlue" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            <TextBlock Text="{DynamicResource lblCurrentBoss}" FontWeight="Bold" VerticalAlignment="Center"/>
+            <TextBlock Name="lblTrenutniSef" Text="{DynamicResource statusNoBoss}" Foreground="DarkBlue" FontWeight="SemiBold" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0,8,0,0">
 
-            <Button Name="btnPostaviZaSefa" Content="Postavi za šefa" Width="120" 
+            <Button Name="btnPostaviZaSefa" Content="{DynamicResource btnSetAsBoss}" Width="120" 
             Margin="0,0,10,0" IsEnabled="False" Click="BtnPostaviZaSefa_Click" />
 
-            <Button Content="Zatvori" Width="100" Click="BtnZatvori_Click" />
+            <Button Content="{DynamicResource btnClose}" Width="100" Click="BtnZatvori_Click" />
         </StackPanel>
     </Grid>
 </Window>

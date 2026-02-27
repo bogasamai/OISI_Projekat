@@ -25,15 +25,11 @@ namespace WpfClient
                                      !string.IsNullOrWhiteSpace(txtTelefon.Text) &&
                                      dpDatumRodjenja.SelectedDate != null;
 
-            // 2. Ime i prezime ne smeju imati brojeve
             bool imeValidno = txtIme.Text.All(c => !char.IsDigit(c));
             bool prezimeValidno = txtPrezime.Text.All(c => !char.IsDigit(c));
 
-            // 3. Telefon ne sme imati slova, dozvoljen je samo '+' i cifre
-            // (Proveravamo da li su svi karakteri ili cifre ili znak plus)
             bool telefonValidan = txtTelefon.Text.All(c => char.IsDigit(c) || c == '+');
 
-            // Dugme "Potvrdi" se omogućava samo ako su SVI uslovi ispunjeni
             bool adresaImaZareze = txtAdresa.Text.Split(',').Length >= 3;
 
             string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
@@ -55,7 +51,6 @@ namespace WpfClient
             string statusTag = selectedItem?.Tag?.ToString(); // Vratiće "R" ili "V"
             string rawAdresa = txtAdresa.Text;
 
-            // Delimo string po zarezu
             string[] delovi = rawAdresa.Split(',');
 
             // Pripremamo varijable (trimujemo razmake da ne bude " Beograd")
@@ -78,7 +73,7 @@ namespace WpfClient
                 Status = Enum.TryParse(typeof(StatusPosetioca), statusTag, out var s) ? (StatusPosetioca)s : StatusPosetioca.R
             };
 
-            DialogResult = true; // Zatvara prozor i vraća potvrdu
+            DialogResult = true; 
         }
 
         private void BtnOdustani_Click(object sender, RoutedEventArgs e)

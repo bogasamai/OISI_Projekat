@@ -11,7 +11,7 @@ namespace WpfClient
         // Liste za čuvanje podataka i filtriranje
         private List<Posetilac> _allPosetioci;
         private List<Posetilac> _visiblePosetioci;
-        // Dodajemo drugi parametar: List<Posetilac> sviPosetioci
+
         public PosetiociZaAutoraWindow(Autor izabraniAutor, List<Posetilac> sviPosetioci)
         {
             InitializeComponent();
@@ -30,7 +30,7 @@ namespace WpfClient
             _visiblePosetioci = _allPosetioci.ToList();
             dgPosetioci.ItemsSource = _visiblePosetioci;
         }
-        // Dodajemo i logiku za tekstualnu pretragu (ako je potrebna u ovom prozoru)
+        // Dodajemo i logiku za tekstualnu pretragu 
         private void txtPretraga_TextChanged(object sender, TextChangedEventArgs e)
         {
             string kriterijum = txtPretraga.Text.ToLower();

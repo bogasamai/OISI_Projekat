@@ -34,9 +34,66 @@
     <system:String x:Key="colAdresa">Adresa</system:String>
     <system:String x:Key="colISBN">ISBN</system:String>
     <system:String x:Key="colNaziv">Naziv</system:String>
+    <system:String x:Key="colNaziv1">Naziv: </system:String>
     <system:String x:Key="colCena">Cena</system:String>
     <system:String x:Key="colZanr">Žanr</system:String>
     <system:String x:Key="colGodizd">Godina izdanja</system:String>
     <system:String x:Key="colDate">Datum rođenja</system:String>
     <system:String x:Key="colBrl">Broj lične karte</system:String>
+    <system:String x:Key="colAutori">Autori</system:String>
+    
+
+    <system:String x:Key="lblAddAutorTitle">Dodaj autora</system:String>
+    <system:String x:Key="lblEnterData">Unesite podatke o autoru</system:String>
+    <system:String x:Key="lblIme">Ime:</system:String>
+    <system:String x:Key="lblPrezime">Prezime:</system:String>
+    <system:String x:Key="lblBrojLicne">Broj lične karte:</system:String>
+    <system:String x:Key="lblDatumRodjenja">Datum rođenja:</system:String>
+    <system:String x:Key="lblTelefon">Telefon:</system:String>
+    <system:String x:Key="lblTelefon1">Telefon</system:String>
+    <system:String x:Key="lblEmail">E-mail:</system:String>
+    <system:String x:Key="lblIskustvo">Godine iskustva:</system:String>
+    <system:String x:Key="lblIskustvo1">Godine iskustva</system:String>
+    <system:String x:Key="lblOdaberiAutora">Odaberi autora</system:String>
+    <system:String x:Key="lblDodavanjeKnjige">Dodavanje knjige</system:String>
+    <system:String x:Key="lblAutoriizlistezelja">Autori iz liste zelja</system:String>
+    <system:String x:Key="lblKnjigeIzdavaca">Knjige izdavaca</system:String>
+    <system:String x:Key="lblAdresa">Adresa:</system:String>
+    <system:String x:Key="lblSearch">Pretraga:</system:String>
+    <system:String x:Key="lblCurrentBoss">Trenutni šef izdavača:</system:String>
+    <system:String x:Key="lblNazivKnjige">Naziv Knjige: *</system:String>
+    <system:String x:Key="lblBrojStrana">Broj strana: *</system:String>
+    <system:String x:Key="lblIzdavac">Izdavac: *</system:String>
+    <system:String x:Key="lblOcena">Ocena (1-5): </system:String>
+    <system:String x:Key="lblDatumKupovine">Datum kupovine:</system:String>
+    <system:String x:Key="lblUnosKupovine">Unos kupovine</system:String>
+    <system:String x:Key="lblUlicaBrojGradDrzava">Ulica,Broj,Grad,Drzava</system:String>
+    <system:String x:Key="lblDodajPosetioca">Dodaj posetioca</system:String>
+    <system:String x:Key="lblBrojClanske">Broj clanske karte:</system:String>
+    <system:String x:Key="lblPretragaPosetilaca">Pretraga posetilaca (ime, prezime ili email):</system:String>
+    <system:String x:Key="lblPosetiocizainteresovani">Posetioci zainteresovani za autora</system:String>
+    <system:String x:Key="lblAutor">Autor:</system:String>
+    <system:String x:Key="lblIzmeniPodatke">Izmeni podatke o knjizi:</system:String>
+    <system:String x:Key="lblIzmenaKnjige">Izmena knjige</system:String>
+    <system:String x:Key="lblPotvrda">Potvrda ponistavanja kupovine</system:String>
+    <system:String x:Key="lblDodajKnjigu">Dodaj knjigu</system:String>
+    <system:String x:Key="lblOmoguci">Omoguci odabir vise knjiga</system:String>
+    <system:String x:Key="lblOdaberiIzdavaca">Odaberi izdavaca</system:String>
+
+
+
+    <system:String x:Key="btnConfirm">Potvrdi</system:String>
+    <system:String x:Key="btnCancel">Odustani</system:String>
+    <system:String x:Key="btnSetAsBoss">Postavi za šefa</system:String>
+    <system:String x:Key="btnClose">Zatvori</system:String>
+    <system:String x:Key="btnPrikaziAutore">Prikazi autore</system:String>
+    <system:String x:Key="btnPrikaziKnjige">Prikazi knjige</system:String>
+    
+
+    <system:String x:Key="winAutoriIzdavacaTitle">Autori izdavača</system:String>
+    <system:String x:Key="statusNoBoss">Nema šefa</system:String>
+    <system:String x:Key="statusVIP">VIP</system:String>
+    <system:String x:Key="statusRegular">Regularan</system:String>
+
+
 </ResourceDictionary>
