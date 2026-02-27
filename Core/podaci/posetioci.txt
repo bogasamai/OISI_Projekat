@@ -1,4 +1,7 @@
-asdfs|asdf|12352|R|vukasin.002@gm.com|2021-02-15T00:00:00.0000000|Nepoznato|/|Nepoznato|||
+asdfs|asdf|12352|R|vukasin.002@gm.com|2021-02-15T00:00:00.0000000|Ulica|123|Grad|Drzavaa||
 adfasdf|hsdghsdh|14354326|R|123123@asdf.com|1999-02-05T00:00:00.0000000|asdf 123|zxcv|fgsdg||3235325325|
 Lul|Avram|123123|R|adf@asdf.com|1999-02-25T00:00:00.0000000|Bul|12|PS|Srbija|11111111111|49786
 Lasd|Avrams|123123|V|2123@asdf.com|2026-02-25T00:00:00.0000000|Kul|123|Nov|Sad|999999999999999999|23234
+Sproutx|Shulovic|2134|V|loleris@gmail.com|2026-02-06T00:00:00.0000000|Novek 123|Sadek|Srbija||06349120|
+Carl|Johnson|1312|V|burgerlover12@gmail.com|2004-06-17T00:00:00.0000000|Grove Street|12|Los Santos|San Andreas|3244211121|
+Spiridon|Trimifuntski|546421|V|DonFunti995@gmail.com|0530-06-17T00:00:00.0000000|Jase Tomica|23|Edenski Vrt|Raj|53000301|

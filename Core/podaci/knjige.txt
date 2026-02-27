@@ -1,6 +1,7 @@
-32469|Betmenxvb|Akcija|200.12|2002|Stiven Hopkins|1120|314134431
+32469|knjiga o betmenu|Akcija|200.12|2002|Stiven Hopkins|1120|314134431
 23234|knjiga o dzungli|Biologija|12|2000|Galeb|123|1
 45134|U paklenom Jarku|Klasik|990|2001|Eureka|179|43234323
 49786|Lisiciji Brk|Komedija|870|1945|Galeb|350|43234323
 23784|Jadranski mislilac|Biografija|1570|2004|Vulkan|670|
 71234|Hari Poter i zatvorenik iz Alkatraza|Istorijski|900|2002|Galeb|430|1
+1234|Pepeljuga i sedam patuljaka|Bajka|200|2007|Laguna|40|

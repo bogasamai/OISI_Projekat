@@ -844,7 +844,15 @@ namespace WpfClient
             dlg.Owner = this;
             dlg.ShowDialog();
         }
+        private void btnSrpski_Click(object sender, RoutedEventArgs e)
+        {
+            ((App)Application.Current).ChangeLanguage("sr");
+        }
 
+        private void btnEngleski_Click(object sender, RoutedEventArgs e)
+        {
+            ((App)Application.Current).ChangeLanguage("en");
+        }
 
         // Menu Save click handler
         private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
@@ -872,6 +880,7 @@ namespace WpfClient
         {
             MenuItem_Exit_Click(sender, new RoutedEventArgs());
         }
+
 
         // Header arrow click handler (Tag format: "Grid:Member:Asc|Desc")
         private void HeaderSort_Click(object sender, RoutedEventArgs e)
