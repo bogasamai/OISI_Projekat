@@ -42,14 +42,14 @@ Posetilac (R/V)  ──kupuje──▶  Knjiga  ◀──piše──  Autor
 ## 👥 Tim i raspodela rada
 Projekat je realizovan u timu od dva člana. Funkcionalnosti su podeljene kako bi se osigurala ravnopravna zastupljenost oba studenta.
 
-### 👤 Student 1 - [Luka Avramović]
+### 👤 Student 1 - Luka Avramović
 * **Modeli podataka:** `Posetilac`, `Kupovina`, `Izdavač`.
 * **UI Komponente:** Izrada glavnog Menu Bar-a i Status Bar-a.
 * **Upravljanje posetiocima:** CRUD operacije, napredna pretraga i sortiranje.
 * **Logika knjiga:** Dodavanje/izmena knjiga, praćenje kupljenih naslova, dodavanje na listu želja.
 * **Veze:** Povezivanje knjiga sa autorima i postavljanje šefova izdavačkih kuća.
 
-### 👤 Student 2 - [Vukašin Petrović]
+### 👤 Student 2 - Vukašin Petrović
 * **Modeli podataka:** `Autor`, `Knjiga`, `Adresa`.
 * **UI Komponente:** Izrada glavnog prozora (MainWindow) i Toolbar-a.
 * **Upravljanje autorima:** Kompletne CRUD operacije, pretraga i sortiranje autora.
