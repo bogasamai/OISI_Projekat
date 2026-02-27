@@ -61,6 +61,6 @@ Projekat je realizovan u timu od dva člana. Funkcionalnosti su podeljene kako b
 ## 🛠 Instalacija i pokretanje
 1. Klonirajte repozitorijum:
    ```bash
-   git clone [URL-REPOZITORIJUMA]
+   git clone https://github.com/bogasamai/OISI_Projekat
 
 > ⚠️ **Napomena za konzolnu verziju:** Obavezno izaći kroz opciju **5 (Sačuvaj i izađi)** kako bi se podaci sačuvali!
