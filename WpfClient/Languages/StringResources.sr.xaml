@@ -79,6 +79,23 @@
     <system:String x:Key="lblDodajKnjigu">Dodaj knjigu</system:String>
     <system:String x:Key="lblOmoguci">Omoguci odabir vise knjiga</system:String>
     <system:String x:Key="lblOdaberiIzdavaca">Odaberi izdavaca</system:String>
+    <system:String x:Key="tabInformacije">Informacije</system:String>
+    <system:String x:Key="tabKupljene">Kupljene</system:String>
+    <system:String x:Key="tabZelje">Želje</system:String>
+
+    <system:String x:Key="lblBrojClanskeReq">Broj članske karte *</system:String>
+    <system:String x:Key="lblImeReq">Ime *</system:String>
+    <system:String x:Key="lblPrezimeReq">Prezime *</system:String>
+    <system:String x:Key="lblDatumRodjenjaReq">Datum rođenja *</system:String>
+    <system:String x:Key="lblTelefonReq">Kontakt telefon *</system:String>
+    <system:String x:Key="lblEmailReq">Email *</system:String>
+    <system:String x:Key="lblStatusReq">Status *</system:String>
+    <system:String x:Key="lblAdresaReq">Adresa (Ulica, Broj, Grad, Država) *</system:String>
+
+    <system:String x:Key="btnPonistiKupovinu">Poništi kupovinu</system:String>
+    <system:String x:Key="lblProsecnaOcenaText">Prosečna ocena:</system:String>
+    <system:String x:Key="lblUkupnaPotrosnjaText">Ukupna potrošnja:</system:String>
+    <system:String x:Key="btnKupovina">Kupovina</system:String>
 
 
 

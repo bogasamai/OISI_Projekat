@@ -5,9 +5,9 @@
         WindowStartupLocation="CenterOwner">
     <Grid Margin="10">
         <TabControl>
-            <TabItem Header="Informacije">
+            <TabItem Header="{DynamicResource tabInformacije}">
                 <StackPanel Margin="10">
-                    <TextBlock Text="Broj članske karte *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblBrojClanskeReq}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtBrojKarte" Padding="3" TextChanged="ValidateForm"/>
 
                     <Grid>
@@ -16,41 +16,41 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="0,0,5,0">
-                            <TextBlock Text="Ime *" Margin="0,5,0,2"/>
+                            <TextBlock Text="{DynamicResource lblImeReq}" Margin="0,5,0,2"/>
                             <TextBox x:Name="txtIme" Padding="3" TextChanged="ValidateForm"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="5,0,0,0">
-                            <TextBlock Text="Prezime *" Margin="0,5,0,2"/>
+                            <TextBlock Text="{DynamicResource lblPrezimeReq}" Margin="0,5,0,2"/>
                             <TextBox x:Name="txtPrezime" Padding="3" TextChanged="ValidateForm"/>
                         </StackPanel>
                     </Grid>
 
-                    <TextBlock Text="Datum rođenja *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblDatumRodjenjaReq}" Margin="0,5,0,2"/>
                     <DatePicker x:Name="dpDatumRodjenja" SelectedDateChanged="ValidateForm"/>
 
-                    <TextBlock Text="Kontakt telefon *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblTelefonReq}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtTelefon" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Email *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblEmailReq}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtEmail" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Status *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblStatusReq}" Margin="0,5,0,2"/>
                     <ComboBox x:Name="cbStatus" SelectionChanged="ValidateForm">
-                        <ComboBoxItem Content="Redovan" Tag="R" IsSelected="True"/>
-                        <ComboBoxItem Content="VIP" Tag="V"/>
+                        <ComboBoxItem Content="{DynamicResource statusRegular}" Tag="R" IsSelected="True"/>
+                        <ComboBoxItem Content="{DynamicResource statusVIP}" Tag="V"/>
                     </ComboBox>
 
-                    <TextBlock Text="Adresa (Ulica, Broj, Grad, Država) *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblAdresaReq}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtAdresa" Padding="3" TextChanged="ValidateForm"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-                        <Button x:Name="btnOdustani" Content="Odustani" Width="80" Margin="0,0,10,0" Click="BtnOdustani_Click"/>
-                        <Button x:Name="btnPotvrdi" Content="Potvrdi" Width="80" IsEnabled="False" Click="BtnPotvrdi_Click"/>
+                        <Button x:Name="btnOdustani" Content="{DynamicResource btnCancel}" Width="80" Margin="0,0,10,0" Click="BtnOdustani_Click"/>
+                        <Button x:Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" Width="80" IsEnabled="False" Click="BtnPotvrdi_Click"/>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Kupljene">
+            <TabItem Header="{DynamicResource tabKupljene}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -59,8 +59,8 @@
                     </Grid.RowDefinitions>
 
                     <!-- Cancel Purchase Button -->
-                    <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0">
-                        <Button x:Name="btnPonistiKupovinu" Content="Poništi kupovinu" Width="120" Padding="6,4" 
+                        <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0">
+                        <Button x:Name="btnPonistiKupovinu" Content="{DynamicResource btnPonistiKupovinu}" Width="120" Padding="6,4" 
                     Click="BtnPonistiKupovinu_Click" IsEnabled="False"/>
                     </StackPanel>
 
@@ -85,9 +85,9 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <TextBlock Text="Prosečna ocena: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBlock Text="{DynamicResource lblProsecnaOcenaText}" VerticalAlignment="Center" Margin="0,0,5,0"/>
                             <TextBlock x:Name="lblProsecnaOcena" Text="0.0" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,20,0"/>
-                            <TextBlock Text="Ukupna potrošnja: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                            <TextBlock Text="{DynamicResource lblUkupnaPotrosnjaText}" VerticalAlignment="Center" Margin="0,0,5,0"/>
                             <TextBlock x:Name="lblUkupnaPotrosnja" Text="0.00 RSD" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
@@ -96,7 +96,7 @@
 
 
 
-            <TabItem Header="Želje">
+            <TabItem Header="{DynamicResource tabZelje}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -104,9 +104,9 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0">
-                        <Button x:Name="BtnZeljaDodaj" Content="Dodaj" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaDodaj_Click"/>
-                        <Button x:Name="BtnZeljaObrisi" Content="Obriši" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaObrisi_Click" IsEnabled="False"/>
-                        <Button x:Name="BtnZeljaKupovina" Content="Kupovina" Width="80" Padding="6,4" Click="BtnZeljaKupovina_Click" IsEnabled="False"/>
+                        <Button x:Name="BtnZeljaDodaj" Content="{DynamicResource btnAdd}" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaDodaj_Click"/>
+                        <Button x:Name="BtnZeljaObrisi" Content="{DynamicResource btnDelete}" Width="80" Padding="6,4" Margin="0,0,5,0" Click="BtnZeljaObrisi_Click" IsEnabled="False"/>
+                        <Button x:Name="BtnZeljaKupovina" Content="{DynamicResource btnKupovina}" Width="80" Padding="6,4" Click="BtnZeljaKupovina_Click" IsEnabled="False"/>
                     </StackPanel>
 
                     <DataGrid x:Name="dgZelja" Grid.Row="1" Margin="10,0,10,10" 
