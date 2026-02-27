@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Sajam knjiga" WindowStartupLocation="CenterScreen">
+        Title="{DynamicResource mTitle}" WindowStartupLocation="CenterScreen">
 
     <!-- Precice za menu bar ( Ctrl+S,Ctrl+N,Ctrl+C ) -->
     <Window.InputBindings>
@@ -22,39 +22,40 @@
 
         <!-- Menu Bar -->
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_New" InputGestureText="Ctrl+N" Click="MenuItem_New_Click">
+            <MenuItem Header="{DynamicResource mFile}">
+                <MenuItem Header="{DynamicResource mNew}" InputGestureText="Ctrl+N" Click="MenuItem_New_Click">
                     <MenuItem.Icon>
                         <Image Source="/Resources/add_icon.png" Width="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
-                <MenuItem Header="_Save" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" />
+                <MenuItem Header="{DynamicResource mSave}" InputGestureText="Ctrl+S" Click="MenuItem_Save_Click" />
 
-                <MenuItem Header="_Open">
-                    <MenuItem Header="_Posetioci" Click="MenuItem_OpenPosetioci_Click" />
-                    <MenuItem Header="_Knjige" Click="MenuItem_OpenKnjige_Click" />
-                    <MenuItem Header="_Autori" Click="MenuItem_OpenAutori_Click" />
-                    <MenuItem Header="Autori iz liste želja" Click="MenuItem_OpenAutoriZaPosetioca_Click" />
-                    <MenuItem Header="_Izdavači" Click="MenuItem_OpenIzdavaci_Click" />
+                <MenuItem Header="{DynamicResource mOpen}">
+                    <MenuItem Header="{DynamicResource tabPosetioci}" Click="MenuItem_OpenPosetioci_Click" />
+                    <MenuItem Header="{DynamicResource tabAutori}" Click="MenuItem_OpenKnjige_Click" />
+                    <MenuItem Header="{DynamicResource tabKnjige}" Click="MenuItem_OpenAutori_Click" />
+                    <MenuItem Header="{DynamicResource tabAutorisalistezelja}" Click="MenuItem_OpenAutoriZaPosetioca_Click" />
+                    <MenuItem Header="{DynamicResource tabIzdavaci}" Click="MenuItem_OpenIzdavaci_Click" />
+                    <MenuItem Header="{DynamicResource tabPosetiocinalistizelja}" Click="MenuItem_OpenPosetiociNaListiZelja_Click"/>
                 </MenuItem>
 
                 <Separator />
 
-                <MenuItem Header="_Close" InputGestureText="Ctrl+C" Click="MenuItem_Exit_Click">
+                <MenuItem Header="{DynamicResource mExit}" InputGestureText="Ctrl+C" Click="MenuItem_Exit_Click">
                     <MenuItem.Icon>
                         <Image Source="/Resources/close_icon.png" Width="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
 
-            <MenuItem Header="_Edit">
-                <MenuItem Header="_Edit" Click="Toolbar_Edit_Click" />
-                <MenuItem Header="_Delete" Click="Toolbar_Delete_Click" />
+            <MenuItem Header="{DynamicResource btnEdit}">
+                <MenuItem Header="{DynamicResource mEdit}" Click="Toolbar_Edit_Click" />
+                <MenuItem Header="{DynamicResource mDelete}" Click="Toolbar_Delete_Click" />
             </MenuItem>
 
-            <MenuItem Header="_Help">
-                <MenuItem Header="_About" Click="MenuItem_About_Click" />
+            <MenuItem Header="{DynamicResource btnHelp}">
+                <MenuItem Header="{DynamicResource mAbout}" Click="MenuItem_About_Click" />
             </MenuItem>
         </Menu>
 
@@ -69,21 +70,21 @@
                     <Button Name="BtnAdd" Click="Toolbar_Add_Click" Padding="8,4" ToolTip="Kreiraj novi entitet (Ctrl+N)">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="pack://application:,,,/Resources/add_icon.png" Width="20" Height="20" Margin="0,0,4,0" />
-                            <TextBlock Text="Dodaj" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource btnAdd}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
                     <Button Name="BtnEdit" Click="Toolbar_Edit_Click" Padding="8,4" ToolTip="Izmeni označeni entitet (Ctrl+E)">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="✎" FontSize="16" Margin="0,0,4,0" VerticalAlignment="Center" />
-                            <TextBlock Text="Izmeni" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource btnEdit}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
                     <Button Name="BtnDelete" Click="Toolbar_Delete_Click" Padding="8,4" ToolTip="Obriši označeni entitet (Ctrl+D)">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="🗑" FontSize="16" Margin="0,0,4,0" VerticalAlignment="Center" />
-                            <TextBlock Text="Obriši" VerticalAlignment="Center" />
+                            <TextBlock Text="{DynamicResource btnDelete}" VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
 
@@ -92,6 +93,9 @@
             </ToolBarTray>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,15,0">
+                <Button Name="btnSrpski" Content="SR" Click="btnSrpski_Click" Width="30" Margin="0,0,5,0" Background="#E0E0E0" FontWeight="Bold"/>
+                <Button Name="btnEngleski" Content="EN" Click="btnEngleski_Click" Width="30" Margin="0,0,10,0" Background="#E0E0E0" FontWeight="Bold"/>
+                
                 <Border BorderBrush="#CCCCCC" BorderThickness="1" CornerRadius="3" Background="White" Margin="5,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="🔍" FontSize="12" Margin="8,0,4,0" VerticalAlignment="Center" Foreground="#888888" />
@@ -110,7 +114,7 @@
                 Background="#E0E0E0"
                 ToolTip="Pretraži (Enter)">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Pretraga" FontWeight="SemiBold" />
+                        <TextBlock Text="{DynamicResource btnSearch}" FontWeight="SemiBold" />
                     </StackPanel>
                 </Button>
             </StackPanel>
@@ -141,7 +145,7 @@
         <!-- Central content: tabs -->
         <Grid>
             <TabControl Name="MainTabControl" Margin="8">
-                <TabItem Header="Posetioci">
+                <TabItem Header="{DynamicResource tabPosetioci}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -154,7 +158,7 @@
                             <DataGridTextColumn Binding="{Binding BrojClanskeKarteDisplay}" SortMemberPath="BrojClanskeKarte" Width="140">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Broj članskog" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colBrc}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                         <StackPanel Orientation="Vertical">
                                             <Button Content="▲" Tag="Posetioci:BrojClanskeKarte:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                             <Button Content="▼" Tag="Posetioci:BrojClanskeKarte:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -165,7 +169,7 @@
                             <DataGridTextColumn Binding="{Binding ImeDisplay}" SortMemberPath="Ime" Width="120">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Ime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colIme}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                         <StackPanel Orientation="Vertical">
                                             <Button Content="▲" Tag="Posetioci:Ime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                             <Button Content="▼" Tag="Posetioci:Ime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -176,7 +180,7 @@
                             <DataGridTextColumn Binding="{Binding PrezimeDisplay}" SortMemberPath="Prezime" Width="120">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Prezime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colPrezime}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                         <StackPanel Orientation="Vertical">
                                             <Button Content="▲" Tag="Posetioci:Prezime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                             <Button Content="▼" Tag="Posetioci:Prezime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -184,12 +188,16 @@
                                     </StackPanel>
                                 </DataGridTextColumn.Header>
                             </DataGridTextColumn>
-                           
-                                <DataGridTextColumn Header="Adresa" Binding="{Binding AdresaDisplay}" Width="*" />
+
+                                <DataGridTextColumn Binding="{Binding AdresaDisplay}" Width="*">
+                                    <DataGridTextColumn.Header>
+                                        <TextBlock Text="{DynamicResource colAdresa}" />
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
                                 <DataGridTextColumn Binding="{Binding StatusDisplay}" SortMemberPath="Status" Width="100">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Status" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colStatus}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Posetioci:Status:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Posetioci:Status:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -207,7 +215,7 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Autori">
+                <TabItem Header="{DynamicResource tabAutori}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -219,7 +227,7 @@
                                 <DataGridTextColumn Binding="{Binding ImeDisplay}" SortMemberPath="Ime" Width="120">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Ime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colIme}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Autori:Ime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Autori:Ime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -230,7 +238,7 @@
                                 <DataGridTextColumn Binding="{Binding PrezimeDisplay}" SortMemberPath="Prezime" Width="120">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Prezime" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colPrezime}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Autori:Prezime:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Autori:Prezime:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -238,12 +246,12 @@
                                         </StackPanel>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Broj lične karte" Binding="{Binding BrojLicneKarteDisplay}" Width="150" />
-                                <DataGridTextColumn Header="Datum rođenja" Binding="{Binding DatumRodjenjaDisplay}" Width="120" />
+                                <DataGridTextColumn Header="{DynamicResource colBrl}" Binding="{Binding BrojLicneKarteDisplay}" Width="150" />
+                                <DataGridTextColumn Header="{DynamicResource colDate}" Binding="{Binding DatumRodjenjaDisplay}" Width="120" />
                             <DataGridTextColumn Binding="{Binding EmailDisplay}" SortMemberPath="Email" Width="*">
                                 <DataGridTextColumn.Header>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="E-mejl adresa" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colEmail}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                         <StackPanel Orientation="Vertical">
                                             <Button Content="▲" Tag="Autori:Email:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                             <Button Content="▼" Tag="Autori:Email:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -261,7 +269,7 @@
                         </StackPanel>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Knjige">
+                <TabItem Header="{DynamicResource tabKnjige}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -273,7 +281,7 @@
                                 <DataGridTextColumn Binding="{Binding ISBNDisplay}" SortMemberPath="ISBN" Width="120">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="ISBN" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colISBN}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Knjige:ISBN:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Knjige:ISBN:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -284,7 +292,7 @@
                                 <DataGridTextColumn Binding="{Binding NazivDisplay}" SortMemberPath="Naziv" Width="*">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Naziv" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colNaziv}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Knjige:Naziv:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Knjige:Naziv:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -295,7 +303,7 @@
                                 <DataGridTextColumn Binding="{Binding CenaDisplay}" SortMemberPath="Cena" Width="100">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Cena" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colCena}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Knjige:Cena:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Knjige:Cena:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -306,7 +314,7 @@
                                 <DataGridTextColumn Binding="{Binding GodinaIzdanjaDisplay}" SortMemberPath="GodinaIzdanja" Width="100">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Godina izdanja" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colGodizd}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Knjige:GodinaIzdanja:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Knjige:GodinaIzdanja:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -317,7 +325,7 @@
                                 <DataGridTextColumn Binding="{Binding ZanrDisplay}" SortMemberPath="Zanr" Width="120">
                                     <DataGridTextColumn.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock Text="Žanr" VerticalAlignment="Center" Margin="0,0,6,0" />
+                                            <TextBlock Text="{DynamicResource colZanr}" VerticalAlignment="Center" Margin="0,0,6,0" />
                                             <StackPanel Orientation="Vertical">
                                                 <Button Content="▲" Tag="Knjige:Zanr:Asc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
                                                 <Button Content="▼" Tag="Knjige:Zanr:Desc" Click="HeaderSort_Click" Padding="0" Width="16" Height="12" />
@@ -327,7 +335,6 @@
                                 </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
-
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,8,0,0" Grid.Row="1">
                             <Button Name="BtnKnjigePrev" Content="←" Width="36" Click="BtnKnjigePrev_Click" />
                             <TextBlock Name="KnjigePageText" Text="1/1" VerticalAlignment="Center" Margin="8,0" />

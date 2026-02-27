@@ -1,0 +1,41 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="mTitle">Book Fair</system:String>
+    <system:String x:Key="mFile">_File</system:String>
+    <system:String x:Key="mNew">_New</system:String>
+    <system:String x:Key="mSave">_Save</system:String>
+    <system:String x:Key="mOpen">_Open</system:String>
+    <system:String x:Key="mExit">_Exit</system:String>
+    <system:String x:Key="mEdit">_Edit</system:String>
+    <system:String x:Key="mDelete">_Delete</system:String>
+    <system:String x:Key="mAbout">About</system:String>
+    <system:String x:Key="tabPosetioci">Visitors</system:String>
+    <system:String x:Key="tabAutori">Authors</system:String>
+    <system:String x:Key="tabKnjige">Books</system:String>
+    <system:String x:Key="tabAutorisalistezelja">Authors from wishlist</system:String>
+    <system:String x:Key="tabIzdavaci">Producers</system:String>
+    <system:String x:Key="tabPosetiocinalistizelja">Visitors on wishlist</system:String>
+
+    <system:String x:Key="btnAdd">Add</system:String>
+    <system:String x:Key="btnEdit">Edit</system:String>
+    <system:String x:Key="btnDelete">Delete</system:String>
+    <system:String x:Key="btnSearch">Search</system:String>
+    <system:String x:Key="statusReady">Ready</system:String>
+    <system:String x:Key="btnHelp">_Help</system:String>
+
+    <system:String x:Key="colBrc">Member ID</system:String>
+    <system:String x:Key="colIme">First Name</system:String>
+    <system:String x:Key="colPrezime">Last Name</system:String>
+    <system:String x:Key="colEmail">E-mail Address</system:String>
+    <system:String x:Key="colStatus">Status</system:String>
+    <system:String x:Key="colAdresa">Address</system:String>
+    <system:String x:Key="colISBN">ISBN</system:String>
+    <system:String x:Key="colNaziv">Title</system:String>
+    <system:String x:Key="colCena">Price</system:String>
+    <system:String x:Key="colZanr">Genre</system:String>
+    <system:String x:Key="colGodizd">Year of Publication</system:String>
+    <system:String x:Key="colDate">Date of Birth</system:String>
+    <system:String x:Key="colBrl">ID Card Number</system:String>
+</ResourceDictionary>

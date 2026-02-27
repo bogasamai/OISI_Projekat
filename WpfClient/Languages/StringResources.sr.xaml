@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <system:String x:Key="mTitle">Sajam knjiga</system:String>
+    <system:String x:Key="mFile">_Fajl</system:String>
+    <system:String x:Key="mNew">_Novi</system:String>
+    <system:String x:Key="mSave">_Sačuvaj</system:String>
+    <system:String x:Key="mOpen">_Otvori</system:String>
+    <system:String x:Key="mExit">_Izlaz</system:String>
+    <system:String x:Key="mEdit">_Promeni</system:String>
+    <system:String x:Key="mDelete">_Izbrisi</system:String>
+    <system:String x:Key="mAbout">O programu</system:String>
+
+    <system:String x:Key="tabPosetioci">Posetioci</system:String>
+    <system:String x:Key="tabAutori">Autori</system:String>
+    <system:String x:Key="tabKnjige">Knjige</system:String>
+    <system:String x:Key="tabAutorisalistezelja">Autori sa liste zelja</system:String>
+    <system:String x:Key="tabIzdavaci">Izdavaci</system:String>
+    <system:String x:Key="tabPosetiocinalistizelja">Posetioci na listi zelja</system:String>
+
+    <system:String x:Key="btnAdd">Dodaj</system:String>
+    <system:String x:Key="btnEdit">Izmeni</system:String>
+    <system:String x:Key="btnDelete">Obriši</system:String>
+    <system:String x:Key="btnSearch">Pretraga</system:String>
+    <system:String x:Key="btnHelp">Pomoc</system:String>
+    <system:String x:Key="statusReady">Spreman</system:String>
+
+    <system:String x:Key="colBrc">Broj Clanskog</system:String>
+    <system:String x:Key="colIme">Ime</system:String>
+    <system:String x:Key="colPrezime">Prezime</system:String>
+    <system:String x:Key="colEmail">E-mejl adresa</system:String>
+    <system:String x:Key="colStatus">Status</system:String>
+    <system:String x:Key="colAdresa">Adresa</system:String>
+    <system:String x:Key="colISBN">ISBN</system:String>
+    <system:String x:Key="colNaziv">Naziv</system:String>
+    <system:String x:Key="colCena">Cena</system:String>
+    <system:String x:Key="colZanr">Žanr</system:String>
+    <system:String x:Key="colGodizd">Godina izdanja</system:String>
+    <system:String x:Key="colDate">Datum rođenja</system:String>
+    <system:String x:Key="colBrl">Broj lične karte</system:String>
+</ResourceDictionary>
