@@ -5,9 +5,9 @@
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
     <Grid Margin="10">
         <TabControl>
-            <TabItem Header="Informacije">
+            <TabItem Header="{DynamicResource tabInformacije}">
                 <StackPanel Margin="10">
-                    <TextBlock Text="Broj licne karte *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblBrojLicne}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtBrojLicne" Padding="3" TextChanged="ValidateForm"/>
 
                     <Grid>
@@ -16,38 +16,38 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Margin="0,0,5,0">
-                            <TextBlock Text="Ime *" Margin="0,5,0,2"/>
+                            <TextBlock Text="{DynamicResource lblIme}" Margin="0,5,0,2"/>
                             <TextBox x:Name="txtIme" Padding="3" TextChanged="ValidateForm"/>
                         </StackPanel>
                         <StackPanel Grid.Column="1" Margin="5,0,0,0">
-                            <TextBlock Text="Prezime *" Margin="0,5,0,2"/>
+                            <TextBlock Text="{DynamicResource lblPrezime}" Margin="0,5,0,2"/>
                             <TextBox x:Name="txtPrezime" Padding="3" TextChanged="ValidateForm"/>
                         </StackPanel>
                     </Grid>
 
-                    <TextBlock Text="Datum rodjenja *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblDatumRodjenja}" Margin="0,5,0,2"/>
                     <DatePicker x:Name="dpDatumRodjenja" SelectedDateChanged="ValidateForm"/>
 
-                    <TextBlock Text="Telefon" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblTelefon1}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtTelefon" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Email *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblEmail}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtEmail" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Godine iskustva *" Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblIskustvo}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtGodine" Padding="3" TextChanged="ValidateForm"/>
 
-                    <TextBlock Text="Adresa (Ulica,Broj,Grad,Drzava): " Margin="0,5,0,2"/>
+                    <TextBlock Text="{DynamicResource lblAdresa}" Margin="0,5,0,2"/>
                     <TextBox x:Name="txtAdresa" Padding="3" Height="60" AcceptsReturn="True" TextWrapping="Wrap" TextChanged="ValidateForm"/>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
-                        <Button x:Name="btnOdustani" Content="Odustani" Width="80" Margin="0,0,10,0" Click="BtnOdustani_Click"/>
-                        <Button x:Name="btnPotvrdi" Content="Potvrdi" Width="80" IsEnabled="False" Click="BtnPotvrdi_Click"/>
+                        <Button x:Name="btnOdustani" Content="{DynamicResource btnCancel}" Width="80" Margin="0,0,10,0" Click="BtnOdustani_Click"/>
+                        <Button x:Name="btnPotvrdi" Content="{DynamicResource btnConfirm}" Width="80" IsEnabled="False" Click="BtnPotvrdi_Click"/>
                     </StackPanel>
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Knjige" Height="22" Margin="0,0,-4,0" VerticalAlignment="Center">
+            <TabItem Header="{DynamicResource tabKnjige}" Height="22" Margin="0,0,-4,0" VerticalAlignment="Center">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="199*"/>
@@ -60,9 +60,9 @@
 
                     <!-- Buttons for book management -->
                     <StackPanel Orientation="Horizontal" Margin="10,10,10,5" Grid.Row="0" Grid.ColumnSpan="2">
-                        <Button x:Name="btnDodajKnjigu" Content="Dodaj knjigu" Width="100" Padding="6,4" 
+                        <Button x:Name="btnDodajKnjigu" Content="{DynamicResource lblDodajKnjigu}" Width="100" Padding="6,4" 
                                 Margin="0,0,10,0" Click="BtnDodajKnjigu_Click"/>
-                        <Button x:Name="btnUkloniKnjigu" Content="Ukloni knjigu" Width="100" Padding="6,4" 
+                        <Button x:Name="btnUkloniKnjigu" Content="{DynamicResource btnDelete}" Width="100" Padding="6,4" 
                                 IsEnabled="False" Click="BtnUkloniKnjigu_Click"/>
                     </StackPanel>
 
@@ -71,10 +71,10 @@
                               AutoGenerateColumns="False" CanUserAddRows="False" 
                               SelectionMode="Single" SelectionChanged="DgKnjigeAutora_SelectionChanged" Grid.ColumnSpan="2">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="120"/>
-                            <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" Width="100"/>
-                            <DataGridTextColumn Header="Godina izdanja" Binding="{Binding GodinaIzdanja}" Width="100"/>
-                            <DataGridTextColumn Header="Zanr" Binding="{Binding Zanr}" Width="150"/>
+                            <DataGridTextColumn Header="{DynamicResource colISBN}" Binding="{Binding ISBN}" Width="120"/>
+                            <DataGridTextColumn Header="{DynamicResource colNaziv}" Binding="{Binding Naziv}" Width="100"/>
+                            <DataGridTextColumn Header="{DynamicResource colGodizd}" Binding="{Binding GodinaIzdanja}" Width="100"/>
+                            <DataGridTextColumn Header="{DynamicResource colZanr}" Binding="{Binding Zanr}" Width="150"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

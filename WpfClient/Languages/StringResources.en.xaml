@@ -77,6 +77,23 @@
     <system:String x:Key="lblDodajKnjigu">Add book</system:String>
     <system:String x:Key="lblOmoguci">Enable multiple book choice</system:String>
     <system:String x:Key="lblOdaberiIzdavaca">Choose publisher</system:String>
+    <system:String x:Key="tabInformacije">Information</system:String>
+    <system:String x:Key="tabKupljene">Purchased</system:String>
+    <system:String x:Key="tabZelje">Wishlist</system:String>
+
+    <system:String x:Key="lblBrojClanskeReq">Member ID *</system:String>
+    <system:String x:Key="lblImeReq">First name *</system:String>
+    <system:String x:Key="lblPrezimeReq">Last name *</system:String>
+    <system:String x:Key="lblDatumRodjenjaReq">Date of birth *</system:String>
+    <system:String x:Key="lblTelefonReq">Contact phone *</system:String>
+    <system:String x:Key="lblEmailReq">E-mail *</system:String>
+    <system:String x:Key="lblStatusReq">Status *</system:String>
+    <system:String x:Key="lblAdresaReq">Address (Street, Number, City, Country) *</system:String>
+
+    <system:String x:Key="btnPonistiKupovinu">Cancel purchase</system:String>
+    <system:String x:Key="lblProsecnaOcenaText">Average rating:</system:String>
+    <system:String x:Key="lblUkupnaPotrosnjaText">Total spending:</system:String>
+    <system:String x:Key="btnKupovina">Purchase</system:String>
 
 
     <system:String x:Key="btnConfirm">Confirm</system:String>
